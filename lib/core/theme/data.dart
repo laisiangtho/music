@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class IdeaData {
-  static IdeaColor _lightColor = IdeaColor(
+  static const IdeaColor _lightColor = const IdeaColor(
     brightness: Brightness.light,
     focus: Colors.black,
     primaryScheme: Colors.black,
@@ -11,12 +11,15 @@ class IdeaData {
     // primary: Color(0xFFffffff),
     scaffold: Color(0xFFffffff),
     highlight: Colors.orange,
-    background: Color(0xFFbdbdbd),
-    shadow: Colors.grey[400]!,
+    // background: Color(0xFFbdbdbd),
+    background: Color(0xFFe8e8e8),
+    // shadow: Colors.grey[400]!,
+    // shadow: Colors.grey.shade400,
+    shadow: Color(0xFFbdbdbd),
     button: Color(0xFFdedcdc)
 
   );
-  static IdeaColor _darkColor = IdeaColor(
+  static const IdeaColor _darkColor = const IdeaColor(
     brightness: Brightness.dark,
     focus: Colors.white,
     primaryScheme: Colors.white,
@@ -56,14 +59,36 @@ class IdeaData {
         color: color.focus
       ),
 
-      cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
+      cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
           primaryColor: Colors.red,
           actionTextStyle:TextStyle(color: Colors.orange)
         )
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: color.background,
+        // hoverColor: Colors.green,
+        // focusColor: Colors.red,
+        hintStyle: const TextStyle(color: Colors.grey),
+
+        contentPadding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+
+        focusedBorder: const OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey, width: 0.3),
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey, width: 0.2),
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+        ),
+        border: const OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey, width: 0.2),
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+        )
+      ),
       bottomSheetTheme: BottomSheetThemeData(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(3.5)),
         ),
         clipBehavior: Clip.hardEdge,
@@ -77,34 +102,34 @@ class IdeaData {
         // backgroundColor: Colors.red,
         elevation:0.0,
       ),
-      bottomAppBarTheme: BottomAppBarTheme(
+      bottomAppBarTheme: const BottomAppBarTheme(
         color: Colors.cyan
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.red
       ),
 
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           textStyle: TextStyle(
-            fontWeight: _fontWeighMedium,
             fontSize: 13
           )
         ),
-      )
+      ),
+      // primaryTextTheme: _textTheme
     );
   }
 
   static ColorScheme lightScheme = _lightColor.scheme;
   static ColorScheme darkScheme = _darkColor.scheme;
 
-  static final _fontWeightThin = FontWeight.w300;
-  static final _fontWeighRegular = FontWeight.w400;
-  static final _fontWeighMedium = FontWeight.w500;
-  static final _fontWeighSemiBold = FontWeight.w600;
-  static final _fontWeighBold = FontWeight.w700;
+  static const _fontWeightThin = FontWeight.w300;
+  static const _fontWeighRegular = FontWeight.w400;
+  static const _fontWeighMedium = FontWeight.w500;
+  static const _fontWeighSemiBold = FontWeight.w600;
+  static const _fontWeighBold = FontWeight.w700;
 
-  static final TextTheme _textTheme = TextTheme(
+  static const TextTheme _textTheme = const TextTheme(
     headline1: TextStyle(fontWeight: _fontWeighBold, fontSize: 26.0, height: 1.0),
     headline2: TextStyle(fontWeight: _fontWeighBold, fontSize: 24.0, height: 1.0),
     headline3: TextStyle(fontWeight: _fontWeighMedium, fontSize: 19.0, height: 1.0),
@@ -140,7 +165,7 @@ class IdeaColor{
   // schemePrimary primaryScheme
   final Color primaryScheme;
 
-  IdeaColor({
+  const IdeaColor({
     this.brightness:Brightness.light,
     this.focus:Colors.black,
 
