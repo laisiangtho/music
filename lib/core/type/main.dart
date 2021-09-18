@@ -202,10 +202,10 @@ class DefinitionType {
   });
 }
 
-// NOTE: readonly
-class ScreenArguments {
+// NOTE: readonly Navigator
+class NavigatorArguments {
   final bool canPop;
   final Object? meta;
 
-  const ScreenArguments({this.canPop:false, this.meta});
+  const NavigatorArguments({this.canPop:false, this.meta});
 }
