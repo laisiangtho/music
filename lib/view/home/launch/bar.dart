@@ -13,29 +13,94 @@ mixin _Bar on _State {
       // borderRadius: Radius.elliptical(20, 5),
       builder: (BuildContext context, ViewHeaderData org, ViewHeaderData snap){
         return Stack(
-          alignment: Alignment.center,
+          // alignment: const Alignment(0,0),
           children: [
-            if (Navigator.canPop(context)) Positioned(
+
+            // if (Navigator.canPop(context)) Positioned(
+            //   left: 0,
+            //   top: 8,
+            //   child: const Hero(
+            //     tag: 'appbar-left',
+            //     child: Material(
+            //       type: MaterialType.transparency,
+            //     ),
+            //   ),
+            // ),
+
+            Positioned(
               left: 0,
-              top: 8,
-              child: ButtonWithLabelAttribute(
-                onPressed: ()=>Navigator.of(context).pop(),
+              top: 7,
+              // height: 39,
+              child: const CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: Hero(
+                  tag: 'appbar-left',
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: LabelAttribute(),
+                  ),
+                ),
+                onPressed: null,
               ),
             ),
-            // if (Navigator.canPop(context)) Align(
-            //   alignment: const Alignment(-1,-1),
-            //   child: ButtonWithLabelAttribute(
-            //     onPressed: ()=>Navigator.of(context).pop(),
-            //   )
-            // ),
             Align(
-              alignment: Alignment.lerp(Alignment(0,0), Alignment(0,1), snap.shrink)!,
-              child: PageAttribute(label: 'Zaideih Music Station',fontSize: (27*org.shrink).clamp(20, 27).toDouble()),
+              alignment: Alignment.lerp(const Alignment(0,0), const Alignment(0,1), snap.shrink)!,
+              child: Hero(
+                tag: 'appbar-center',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: PageAttribute(label: 'Zaideih',fontSize: (30*org.shrink).clamp(20, 30).toDouble()),
+                ),
+              ),
             ),
+            /*
             Positioned(
               right: 0,
               top: 8,
-              child: ButtonAttribute()
+              child: Hero(
+                tag: 'appbar-right',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: ButtonAttribute(
+                    onPressed: () => core.navigate(to: '/search')
+                  )
+                ),
+              ),
+            ),
+            */
+            // Positioned(
+            //   right: 0,
+            //   top: 8,
+            //   // height: 39,
+            //   child: Hero(
+            //     tag: 'appbar-right',
+            //     child: Material(
+            //       type: MaterialType.transparency,
+            //       child: ButtonAttribute(
+            //         // alignment: Alignment.centerRight,
+            //         onPressed: () => core.navigate(to: '/search')
+            //       )
+            //     ),
+            //   ),
+            // ),
+            Positioned(
+              right: 0,
+              top: 7,
+              child: CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: const Hero(
+                  tag: 'appbar-right',
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: LabelAttribute(
+                      icon: ZaideihIcon.search,
+                      // icon: CupertinoIcons.search,
+                      // icon: Icons.search,
+                    ),
+                  ),
+                ),
+                onPressed: () => core.navigate(to: '/search'),
+              )
             ),
           ]
         );

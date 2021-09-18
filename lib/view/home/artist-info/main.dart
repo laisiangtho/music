@@ -33,8 +33,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   final scrollController = ScrollController();
   final GlobalKey<State> key = GlobalKey<ScaffoldState>();
 
-    // final ScreenArguments arguments;
-  ScreenArguments get arguments => widget.arguments as ScreenArguments;
+  NavigatorArguments get arguments => widget.arguments as NavigatorArguments;
   AudioArtistType get artist => arguments.meta as AudioArtistType;
 
   late Iterable<AudioTrackType> track;
@@ -146,7 +145,7 @@ class _View extends _State with _Bar{
       key: const Key('artist-info'),
       // primary: true,
       controller: scrollController,
-      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()),
       // cacheExtent:9999999,
       slivers: <Widget>[
         bar(),
@@ -183,6 +182,7 @@ class _View extends _State with _Bar{
         TrackFlat(tracks: artistTrack, label: 'Tracks (?)', showMore: '* / ?', limit: 3,),
 
         ArtistWrap(artists: artistRelated, heading: 'Related', limit: 5,),
+        // ArtistWrap(artists: [3,9,8,12,60], heading: 'Related', limit: 5,),
 
         AlbumBoard(albums: artistAlbum, controller: scrollController,)
       ]

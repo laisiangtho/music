@@ -8,6 +8,7 @@ mixin _Board on _State {
         height: 150,
         child: ListView(
           scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           children: [
             Padding(
               padding: const EdgeInsets.all(4.0),

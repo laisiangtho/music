@@ -26,7 +26,9 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   final scrollController = ScrollController();
   final GlobalKey<State> key = GlobalKey<ScaffoldState>();
 
-  AudioAlbumType get album => widget.arguments as AudioAlbumType;
+  // AudioAlbumType get album => widget.arguments as AudioAlbumType;
+  NavigatorArguments get arguments => widget.arguments as NavigatorArguments;
+  AudioAlbumType get album => arguments.meta as AudioAlbumType;
 
   @override
   void initState() {
@@ -87,7 +89,7 @@ class _View extends _State with _Bar{
     return CustomScrollView(
       primary: true,
       // controller: scrollController,
-      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()),
       slivers: <Widget>[
         bar(),
 

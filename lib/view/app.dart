@@ -36,7 +36,7 @@ part 'app.player.info.dart';
 part 'app.player.queue.dart';
 
 class AppMain extends StatefulWidget {
-  AppMain({Key? key}) : super(key: key);
+  const AppMain({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => AppView();
 }
@@ -104,10 +104,10 @@ abstract class _State extends State<AppMain> with SingleTickerProviderStateMixin
       ]);
       _pageView.addAll([
         WidgetKeepAlive(key:_homeKey, child: new Home.Main(key: _homeGlobal, navigateKey: _homeNavigate,)),
-        WidgetKeepAlive(key:_albumKey, child: new Note.Main(key: _albumGlobal)),
-        WidgetKeepAlive(key:_artistKey, child: new Note.Main(key: _artistGlobal)),
-        WidgetKeepAlive(key:_moreKey, child: new More.Main(key: _moreGlobal)),
         WidgetKeepAlive(key:_searchKey, child: new Search.Main(key: _searchGlobal)),
+        WidgetKeepAlive(key:_albumKey, child: new Note.Main(key: _albumGlobal)),
+        WidgetKeepAlive(key:_moreKey, child: new More.Main(key: _moreGlobal)),
+        WidgetKeepAlive(key:_artistKey, child: new Note.Main(key: _artistGlobal)),
         WidgetKeepAlive(key:_noteKey, child: new Note.Main(key: _noteGlobal)),
         // WidgetKeepAlive(child: new  TestView())
       ]);
@@ -164,16 +164,17 @@ abstract class _State extends State<AppMain> with SingleTickerProviderStateMixin
       final canPop = _homeNavigate.currentState!.canPop();
       // final canPop = Navigator.canPop(context);
 
-      final arguments = ScreenArguments(canPop:canPop, meta: args);
+      final arguments = NavigatorArguments(canPop:canPop, meta: args);
       if (routePush){
-        print('routePush true');
+        debugPrint('routePush true');
         // _homeNavigate.currentState!.pushReplacementNamed(to, arguments: args);
         _homeNavigate.currentState!.pushReplacementNamed(to, arguments: arguments);
+        // Navigator.of(context).pushReplacementNamed(to, arguments: arguments);
       } else {
         // _homeNavigate.currentState!.pushNamed(to, arguments: args);
         _homeNavigate.currentState!.pushNamed(to, arguments: arguments);
+        // Navigator.of(context).pushNamed(to, arguments: arguments);
       }
-      // _homeNavigate.currentState!.popAndPushNamed(routeName)
     }
     // pushReplacementNamed will execute the enter animation and popAndPushNamed will execute the exit animation.
     // Navigator.of(context).pushReplacementNamed('/screen4');

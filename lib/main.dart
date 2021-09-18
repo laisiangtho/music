@@ -94,12 +94,18 @@ class Zaideih extends StatelessWidget {
           // ],
           localeResolutionCallback: (locale, supportedLocales) => locale,
           // initialRoute: initialRoute,
-          onGenerateRoute: (RouteSettings settings) => MaterialPageRoute<void>(
-            builder: (context) => ApplyTextOptions(
-              child: AppMain(key: key)
+          onGenerateRoute: (RouteSettings settings) => PageRouteBuilder<void>(
+            settings: settings,
+            pageBuilder: (_, __, ___)  => const ApplyTextOptions(
+              child: AppMain()
             ),
-            settings: settings
           )
+          // onGenerateRoute: (RouteSettings settings) => MaterialPageRoute<void>(
+          //   builder: (context) => ApplyTextOptions(
+          //     child: const AppMain()
+          //   ),
+          //   settings: settings
+          // )
           // onUnknownRoute: RouteConfiguration.onUnknownRoute,
         )
       )

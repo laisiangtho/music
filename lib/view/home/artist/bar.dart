@@ -16,27 +16,82 @@ mixin _Bar on _State {
               height: kBottomNavigationBarHeight,
               child: Stack(
                 children: [
-                  TweenAnimationBuilder<Alignment>(
-                    tween: Tween<Alignment>(begin: const Alignment(-.3,0), end: const Alignment(-1,0)),
-                    duration: const Duration(milliseconds: 150),
-                    builder: (BuildContext context, Alignment align, Widget? child) {
-                      return Align(
-                        alignment: align,
-                        child: child
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 50, end: 0),
+                    duration: const Duration(milliseconds: 300),
+                    builder: (BuildContext context, double align, Widget? child) {
+                      return Positioned(
+                        left: align,
+                        top: 6,
+                        child: (align == 0)?CupertinoButton(
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+                          child: const Hero(
+                            tag: 'appbar-left',
+                            child: LabelAttribute( icon: CupertinoIcons.left_chevron, label: 'Back',),
+                          ),
+                          onPressed: () => Navigator.of(context).pop()
+                        ):const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+                          child: LabelAttribute( icon: CupertinoIcons.left_chevron, label: 'Back',)
+                        )
                       );
                     },
-                    child: ButtonWithLabelAttribute(
-                      onPressed: () => Navigator.of(context).pop()
+                  ),
+                  // TweenAnimationBuilder<double>(
+                  //   tween: Tween<double>(begin: 100, end: 0),
+                  //   duration: const Duration(milliseconds: 150),
+                  //   builder: (BuildContext context, double align, Widget? child) {
+                  //     return Positioned(
+                  //       left: align,
+                  //       top: 7,
+                  //       child: child!
+                  //     );
+                  //   },
+                  //   child: CupertinoButton(
+                  //     padding: const EdgeInsets.only(left:7),
+                  //     child: const Hero(
+                  //       tag: 'appbar-left',
+                  //       child: LabelAttribute(
+                  //         icon: Icons.arrow_back_ios_new,
+                  //         label: 'Back',
+                  //       ),
+                  //     ),
+                  //     onPressed: () => Navigator.of(context).pop()
+                  //   )
+                  // ),
+
+                  const Align(
+                    alignment: const Alignment(0,0),
+                    child: Hero(
+                      tag: 'appbar-center',
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: LabelAttribute(label: 'Artist',),
+                      )
                     )
                   ),
-                  Align(
-                    alignment: const Alignment(0,0),
-                    child: PageAttribute(label: 'Artist',)
+
+
+                  Positioned(
+                    right: 0,
+                    top: 7,
+                    child: CupertinoButton(
+                      padding: const EdgeInsets.only(right:7),
+                      child: const Hero(
+                        tag: 'appbar-right',
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: LabelAttribute(
+                            // icon: Icons.tune,
+                            icon: CupertinoIcons.slider_horizontal_3,
+                            // icon: ZaideihIcon.sliders,
+                            label: 'Filter',
+                          ),
+                        ),
+                      ),
+                      onPressed: showFilter,
+                    )
                   ),
-                  Align(
-                    alignment: const Alignment(1,0),
-                    child: ButtonWithLabelAttribute(icon: Icons.tune, label: 'Filter', onPressed: showFilter,)
-                  )
                 ]
               )
             ),

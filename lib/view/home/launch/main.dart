@@ -19,6 +19,8 @@ import 'package:music/icon.dart';
 import 'package:music/widget.dart';
 import 'package:music/model.dart';
 
+import '../search/main.dart' as Search;
+
 part 'bar.dart';
 part 'board.dart';
 
@@ -34,6 +36,9 @@ class Main extends StatefulWidget {
 abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   late Core core;
   final scrollController = ScrollController();
+
+  // NavigatorArguments get arguments => widget.arguments as NavigatorArguments;
+  // AudioArtistType get artist => arguments.meta as AudioArtistType;
 
   AudioBucketType get cache => core.collection.cacheBucket;
 
@@ -77,10 +82,73 @@ class _View extends _State with _Bar, _Board {
     return CustomScrollView(
       // primary: true,
       controller: scrollController,
-      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()),
       semanticChildCount: 2,
       slivers: <Widget>[
         bar(),
+        // SliverToBoxAdapter(
+        //   child: Padding(
+        //       padding: const EdgeInsets.all(8.0),
+        //       child: CupertinoButton(
+        //         color: Theme.of(context).inputDecorationTheme.fillColor,
+        //         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        //         minSize: 40,
+        //         borderRadius: const BorderRadius.all(Radius.circular(5)),
+        //         child: Text('data'),
+        //         onPressed: ()=>core.navigate(to: '/search'),
+        //       ),
+        //     ),
+        // ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: kBottomNavigationBarHeight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 9.5),
+              child: Hero(
+                tag: 'searchHero',
+                child: GestureDetector(
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: MediaQuery(
+                      data: MediaQuery.of(context),
+                      child: TextFormField(
+
+                        readOnly: true,
+                        // showCursor: true,
+
+                        enabled: false,
+                        decoration: const InputDecoration(
+                          hintText: " ... a word or two",
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          prefixIcon: const Icon(
+                            ZaideihIcon.find,
+                            // color:Theme.of(context).hintColor,
+                            size: 17
+                          ),
+                        ),
+                        // onTap: ()=>core.navigate(to: '/search'),
+
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Search.Main(arguments: NavigatorArguments())),
+                      // PageRouteBuilder(pageBuilder: (_, __, ___) => Search.Main(arguments: NavigatorArguments())),
+                    );
+                  }
+                ),
+              ),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Hero(
+            tag: 'tests',
+            child: Text('A', style: TextStyle(fontSize: 50), textAlign: TextAlign.center, )
+          ),
+        ),
         board(),
         // _tmpWorking(),
         SliverToBoxAdapter(

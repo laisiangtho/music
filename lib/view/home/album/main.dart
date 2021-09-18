@@ -12,7 +12,7 @@ import 'package:lidea/provider.dart';
 import 'package:lidea/view.dart';
 
 import 'package:music/core.dart';
-import 'package:music/icon.dart';
+// import 'package:music/icon.dart';
 import 'package:music/model.dart';
 import 'package:music/widget.dart';
 

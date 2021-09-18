@@ -26,24 +26,12 @@ class Main extends StatefulWidget {
 abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   late Core core;
 
-  // final _scaffoldKey = GlobalKey<ScaffoldState>();
-  // final _formKey = GlobalKey<FormState>();
-  // final _focusKey = GlobalKey<FormState>();
-
-  // final _scaffoldSuggestion = UniqueKey();
-  // final _scaffoldDefinition = UniqueKey();
-
   final scrollController = ScrollController();
   final textController = new TextEditingController();
   final focusNode = new FocusNode();
-  // late ScrollController scrollController;
 
   String previousQuery ='';
 
-  // late TextEditingController textController;
-  // late FocusNode focusNode;
-  // late String searchQuery;
-  // final core = Core();
 
   @override
   void initState() {
@@ -99,40 +87,40 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   }
 
   void onCancel() {
-    searchQuery = previousQuery;
-    textController.text = searchQuery;
+    // searchQuery = previousQuery;
+    // textController.text = searchQuery;
     focusNode.unfocus();
   }
 
 
   void onSuggest(String str) {
-    searchQuery = str;
-    Future.microtask(() {
-      // searchQuery = str;
-      // core.suggestionQuery = keyWords(str);
-      core.suggestionGenerate();
-    });
+    // searchQuery = str;
+    // Future.microtask(() {
+    //   searchQuery = str;
+    //   core.suggestionQuery = keyWords(str);
+    //   core.suggestionGenerate();
+    // });
   }
 
   // NOTE: used in bar, suggest & result
   void onSearch(String str) {
-    searchQuery = str;
-    previousQuery = str;
-    this.focusNode.unfocus();
-    if (textController.text != str) {
-      textController.text = str;
-    }
+    // searchQuery = str;
+    // previousQuery = str;
+    // this.focusNode.unfocus();
+    // if (textController.text != str) {
+    //   textController.text = str;
+    // }
 
-    Future.microtask(() {
-      core.definitionGenerate();
-    }).whenComplete(() {
-      scrollController.animateTo(scrollController.position.minScrollExtent,
-          curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 800));
-    });
+    // Future.microtask(() {
+    //   core.definitionGenerate();
+    // }).whenComplete(() {
+    //   scrollController.animateTo(scrollController.position.minScrollExtent,
+    //       curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 800));
+    // });
 
-    Future.delayed(Duration.zero, () {
-      core.collection.historyUpdate(searchQuery);
-    });
+    // Future.delayed(Duration.zero, () {
+    //   core.collection.historyUpdate(searchQuery);
+    // });
   }
 }
 
@@ -141,7 +129,7 @@ class _View extends _State with _Bar, _Suggest, _Result {
   Widget build(BuildContext context) {
     return ViewPage(
       key: widget.key,
-      controller: scrollController,
+      // controller: scrollController,
       child: Selector<Core, bool>(
         selector: (_, e) => e.nodeFocus,
         builder: (BuildContext context, bool focus, Widget? child) => scroll()
@@ -153,17 +141,18 @@ class _View extends _State with _Bar, _Suggest, _Result {
     return CustomScrollView(
       // primary: true,
       controller: scrollController,
-      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()),
       semanticChildCount: 2,
       slivers: <Widget>[
         bar(),
-        body(),
+
+        if (focusNode.hasFocus)
+          suggest()
+        else
+          result()
         // DemoView()
       ]
     );
   }
 
-  Widget body(){
-    return focusNode.hasFocus?suggest():result();
-  }
 }
