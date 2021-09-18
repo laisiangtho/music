@@ -135,8 +135,6 @@ class _TrackFlatState extends State<TrackFlat> {
   ScrollController get controller => widget.controller!;
   bool get hasController => widget.controller != null;
 
-  // late List<AudioMetaType> trackAll;
-  // final List<AudioMetaType> track = [];
   late List<int> trackAll;
   final List<int> track = [];
 
@@ -184,6 +182,7 @@ class _TrackFlatState extends State<TrackFlat> {
 
   @override
   Widget build(BuildContext context) {
+    /*
     if (total == 0) return const SliverSnapshotEmpty();
     return SliverPadding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -224,49 +223,73 @@ class _TrackFlatState extends State<TrackFlat> {
         }
       ),
     );
-    // if (total == 0) return Container();
-    // return Padding(
-    //   key: widget.key,
-    //   padding: const EdgeInsets.symmetric(vertical: 10),
-    //   // color: Colors.white,
-    //   child: Column(
-    //     children: [
-    //       if (widget.label != null)BlockHeader(
-    //         label: widget.label!.replaceFirst('?', total.toString()),
-    //         // more: widget.more,
-    //         // onPressed: null
-    //       ),
-    //       // MediaQuery.removePadding(
-    //       //   context: context,
-    //       //   removeTop: true,
-    //       //   child: ListView.builder(
-    //       //     // padding: const EdgeInsets.all(0),
-    //       //     itemCount: total,
-    //       //     // itemExtent: 60,
-    //       //     shrinkWrap: true,
-    //       //     // primary: false,
-    //       //     itemBuilder: (context, index) => TrackListItem(core: core, track: track.elementAt(index)),
-    //       //   ),
-    //       // ),
-    //       ListView.builder(
-    //         key: const Key('track-list'),
-    //         padding: const EdgeInsets.all(0),
-    //         itemCount: count,
-    //         // semanticChildCount:5,
-    //         cacheExtent: count*72,
-    //         itemExtent: 72,
-    //         shrinkWrap: true,
-    //         primary: false,
-    //         itemBuilder: (context, index) => TrackListItem(core: core, track: track.elementAt(index)),
-    //       ),
-    //       if (widget.showMore != null)BlockFooter(
-    //         more: widget.showMore!,
-    //         total: total,
-    //         count: count,
-    //         onPressed: _hasMore?loadMore:null
-    //       )
-    //     ]
-    //   )
-    // );
+    */
+    if (total == 0) return const SliverSnapshotEmpty();
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            if (widget.label != null)BlockHeader(
+              label: widget.label!.replaceFirst('?', total.toString()),
+              // more: widget.more,
+              // onPressed: null
+            ),
+            ListView.builder(
+              key: const Key('track-list'),
+              padding: const EdgeInsets.all(0),
+              itemCount: count,
+              // semanticChildCount:5,
+              cacheExtent: count*72,
+              itemExtent: 72,
+              shrinkWrap: true,
+              primary: false,
+              // itemBuilder: (context, index) => TrackListItem(core: core, track: track.elementAt(index)),
+              // itemBuilder: (context, index) => TrackListItem(core: core, track: cache.meta(track.elementAt(index))),
+              itemBuilder: (context, index) {
+                return new FutureBuilder<bool>(
+                  // future: Future.microtask(() => true),
+                  future: Future.delayed(const Duration(milliseconds: 320), ()=>true),
+                  builder: (_, snap){
+                    if (snap.hasData == false) return const TrackListItemHolder();
+                    return TrackListItem(core: core, track: cache.meta(track.elementAt(index)));
+                  }
+                );
+              },
+            ),
+            if (widget.showMore != null)BlockFooter(
+              more: widget.showMore!,
+              total: total,
+              count: count,
+              onPressed: _hasMore?loadMore:null
+            )
+          ]
+        )
+      )
+    );
+    /*
+    if (total == 0) return const SliverSnapshotEmpty();
+    return SliverPadding(
+      key: widget.key,
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      sliver: new SliverList(
+        delegate: SliverChildBuilderDelegate(
+          // (BuildContext context, int index) => ArtistListItem(core: core, artist: artist.elementAt(index), index: index,),
+          (BuildContext context, int index) {
+            return new FutureBuilder<bool>(
+              // future: Future.microtask(() => true),
+              future: new Future.delayed(const Duration(milliseconds: 320), ()=>true),
+              builder: (_, snap){
+                if (snap.hasData == false) return const ArtistListItemHolder();
+                return ArtistListItem(core: core, artist: artist.elementAt(index));
+                // return const ArtistListItemHolder();
+              }
+            );
+          },
+          childCount: artist.length
+        )
+      )
+    );
+    */
   }
 }

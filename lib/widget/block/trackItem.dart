@@ -89,3 +89,45 @@ class TrackListItem extends StatelessWidget {
     );
   }
 }
+
+class TrackListItemHolder extends StatelessWidget {
+  const TrackListItemHolder({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const ListTile(
+      minVerticalPadding: 0,
+      leading: const DecoratedBox(
+        decoration: BoxDecoration(
+          color: const Color(0xFFe6e7e8),
+          borderRadius: const BorderRadius.all(const Radius.circular(5)),
+        ),
+        child: const Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Icon(
+            Icons.playlist_add,
+            size: 25,
+          ),
+        ),
+      ),
+      title: const SizedBox(
+        height: 18.0,
+        child: const DecoratedBox(
+          decoration: const BoxDecoration(
+            color: const Color(0xFFe6e7e8),
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+          ),
+        ),
+      ),
+      subtitle: const SizedBox(
+        height: 18.0,
+        child: const DecoratedBox(
+          decoration: const BoxDecoration(
+            color: const Color(0xFFe6e7e8),
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+          ),
+        ),
+      ),
+    );
+  }
+}

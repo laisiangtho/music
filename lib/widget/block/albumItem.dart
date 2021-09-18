@@ -1,5 +1,24 @@
 part of 'album.dart';
 
+const genreColorList = [
+  Color(0xFFd9dadb),
+  Colors.grey,
+  Color(0xFFfff0de), //gospel
+  Color(0xFFe6e6e6), //classical
+  Color(0xFFb0b0b0), //alternative
+  Color(0xFFccffff), //christian
+  Color(0xFFf3f3d4), //country
+  Color(0xFFededc0), //pop
+  Color(0xFF007FFF), //tribal
+  Color(0xFFfdfdf8), //classic
+  Color(0xFFc8e6c9),
+  Color(0xFFef5f9e),
+  Color(0xFFfff8e1),
+  Color(0xFFe0f7fa),
+  Color(0xFFede7f8),
+  Color(0xFFfff3e0),
+];
+
 class AlbumListItem extends StatelessWidget {
   const AlbumListItem({Key? key, required this.core, required this.album,}): super(key: key);
 
@@ -16,23 +35,6 @@ class AlbumListItem extends StatelessWidget {
   String get year => album.year.join(', ');
   String get duration => cache.duration(album.duration);
   String get artists => cache.trackByUid([album.uid]).map((e) => e.artists).expand((e) => e).toSet().map((e) => cache.artistById(e).name).join(', ');
-  List<Color> get genreColorList => [
-    Color(0xFFd9dadb),
-    Colors.grey,
-    Color(0xFFfff0de), //gospel
-    Color(0xFFe6e6e6), //classical
-    Color(0xFFb0b0b0), //alternative
-    Color(0xFFccffff), //christian
-    Color(0xFFf3f3d4), //country
-    Color(0xFFededc0), //pop
-    Color(0xFF007FFF), //tribal
-    Color(0xFFfdfdf8), //classic
-    Colors.green[50]!,
-    Colors.amber[50]!,
-    Colors.cyan[50]!,
-    Colors.deepPurple[50]!,
-    Colors.orange[50]!,
-  ];
 
   Color get genreColor => album.genre.length > 0 && genreColorList.length > album.genre.first? genreColorList[album.genre.first]:Colors.grey;
 
@@ -253,6 +255,8 @@ class AlbumPickItem extends StatelessWidget {
   String get year => album.year.join(', ');
   String get duration => cache.duration(album.duration);
 
+  Color get genreColor => album.genre.length > 0 && genreColorList.length > album.genre.first? genreColorList[album.genre.first]:Colors.grey;
+
   void play(){
     audio.queuefromAlbum([album.uid]);
   }
@@ -294,14 +298,14 @@ class AlbumPickItem extends StatelessWidget {
             alignment: const Alignment(0,-.40),
             child: Icon(ZaideihIcon.cd,
               size: 95,
-              color: Colors.grey.withOpacity(0.2),
+              color: genreColor,
             )
           ),
           Align(
-            alignment: const Alignment(.035,-.21),
+            alignment: const Alignment(.034,-.22),
             child: Icon(ZaideihIcon.play,
-              size: 30,
-              color: Colors.grey.withOpacity(0.9),
+              size: 45,
+              color: Theme.of(context).shadowColor,
             )
           ),
           Container(
@@ -312,28 +316,44 @@ class AlbumPickItem extends StatelessWidget {
           ),
 
 
+          // Align(
+          //   alignment: const Alignment(0,1.0),
+          //   child: Container(
+          //     height: 45,
+          //     // alignment: Alignment.center,
+          //     width: double.infinity,
+          //     decoration: BoxDecoration(
+          //       // color: Theme.of(context).primaryColor,
+          //       // color: Colors.red,
+          //       border: Border(
+          //         top: BorderSide(
+          //           width: 3.0,
+          //           color: Theme.of(context).scaffoldBackgroundColor,
+          //           // color: Color(0XFFfff0de)
+          //         ),
+          //       ),
+          //     ),
+          //     child: buttonTitle(context)
+          //   ),
+          // ),
           Align(
             alignment: const Alignment(0,1.0),
-            child: Container(
-              height: 45,
-              // alignment: Alignment.center,
+            child: SizedBox(
+              height: 40.0,
               width: double.infinity,
-              decoration: BoxDecoration(
-                // color: Theme.of(context).primaryColor,
-                // color: Colors.red,
-                border: Border(
-                  top: BorderSide(
-                    width: 3.0,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    // color: Color(0XFFfff0de)
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  border: const Border(
+                    top: const BorderSide(
+                      width: 3.0,
+                      // color: Theme.of(context).scaffoldBackgroundColor,
+                      color: const Color(0XFFfff0de)
+                    ),
                   ),
                 ),
+                child: buttonTitle(context)
               ),
-
-              // width: 200,
-              // child: Text('title title title title title title title titletitle $index'),
-              child: buttonTitle(context)
-            ),
+            )
           ),
         ],
       )
@@ -388,4 +408,92 @@ class AlbumPickItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class AlbumPickItemHolder extends StatelessWidget {
+  const AlbumPickItemHolder({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // const SizedBox(
+    //   height: 18.0,
+    //   child: const DecoratedBox(
+    //     decoration: const BoxDecoration(
+    //       color: const Color(0xFFe6e7e8),
+    //       borderRadius: const BorderRadius.all(Radius.circular(100)),
+    //     ),
+    //     child: Stack(
+    //       children: [],
+    //     ),
+    //   ),
+    // );
+    return Container(
+      // clipBehavior:Clip.hardEdge,
+      margin: const EdgeInsets.all(3),
+      width: 170,
+      decoration: const BoxDecoration(
+        color: const Color(0xFFe6e7e8),
+        borderRadius: const BorderRadius.all(const Radius.circular(5)),
+      ),
+
+      child: Stack(
+        alignment: Alignment.topCenter,
+        // fit: StackFit.loose,
+        children: [
+          const Align(
+            alignment: const Alignment(0,-.40),
+            child: Icon(ZaideihIcon.cd,
+              size: 95,
+              color: const Color(0xFFd9dadb),
+            )
+          ),
+          const Align(
+            alignment: const Alignment(.035,-.21),
+            child: Icon(ZaideihIcon.play,
+              size: 30,
+              color: const Color(0xFFe6e7e8),
+            )
+          ),
+          // Align(
+          //   alignment: const Alignment(0,1.0),
+          //   child: Container(
+          //     height: 45,
+          //     // alignment: Alignment.center,
+          //     width: double.infinity,
+          //     decoration: const BoxDecoration(
+          //       border: const Border(
+          //         top: const BorderSide(
+          //           width: 3.0,
+          //           // color: Theme.of(context).scaffoldBackgroundColor,
+          //           color: const Color(0XFFfff0de)
+          //         ),
+          //       ),
+          //     ),
+          //     child: buttonTitle()
+          //   ),
+          // ),
+          const Align(
+            alignment: const Alignment(0,1.0),
+            child: const SizedBox(
+              height: 40.0,
+              width: double.infinity,
+              child: const DecoratedBox(
+                decoration: const BoxDecoration(
+                  border: const Border(
+                    top: const BorderSide(
+                      width: 3.0,
+                      // color: Theme.of(context).scaffoldBackgroundColor,
+                      color: const Color(0XFFfff0de)
+                    ),
+                  ),
+                ),
+                // child: Text(''),
+              ),
+            )
+          ),
+        ],
+      )
+    );
+  }
+
 }
