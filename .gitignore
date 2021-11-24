@@ -8,7 +8,8 @@ tmp/
 # !assets/psd
 # !assets/*-mock.*
 assets/env.json
-assets/bucket.json
+assets/album.json
+assets/bucket.zip
 
 android/key.properties
 android/app/google-services.json
