@@ -1,0 +1,4 @@
+storePassword=search
+keyPassword=search
+keyAlias=lethil
+storeFile=c:/Users/khensolomon/OneDrive/env/dev/myordbok/keystore.jks

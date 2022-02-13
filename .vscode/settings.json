@@ -16,10 +16,5 @@
       "activityBar.inactiveForeground":"#aaaaac",
       "statusBar.background" : "#b6b7b8"
     },
-    "workbench.colorTheme": "Default Light+",
-    "[dart]": {
-      "editor.defaultFormatter": "Dart-Code.dart-code",
-      "editor.formatOnSave": false,
-      "editor.formatOnType": false,
-    },
+    "workbench.colorTheme": "Default Light+"
 }

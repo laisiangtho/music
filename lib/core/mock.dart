@@ -2,12 +2,124 @@ part of 'main.dart';
 
 /// check
 mixin _Mock on _Abstract {
+  Future<dynamic> mockTest1() async {
+    Stopwatch mockWatch = Stopwatch()..start();
 
-  Future<dynamic> mockTest() async {
-    Stopwatch mockWatch = new Stopwatch()..start();
-    debugPrint('mockTest in ${mockWatch.elapsedMilliseconds} Milliseconds');
+    final a3 = UtilDocument.encodeJSON({'hello': 'hello!!'});
+    collection.gist.updateFile(file: userFile, content: a3).then((e) {
+      debugPrint('$e');
+    }).catchError((e) async {
+      if (e == 'Failed to load') {
+        await collection.tokenUpdate().then((e) {
+          debugPrint('done');
+        }).catchError((e) {
+          debugPrint('$e');
+        });
+      } else {
+        debugPrint('$e');
+      }
+    });
+
+    // await gist.gitFiles().then((res) {
+    //   debugPrint('result $res');
+    // }).catchError((e) {
+    //   debugPrint('error $e');
+    // });
+    // await gist.updateFile('other.csv', 'id,\nfirst-,\nsecond-,').then((res) {
+    //   debugPrint('result $res');
+    // }).catchError((e) {
+    //   debugPrint('error $e');
+    // });
+    // await gist.removeFile('others.csv').then((res) {
+    //   debugPrint('result $res');
+    // }).catchError((e) {
+    //   debugPrint('error $e');
+    // });
+
+    debugPrint('mockTest in ${mockWatch.elapsedMilliseconds} ms');
   }
 
+  Future<dynamic> mockTest2() async {
+    // final gist = GistData(
+    //   owner: 'collection.env.configure.owns',
+    //   repo: 'collection.env.configure.name',
+    // );
+    // final gist = userGist;
+
+    // final gitUri = await gist.gitContent<Uri>(
+    //   // owner: 'me',
+    //   // repo: 'lai',
+    //   file: 'bfe/abc.json',
+    //   debug: true,
+    // );
+    // uri request local, get nameLive getCache
+    // final tmpLive = collection.env.repo.live(2147);
+    // final tmpCache = collection.env.repo.local(2147);
+    // final tmpLive = collection.env.repo.local(2147);
+    // final tmpCache = collection.env.repo.local(2147);
+
+    // final api = collection.env.api.firstWhere((e) => e.uid == 'bible');
+    // final bibleUri = gist.rawContentUri(
+    //   owner: collection.env.repo.owns,
+    //   repo: collection.env.repo.name,
+    //   file: api.repoName('fe'),
+    // );
+    // debugPrint(' repo: $bibleUri');
+
+    // comLive, comCache
+
+    // final trackLive = collection.env.track.liveName(2147);
+    // final trackCache = collection.env.track.cacheName(2147);
+    // debugPrint('-live: $trackLive \n-cache: $trackCache');
+
+    // debugPrint(' ${gitUri.toString()}');
+    // debugPrint(' ${rawUri.toString()}');
+    // debugPrint(' ${liveUri.toString()}');
+    // debugPrint(' ${gist.gitContentUri}');
+    // debugPrint(' ${gist.rawContentUri}');
+
+    // final urlParse = Uri.parse(url);
+    // debugPrint(
+    //     'parse $urlParse ${urlParse.authority} ${urlParse.path} ${urlParse.queryParametersAll}');
+    // final urlParseHttp = Uri.https(urlParse.authority, urlParse.path, urlParse.queryParameters);
+    // debugPrint(
+    //     'http $urlParseHttp ${urlParseHttp.authority} ${urlParseHttp.path} ${urlParseHttp.queryParameters}');
+
+    // final asdf = 'com+';
+    // final adf = Uri.parse('api/audio/#?d1v=l1&ad=2');
+    // debugPrint(' $adf ${adf.path} ${adf.queryParameters}');
+    // final adf1 = collection.env.apis
+    //     .firstWhere((e) => e.uid == 'track')
+    //     .parseUriTest(collection.env.domain, 5);
+    // debugPrint(' $adf1');
+
+    // final fee = collection.env.apis.firstWhere((e) => e.uid == 'track');
+    // final fee1 = collection.env.urlTest(fee.liveName(45));
+    // debugPrint(' $fee1');
+    // for (var api in collection.env.api) {
+    //   debugPrint(' ${api.uid} \n -src ${api.src}');
+    // }
+
+    // final uriFirst = collection.env.url('word').uri('4354');
+    // final uriSecond = collection.env.url('word').uri('4354', index: 1, scheme: 'http');
+    // final cache = collection.env.url('word').cache('4354');
+    // debugPrint('\n live $uriFirst \n cache $cache \n second $uriSecond');
+
+    final uriFirst = collection.env.url('bible').uri('4354');
+    final uriSecond = collection.env.url('bible').uri('4354', index: 1, scheme: 'http');
+    final cache = collection.env.url('bible').cache('4354');
+    debugPrint('\n live $uriFirst \n cache $cache \n second $uriSecond');
+
+    // final bible = collection.env.url('bible');
+    // final bibleLive = bible.uri('4354');
+    // final bibleCache = bible.cache('4354');
+    // debugPrint('---------\n bibleLive $bibleLive \n bibleCache $bibleCache');
+    // debugPrint('assetName ${bible.assetName}');
+    // debugPrint('localName ${bible.localName}');
+    // debugPrint('repoName ${bible.repoName}');
+  }
+
+  String get userFile => authentication.id.isNotEmpty ? '${authentication.id}.json' : '';
 
   // Future<bool> initArchive() async{
   //   bool toChecks = false;
@@ -57,32 +169,74 @@ mixin _Mock on _Abstract {
   //   return Future.error("Failed to load");
   // }
 
+  /// ```dart
+  /// [query: String, raw: List<Map<String, Object?>>]
+  /// ```
+  /// typeof [SuggestionType]
+  // Future<void> suggestionGenerate() async {
+  //   Stopwatch suggestionWatch = Stopwatch()..start();
+  //   int randomNumber = Random().nextInt(100);
+  //   collection.cacheSuggestion = SuggestionType(
+  //     query: collection.suggestQuery,
+  //     // raw: await _sql.suggestion()
+  //     raw: List.generate(randomNumber, (_) => {'word': 'random $randomNumber ${collection.suggestQuery}'}),
+  //   );
+  //   notify();
+  //   debugPrint('suggestionGenerate in ${suggestionWatch.elapsedMilliseconds} ms');
+  // }
+
   Future<void> suggestionGenerate() async {
-    if (collection.cacheSuggestion.query != collection.searchQuery){
-      collection.cacheSuggestion = SuggestionType(
-        query: collection.searchQuery,
-        // raw: await _sql.suggestion()
-      );
-      notify();
-    }
+    // this.suggestionList = await _sql.suggestion(collection.searchQuery);
+    // if (collection.cacheSuggestion.query != collection.suggestQuery) {
+    //   collection.cacheSuggestion = SuggestionType(
+    //     query: collection.suggestQuery,
+    //     raw: await _sql.suggestion(),
+    //   );
+    //   notify();
+    // }
+    // debugPrint('suggestionGenerate in ${suggestionWatch.elapsedMilliseconds} ms');
+    // int randomNumber = Mock.randomNumber(100);
+    // String randomString = Mock.randomString();
+    // collection.cacheSuggestion = SuggestionType(
+    //   query: collection.suggestQuery,
+    //   raw: List.generate(randomNumber, (_) => {'word': '$randomString $suggestQuery'}),
+    // );
+
+    search.suggestion();
+
+    notify();
   }
 
-  // ignore: todo
-  // TODO: definition on multi words
-  // see
-  Future<void> definitionGenerate() async {
-    Stopwatch definitionWatch = new Stopwatch()..start();
-    if (collection.cacheDefinition.query != collection.searchQuery){
-      collection.cacheDefinition = DefinitionType(
+  /// ```dart
+  /// [query: String, raw: List<Map<String, Object?>>]
+  /// ```
+  /// typeof [ConclusionType]
+  Future<void> conclusionGenerate({bool init = false}) async {
+    /*
+    int randomNumber = Mock.randomNumber(100);
+    String randomString = Mock.randomString();
+
+    if (collection.cacheConclusion.query != collection.searchQuery) {
+      collection.cacheConclusion = ConclusionType(
         query: collection.searchQuery,
-        // raw: await _definitionGenerator()
+        raw: List.generate(randomNumber, (_) => OfRawType(term: '$randomString $suggestQuery')),
       );
-      notify();
+      collection.recentSearchUpdate(collection.searchQuery);
+      if (!init) {
+        notify();
+      }
     }
-    // collection.searchQueryUpdate(word);
+    // collection.recentSearchUpdate(word);
     // collection.searchQuery = word;
-    debugPrint('definitionTest in ${definitionWatch.elapsedMilliseconds} Milliseconds');
-    analyticsSearch(collection.searchQuery);
-  }
+    analytics.search(collection.searchQuery);
+    */
 
+    if (collection.cacheConclusion.query != collection.searchQuery) {
+      search.conclusion();
+      collection.recentSearchUpdate(collection.searchQuery);
+      if (!init) {
+        notify();
+      }
+    }
+  }
 }

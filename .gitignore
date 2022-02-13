@@ -1,20 +1,16 @@
-**/*v[0-9].dart
-**/*v[0-9]*.md
-**/*v[0-9].rar
-**/*v[0-9].json
-tmp/
-# assets/**
-# !assets/fonts
-# !assets/psd
-# !assets/*-mock.*
-assets/env.json
-assets/album.json
-assets/bucket.zip
+# Ignore assets except mock data
+*.v[0-9].*
+/tmp.*
+/assets/*
+/!assets/mock-*.*
 
-android/key.properties
-android/app/google-services.json
+# Android
+*/key.properties
+**/google-services.json
 
-ios/Runner/GoogleService-Info.plist
+# iOS
+**/Info.plist
+**/GoogleService-Info.plist
 
 # Miscellaneous
 *.class

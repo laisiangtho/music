@@ -1,82 +1,194 @@
-
 part of 'main.dart';
 
-abstract class _Abstract extends CoreNotifier with _Configuration, _Utility {
-  Future<void> initEnvironment() async {
-    collection.env = EnvironmentType.fromJSON(UtilDocument.decodeJSON(await UtilDocument.loadBundleAsString('env.json')));
+abstract class _Abstract extends UnitEngine with _Utility {
+  final Collection collection = Collection.internal();
+
+  late final Preference preference = Preference(collection);
+  late final Authentication authentication = Authentication();
+  late final NavigationNotify navigation = NavigationNotify();
+  late final Analytics analytics = Analytics();
+
+  late final store = Store(notify: notify, collection: collection);
+  late final _sql = SQLite(collection: collection);
+  late final audio = Audio(notify: notify, cluster: collection);
+  late final search = Search(preference: preference, collection: collection);
+
+  /// Initiate collection, preference, authentication
+  Future<void> ensureInitialized() async {
+    Stopwatch initWatch = Stopwatch()..start();
+
+    await collection.ensureInitialized();
+    await collection.prepareInitialized();
+    await preference.ensureInitialized();
+    await authentication.ensureInitialized();
+
+    // if (authentication.id.isNotEmpty && authentication.id != collection.setting.userId) {
+    //   final ou = collection.setting.copyWith(userId: authentication.id);
+    //   await collection.settingUpdate(ou);
+    // }
+
+    debugPrint('ensureInitialized in ${initWatch.elapsedMilliseconds} ms');
   }
 
-  Future<void> initSetting() async {
-    // Box<SettingType> box = await Hive.openBox<SettingType>(collection.env.settingName);
-    // SettingType active = collection.boxOfSetting.get(collection.env.settingKey,defaultValue: collection.env.setting)!;
-    collection.boxOfSetting = await Hive.openBox<SettingType>(collection.env.settingName);
-    SettingType active = collection.setting;
+  String get searchQuery => collection.searchQuery;
+  set searchQuery(String ord) {
+    notifyIf<String>(searchQuery, collection.searchQuery = ord);
+  }
 
-    if (collection.boxOfSetting.isEmpty){
-      collection.boxOfSetting.put(collection.env.settingKey,collection.env.setting);
-      await loadArchive(collection.env.bucketAPI.archive);
-    } else if (active.version != collection.env.setting.version){
-      collection.boxOfSetting.put(collection.env.settingKey,active.merge(collection.env.setting));
-      await loadArchive(collection.env.bucketAPI.archive);
+  String get suggestQuery => collection.suggestQuery;
+  set suggestQuery(String ord) {
+    final word = ord.replaceAll(RegExp(' +'), ' ').trim();
+    notifyIf<String>(suggestQuery, collection.suggestQuery = word);
+  }
+
+  // dataInitialized
+  Future<void> dataInitialized() async {
+    final localData = collection.env.api.where(
+      (e) => e.local.isNotEmpty && !e.local.contains('mp3'),
+    );
+    if (collection.requireInitialized) {
+      APIType api = collection.env.api.firstWhere((e) => e.asset.isNotEmpty);
+      await UtilArchive.extractBundle(api.asset);
     }
-
     collection.cacheBucket = AudioBucketType.fromJSON(
       Map.fromEntries(
-        await Future.wait(collection.env.apis.map(
-          (e) async => MapEntry(e.uid, await readArchive(e.archive))
-        ))
-      )
+        await Future.wait(
+          localData.map(
+            (e) async => MapEntry(
+              e.uid,
+              // await UtilDocument.readAsJSON<List<dynamic>>(e.local),
+              await UtilDocument.readAsJSON<dynamic>(e.local),
+            ),
+          ),
+        ),
+      ),
     );
+    Stopwatch initArtistWatch = Stopwatch()..start();
+    await collection.cacheBucket.artistInit();
+    debugPrint('--artist-init: ${initArtistWatch.elapsedMilliseconds} ms');
 
-    // final album = collection.cacheBucket.album;
-    // final artist = collection.cacheBucket.artist;
-    // final genre = collection.cacheBucket.genre;
-    // final lang = collection.cacheBucket.lang;
-    // final totalTrack = album.map((e) => e.track.length).reduce((a, b) => a+b);
-    // print('al ${album.length} tt $totalTrack ar ${artist.length} gr ${genre.length} lg ${lang.length}');
+    Stopwatch initTrackWatch = Stopwatch()..start();
+    await collection.cacheBucket.trackInit();
+    debugPrint('--track-init: ${initTrackWatch.elapsedMilliseconds} ms');
 
-    collection.boxOfPurchase = await Hive.openBox<PurchaseType>('purchase-tmp');
-    // collection.boxOfSetting.clear();
+    Stopwatch initAlbumWatch = Stopwatch()..start();
+    await collection.cacheBucket.albumInit();
+    debugPrint('--album-init: ${initAlbumWatch.elapsedMilliseconds} ms');
 
-    collection.boxOfHistory = await Hive.openBox<HistoryType>('history-tmp');
-    // await collection.boxOfHistory.clear();
+    Stopwatch initLangWatch = Stopwatch()..start();
+    await collection.cacheBucket.langInit();
+    debugPrint('--lang-init: ${initLangWatch.elapsedMilliseconds} ms');
   }
 
-  void historyClearNotify() => collection.boxOfHistory.clear().whenComplete(notify);
-
-  // NOTE: Archive extract File
-  Future<List<String>> loadArchive(file) async{
-    // return [file];
-    List<int>? bytes = await UtilDocument.loadBundleAsByte(file).then(
-      (data) => UtilDocument.byteToListInt(data).catchError((_) => null)
-    ).catchError((e) => null);
-    if (bytes != null && bytes.isNotEmpty) {
-      final res = await UtilArchive().extract(bytes).catchError((_) {
-        print('$_');
-        return null;
-      });
-      if (res != null) {
-        return res;
-      }
-    }
-    return Future.error("Failed to load");
+  FilterCommonType get artistFilter {
+    return collection.boxOfFilterCommon.get('artist')!;
   }
 
-  // NOTE: Archive read File
-  Future<List<dynamic>> readArchive(file) {
-    return UtilDocument.exists(file).then((String e) async{
-      if (e.isEmpty) {
-        await loadArchive(collection.env.bucketAPI.archive);
-      }
-      return UtilDocument.decodeJSON<List<dynamic>>(await UtilDocument.readAsString(file));
-      // print('album ${collection.env.bucketAPI.archive} is ${e.isNotEmpty} ');
-    });
-    // return Future.error("Failed to load");
+  Iterable<AudioArtistType> artistList() {
+    return collection.cacheBucket.artist
+        .where(
+          (e) => artistFilter.character.isNotEmpty
+              ? e.name.isEmpty
+                  ? artistFilter.character.contains('#')
+                  : artistFilter.character.contains(e.name[0])
+              : collection.cacheBucket.artistRefresh(e).name.isNotEmpty,
+        )
+        .where(
+          (e) => artistFilter.gender.isNotEmpty ? artistFilter.gender.contains(e.type) : true,
+        )
+        .where(
+          (e) => artistFilter.language.isNotEmpty
+              ? e.lang
+                  .where(
+                    (i) => artistFilter.language.contains(i),
+                  )
+                  .isNotEmpty
+              : true,
+        );
   }
 
-  // ignore: todo
-  // TODO: analytics
-  Future<void> analyticsFromCollection() async{
-    this.analyticsSearch('keyword goes here');
+  FilterCommonType get albumFilter {
+    return collection.boxOfFilterCommon.get('album')!;
   }
+
+  Iterable<AudioAlbumType> albumList() {
+    return collection.cacheBucket.album
+        .where(
+          (e) => albumFilter.character.isNotEmpty
+              ? e.name.isEmpty
+                  ? albumFilter.character.contains('#')
+                  : albumFilter.character.contains(e.name[0])
+              : true,
+        )
+        .where(
+          (e) => albumFilter.language.isNotEmpty ? albumFilter.language.contains(e.lang) : true,
+        )
+        .where(
+          (e) => albumFilter.genre.isNotEmpty
+              ? e.genre.where((i) => albumFilter.genre.contains(i)).isNotEmpty
+              : true,
+        );
+  }
+
+  // Future<void> initBible() async {
+  //   if (collection.requireInitialized) {
+  //     APIType api = collection.env.api.firstWhere(
+  //       (e) => e.asset.isNotEmpty,
+  //     );
+  //     await UtilArchive.extractBundle(api.asset);
+  //   }
+  //   // if (requireInitialized) {
+  //   //   final localData = collection.env.api.where((e) => e.asset.isNotEmpty);
+  //   //   for (APIType api in localData) {
+  //   //     await UtilArchive.extractBundle(api.asset).then((_) {
+  //   //       debugPrint('Ok ${api.uid}');
+  //   //     }).catchError((e) {
+  //   //       debugPrint('Error ${api.uid} $e');
+  //   //     });
+  //   //   }
+  //   // }
+  // }
+
+  // Future<void> initDictionary() async {
+  //   if (collection.requireInitialized) {
+  //     APIType api = collection.env.api.firstWhere(
+  //       (e) => e.asset.isNotEmpty,
+  //     );
+  //     await UtilArchive.extractBundle(api.asset);
+  //   }
+  // }
+
+  // Future<void> initMusic() async {
+  //   final localData = collection.env.api.where(
+  //     (e) => e.local.isNotEmpty && !e.local.contains('!'),
+  //   );
+  //   if (collection.requireInitialized) {
+  //     APIType api = collection.env.api.firstWhere((e) => e.asset.isNotEmpty);
+  //     await UtilArchive.extractBundle(api.asset);
+  //   }
+  //   collection.cacheBucket = AudioBucketType.fromJSON(
+  //     Map.fromEntries(
+  //       await Future.wait(
+  //         localData.map(
+  //           (e) async => MapEntry(
+  //             e.uid,
+  //             await UtilDocument.readAsJSON<List<dynamic>>(e.local),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Future<void> deleteOldLocalData(Iterable<APIType> localData) async {
+  //   if (requireInitialized) {
+  //     for (APIType api in localData) {
+  //       await UtilDocument.exists(api.localName).then((String e) {
+  //         if (e.isNotEmpty) {
+  //           UtilDocument.delete(e);
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
 }

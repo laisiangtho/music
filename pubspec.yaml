@@ -1,27 +1,18 @@
 name: music
 description: Zaideih Music Station
 
-# The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^1.0.4
+  flutter_localizations:
+    sdk: flutter
 
   # Local lidea package, development only
   lidea:
@@ -30,45 +21,37 @@ dependencies:
     #   url: git://github.com/laisiangtho/lidea.git
     #   ref: main
 
-  # Custom
-  hive_flutter: ^1.1.0
-  # share: ^2.0.4
-  in_app_purchase: ^1.0.9
-  just_audio: ^0.9.11
-  intl: ^0.17.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter_lints: ^1.0.4
 
 flutter:
   uses-material-design: true
 
+  # Enable generation of localized Strings from arb files.
+  generate: true
+
+  # Add assets
   assets:
     - assets/env.json
     - assets/album.json
     - assets/tmp/rod-stewart-sailing.mp3
     - assets/tmp/sailboat.mp3
 
+  # fonts from lidea
   fonts:
     - family: Lato
       fonts:
-        - asset: assets/fonts/Lato-Regular.ttf
-        # - asset: assets/fonts/Lato-Thin.ttf
-        # - asset: assets/fonts/Lato-Light.ttf
-        # - asset: assets/fonts/Lato-Italic.ttf
-        # - asset: assets/fonts/Lato-Bold.ttf
-    - family: Zaideih
+        - asset: packages/lidea/fonts/Lato-Regular.ttf
+        - asset: packages/lidea/fonts/Lato-Thin.ttf
+        - asset: packages/lidea/fonts/Lato-Light.ttf
+        - asset: packages/lidea/fonts/Lato-Bold.ttf
+
+    - family: Lidea
       fonts:
-        - asset: assets/fonts/Zaideih.ttf
+        - asset: packages/lidea/fonts/Lidea.ttf
+
     - family: Mm3Web
       fonts:
-        - asset: assets/fonts/Mm3Web.ttf
-    # - family: Padauk
-    #   fonts:
-    #     - asset: assets/fonts/Padauk-Regular.ttf
-    #     - asset: assets/fonts/Padauk-Bold.ttf
+        - asset: packages/lidea/fonts/Mm3Web.ttf
