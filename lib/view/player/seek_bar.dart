@@ -117,7 +117,9 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
                     child: Slider(
                       min: 0.0,
                       max: _duration.inMilliseconds.toDouble(),
-                      value: _bufferedPosition.inMilliseconds.toDouble(),
+                      // max: checkValue(_duration, _bufferedPosition),
+                      // value: _bufferedPosition.inMilliseconds.toDouble(),
+                      value: checkValue(_bufferedPosition, _duration),
                       // value: min(_bufferedPosition.inMilliseconds.toDouble(),
                       //     _duration.inMilliseconds.toDouble()),
                       onChanged: null,
@@ -137,10 +139,12 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
                   child: Slider(
                     min: 0.0,
                     max: _duration.inMilliseconds.toDouble(),
+                    // max: checkValue(_position, _duration),
                     // value: _dragValue ??
                     //     min(_position.inMilliseconds.toDouble(),
                     //         _duration.inMilliseconds.toDouble()),
-                    value: _dragValue ?? _position.inMilliseconds.toDouble(),
+                    // value: _dragValue ?? _position.inMilliseconds.toDouble(),
+                    value: _dragValue ?? checkValue(_position, _duration),
                     onChanged: (value) {
                       setState(() {
                         _dragValue = value;
@@ -169,8 +173,25 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
       },
     );
   }
-  /*
 
+  double checkValue(Duration vCurrent, Duration vMax) {
+    // _position.inMilliseconds.toDouble()
+    // value >= min && value <= max
+    final a = vCurrent.inMilliseconds.toDouble();
+    final b = vMax.inMilliseconds.toDouble();
+
+    if (a < 0.0) {
+      debugPrint('??? less than  $a');
+      return 0.0;
+    }
+    if (a > b) {
+      debugPrint('??? greater  $a $b');
+      return b;
+    }
+
+    return a;
+  }
+  /*
   Widget buildOrg(BuildContext context) {
     // print(widget.position.inMilliseconds/widget.duration.inMilliseconds);
     return Stack(
