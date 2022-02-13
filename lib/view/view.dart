@@ -23,7 +23,7 @@ class AppView extends _State with _BottomNavigator {
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         top: false,
-        bottom: false,
+        bottom: true,
         maintainBottomViewPadding: true,
         // onUnknownRoute: routeUnknown,
         child: PageView.builder(

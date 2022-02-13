@@ -205,7 +205,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
           pinned: true,
           floating: false,
           // reservedPadding: 20,
-          // reservedPadding: MediaQuery.of(context).padding.top,
+          // reservedPadding: MediaQuery.of(context).padding.bottom,
+          // heights: const [kBottomNavigationBarHeight],
           heights: const [kBottomNavigationBarHeight],
           backgroundColor: Theme.of(context).primaryColor,
 
@@ -241,8 +242,9 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   Widget sheetDecoration({Widget? child}) {
     return Container(
-      //margin: const EdgeInsets.only(top: 23),
-      //padding: const EdgeInsets.only(bottom: 30),
+      // margin: const EdgeInsets.only(top: 23),
+      // padding: const EdgeInsets.only(bottom: 30),
+      // padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       decoration: BoxDecoration(
         // color: Theme.of(context).scaffoldBackgroundColor,
         color: Theme.of(context).primaryColor,
