@@ -215,8 +215,12 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
             // return playerControl();
           },
         ),
-        const SliverToBoxAdapter(
-          child: PlayerSeekBar(),
+
+        SliverPadding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.bottom),
+          sliver: const SliverToBoxAdapter(
+            child: PlayerSeekBar(),
+          ),
         ),
         const SliverToBoxAdapter(
           child: PlayerMode(),
@@ -237,7 +241,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   Widget sheetDecoration({Widget? child}) {
     return Container(
-      margin: const EdgeInsets.only(top: 23),
+      //margin: const EdgeInsets.only(top: 23),
+      //padding: const EdgeInsets.only(bottom: 30),
       decoration: BoxDecoration(
         // color: Theme.of(context).scaffoldBackgroundColor,
         color: Theme.of(context).primaryColor,
