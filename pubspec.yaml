@@ -36,8 +36,6 @@ flutter:
   assets:
     - assets/env.json
     - assets/album.json
-    - assets/tmp/rod-stewart-sailing.mp3
-    - assets/tmp/sailboat.mp3
 
   # fonts from lidea
   fonts:
