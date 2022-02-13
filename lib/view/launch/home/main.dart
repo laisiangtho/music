@@ -436,7 +436,10 @@ class _View extends _State with _Bar, _Refresh {
       selector: (_, e) => e.collection.recentSearches.toList(),
       builder: (BuildContext _, List<MapEntry<dynamic, RecentSearchType>> items, Widget? __) {
         if (items.isEmpty) {
-          return const Icon(LideaIcon.dotHoriz);
+          return const WidgetChildBuilder(
+            show: true,
+            child: Icon(LideaIcon.dotHoriz),
+          );
         }
         items.sort((a, b) => b.value.date!.compareTo(a.value.date!));
         return WidgetChildBuilder(
