@@ -77,6 +77,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
   // NOTE: device height and width
   double get _dHeight => MediaQuery.of(context).size.height;
   // double get _dWidth => MediaQuery.of(context).size.width;
+  double get _bPadding => MediaQuery.of(context).padding.bottom;
+  double get _tPadding => MediaQuery.of(context).padding.top;
 
   // NOTE: statusBar height
   // double get _dsbHeight => MediaQuery.of(context).viewPadding.top;
@@ -85,12 +87,12 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   // NOTE: update when scroll notify
   double sizeValueInitial = 0.0;
-  late final sizeValueMin =
-      (scrollNotify.kHeightMax + MediaQuery.of(context).padding.bottom) / _dHeight;
+  late final sizeValueMin = (scrollNotify.kHeightMax + _bPadding) / _dHeight;
   // double get sizeValueMin => (scrollNotify.kHeightMax / _dHeight);
   final double sizeValueMid = 0.5;
+  late final double sizeValueMax = (_dHeight - scrollNotify.kHeightMax + _tPadding) / _dHeight;
   // final double sizeValueMax = 0.91;
-  final double sizeValueMax = 1.0;
+  // final double sizeValueMax = 1.0;
 
   bool get isSizeDefault => sizeValueInitial <= sizeValueMin;
   bool get isSizeShrink => sizeValueInitial < sizeValueMid;
@@ -170,9 +172,6 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
             if (isSizeDefault) {
               sizeValueInitial = sizeValueMin * heightFactor;
             }
-
-            debugPrint('??? $sizeValueMin $sizeValueInitial $heightFactor');
-
             return DraggableScrollableSheet(
               // key: ValueKey<double>(sizeValueInitial),
               // key: UniqueKey(),
