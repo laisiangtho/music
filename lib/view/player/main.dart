@@ -154,10 +154,31 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    player.playbackEventStream.listen((e) {
+      debugPrint('??? playbackEventStream');
+    }, onDone: () {
+      debugPrint('??? done');
+    }, onError: (Object e, StackTrace stackTrace) {
+      // debugPrint('??? errorEventStream: $e $stackTrace');
+      Future.delayed(const Duration(milliseconds: 300), () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('errorEventStream'),
+          ),
+        );
+      });
+    });
     super.initState();
     // NOTE: status bar height and reserved sheet top
     // scrollNotify.reservedHeight = 25;
     screenController.forward();
+    // Future.delayed(const Duration(milliseconds: 300), () {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Hello'),
+    //     ),
+    //   );
+    // });
   }
 
   @override
