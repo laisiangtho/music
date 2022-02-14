@@ -67,8 +67,11 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   late final Core core = context.read<Core>();
   late final AudioPlayer player = core.audio.player;
+  late final ValueNotifier<String> playerErrorMessage = core.audio.errorMessage;
   // late final ViewScrollNotify scrollNotify = Provider.of<ViewScrollNotify>(context, listen: false);
   late final ViewScrollNotify scrollNotify = context.read<ViewScrollNotify>();
+
+  late final Preference preference = core.preference;
 
   late ScrollController controller;
   late final DraggableScrollableController draggableController = DraggableScrollableController();
@@ -154,31 +157,54 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    player.playbackEventStream.listen((e) {
-      debugPrint('??? playbackEventStream');
-    }, onDone: () {
-      debugPrint('??? done');
-    }, onError: (Object e, StackTrace stackTrace) {
-      // debugPrint('??? errorEventStream: $e $stackTrace');
-      Future.delayed(const Duration(milliseconds: 300), () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('errorEventStream'),
-          ),
-        );
-      });
-    });
+    // player.playbackEventStream.listen((e) {
+    //   debugPrint('??? playbackEventStream');
+    // }, onDone: () {
+    //   debugPrint('??? done');
+    // }, onError: (Object e, StackTrace stackTrace) {
+    //   debugPrint('??? errorEventStream: $e $stackTrace');
+    //   Future.delayed(const Duration(milliseconds: 300), () {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(
+    //         content: Text('errorEventStream'),
+    //       ),
+    //     );
+    //   });
+    // });
     super.initState();
     // NOTE: status bar height and reserved sheet top
     // scrollNotify.reservedHeight = 25;
     screenController.forward();
-    // Future.delayed(const Duration(milliseconds: 300), () {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text('Hello'),
-    //     ),
-    //   );
-    // });
+
+    playerErrorMessage.addListener(() {
+      final msg = playerErrorMessage.value;
+      if (msg.isNotEmpty) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(
+              SnackBar(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                elevation: 0.5,
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                behavior: SnackBarBehavior.floating,
+                content: WidgetLabel(
+                  // icon: Icons.warning_rounded,
+                  label: preference.language(msg),
+                  labelStyle: Theme.of(context).textTheme.bodyText1,
+                ),
+              ),
+            )
+            .closed
+            .then((value) {
+          playerErrorMessage.value = '';
+          debugPrint('??? errorMessage $value');
+        });
+      }
+    });
   }
 
   @override

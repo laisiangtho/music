@@ -35,13 +35,14 @@ class Main extends StatefulWidget {
 }
 
 abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final Core core = context.read<Core>();
   late final scrollController = ScrollController();
+  late final Core core = context.read<Core>();
+  late final Preference preference = core.preference;
+  // Preference get preference => core.preference;
   late final Box<RecentPlayType> box = core.collection.boxOfRecentPlay;
   late final langList = cache.langAvailable();
 
   Authentication get authenticate => context.read<Authentication>();
-  Preference get preference => core.preference;
 
   AudioBucketType get cache => core.collection.cacheBucket;
   // Iterable<AudioMetaType> get trackMeta => core.audio.trackMetaById([3384,3876,77,5,7,8]);

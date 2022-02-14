@@ -16,6 +16,8 @@ class Audio extends UnitAudio {
     return cluster.valueOfLibraryQueue;
   }
 
+  final errorMessage = ValueNotifier<String>('');
+
   // @override
   // Future<void> init() async {
   //   super.init();
@@ -143,6 +145,7 @@ class Audio extends UnitAudio {
 
     for (AudioTrackType track in cache.trackByIds(toAdd)) {
       libraryQueue.listAdd(track.id);
+
       LockCachingAudioSource audioSource = await queueSourceCache(track.id);
       // AudioSource audioSource = await queueSourceUri(track.id);
 
@@ -155,10 +158,15 @@ class Audio extends UnitAudio {
         await queue.add(audioSource);
       }
     }
-    await queueRefresh(force: force);
-    if (player.playerState.playing == false) {
-      await player.play();
-    }
+    await queueRefresh(force: force).then((value) {
+      if (player.playerState.playing == false) {
+        player.play();
+      }
+    }).catchError((e) {
+      player.stop();
+      errorMessage.value = e;
+      // debugPrint('??? errorAudioSource $e');
+    });
   }
 
   // NOTE: track check offline
@@ -228,8 +236,11 @@ class Audio extends UnitAudio {
         final uri = await trackUrlById(track.id);
         final isAvailable = !uri.path.contains('audio');
         if (isAvailable == false) {
-          final req = LockCachingAudioSource(uri,
-              tag: tag, cacheFile: await UtilDocument.file(cluster.trackCache(track.id)));
+          final req = LockCachingAudioSource(
+            uri,
+            tag: tag,
+            cacheFile: await UtilDocument.file(cluster.trackCache(track.id)),
+          );
           req.clearCache();
           req.downloadProgressStream.listen((event) {
             progressMapping[track.id] = event.toDouble();

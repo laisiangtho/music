@@ -81,6 +81,7 @@ class TrackListItem extends StatelessWidget {
               context: context,
               queued: true,
               onPress: () {
+                debugPrint('??? queuePlayAtId');
                 audio.queuePlayAtId(track.trackInfo.id);
               },
             ),
@@ -91,6 +92,7 @@ class TrackListItem extends StatelessWidget {
       child: container(
         context: context,
         onPress: () {
+          debugPrint('??? queuefromTrack');
           audio.queuefromTrack([track.trackInfo.id]);
         },
       ),

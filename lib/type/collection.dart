@@ -115,20 +115,20 @@ class Collection extends ClusterDocket {
       return MapEntry(null, RecentPlayType(id: id));
     });
 
-    debugPrint('ob.value.plays from: ${ob.value.plays}');
+    // debugPrint('ob.value.plays from: ${ob.value.plays}');
 
     ob.value.plays++;
-    debugPrint('ob.value.plays to: ${ob.value.plays}');
-    debugPrint('ob.value.date from: ${ob.value.date}');
+    // debugPrint('ob.value.plays to: ${ob.value.plays}');
+    // debugPrint('ob.value.date from: ${ob.value.date}');
     ob.value.date = DateTime.now();
-    debugPrint('ob.value.date to: ${ob.value.date}');
+    // debugPrint('ob.value.date to: ${ob.value.date}');
     if (ob.key == null) {
       boxOfRecentPlay.add(ob.value);
-      debugPrint('ob.value. updating');
+      // debugPrint('ob.value. updating');
       return true;
     } else {
       boxOfRecentPlay.put(ob.key, ob.value);
-      debugPrint('ob.value. updating');
+      // debugPrint('ob.value. updating');
     }
     return false;
   }
