@@ -27,12 +27,27 @@ class _PlayerModeState extends State<PlayerMode> {
         //     label: "Like",
         //   ),
         // ),
-        StreamBuilder<int?>(
-          stream: audio.player.currentIndexStream,
+        // StreamBuilder<int?>(
+        //   stream: audio.player.currentIndexStream,
+        //   builder: (_, snapshot) {
+        //     final index = snapshot.data;
+        //     final item = audio.player.sequenceState?.currentSource;
+        //     if (index != null && item != null) {
+        //       AudioMetaType tag = item.tag;
+        //       return star(tag.trackInfo.id);
+        //     }
+        //     return WidgetLabel(
+        //       icon: Icons.grade_outlined,
+        //       iconColor: Theme.of(context).focusColor,
+        //       label: "Like",
+        //     );
+        //   },
+        // ),
+        StreamBuilder<SequenceState?>(
+          stream: audio.player.sequenceStateStream,
           builder: (_, snapshot) {
-            final index = snapshot.data;
-            if (index != null && audio.player.sequence != null) {
-              final item = audio.player.sequence!.elementAt(index);
+            final item = snapshot.data?.currentSource;
+            if (item != null) {
               AudioMetaType tag = item.tag;
               return star(tag.trackInfo.id);
             }
