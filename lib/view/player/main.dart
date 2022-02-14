@@ -85,7 +85,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   // NOTE: update when scroll notify
   double sizeValueInitial = 0.0;
-  late final sizeValueMin = scrollNotify.kHeightMax / _dHeight;
+  late final sizeValueMin =
+      (scrollNotify.kHeightMax + MediaQuery.of(context).padding.bottom) / _dHeight;
   // double get sizeValueMin => (scrollNotify.kHeightMax / _dHeight);
   final double sizeValueMid = 0.5;
   // final double sizeValueMax = 0.91;
@@ -209,8 +210,9 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
           // reservedPadding: 20,
           // reservedPadding: MediaQuery.of(context).padding.bottom,
           // heights: const [kBottomNavigationBarHeight],
-          padding: MediaQuery.of(context).viewPadding,
-          heights: [kBottomNavigationBarHeight, MediaQuery.of(context).padding.bottom],
+          // padding: MediaQuery.of(context).viewPadding,
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          heights: const [kBottomNavigationBarHeight],
           backgroundColor: Theme.of(context).primaryColor,
 
           overlapsBorderColor: Theme.of(context).shadowColor,
@@ -220,9 +222,9 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
           },
         ),
 
-        SliverPadding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.bottom),
-          sliver: const SliverToBoxAdapter(
+        const SliverPadding(
+          padding: EdgeInsets.only(top: 0),
+          sliver: SliverToBoxAdapter(
             child: PlayerSeekBar(),
           ),
         ),
@@ -247,7 +249,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
     return Container(
       // margin: const EdgeInsets.only(top: 23),
       // padding: const EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+      // padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       decoration: BoxDecoration(
         // color: Theme.of(context).scaffoldBackgroundColor,
         color: Theme.of(context).primaryColor,
