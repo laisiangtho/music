@@ -144,9 +144,10 @@ class Audio extends UnitAudio {
     for (AudioTrackType track in cache.trackByIds(toAdd)) {
       libraryQueue.listAdd(track.id);
       LockCachingAudioSource audioSource = await queueSourceCache(track.id);
+      // AudioSource audioSource = await queueSourceUri(track.id);
+
       track.queued = true;
       int index = queue.sequence.indexWhere((e) => e.tag.trackInfo.id == track.id);
-      // AudioSource audioSource = await queueSourceUri(track.id);
       if (index >= 0) {
         await queue.removeAt(index);
         await queue.insert(index, audioSource);
@@ -206,6 +207,7 @@ class Audio extends UnitAudio {
     return queueSourceCommon(trackId).then((tag) async {
       return LockCachingAudioSource(
         await trackUrlById(trackId),
+        // cluster.trackLive(trackId),
         tag: tag,
         cacheFile: await UtilDocument.file(cluster.trackCache(trackId)),
       );
