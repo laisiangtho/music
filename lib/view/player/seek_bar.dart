@@ -42,9 +42,40 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
 
   late AudioPositionType? positionData;
 
-  Duration get _duration => positionData?.duration ?? Duration.zero;
+  Duration get _duration {
+    Duration _stmDur = positionData?.duration ?? Duration.zero;
+    Duration _stmPos = _position;
+    final item = audio.player.sequenceState?.currentSource;
+    if (_stmDur == Duration.zero && item != null) {
+      AudioTrackType track = item.tag.trackInfo;
+      final _trkDur = Duration(seconds: track.duration);
+
+      if (_trkDur > _stmPos) {
+        _stmPos = _trkDur;
+      }
+    }
+    if (_stmDur < _stmPos) {
+      return _stmPos;
+    }
+    return _stmDur;
+    // if (isSeek) {
+    //   if (d > p) {
+    //     return d;
+    //   }
+
+    //   return p;
+    // }
+
+    // if (d > b) {
+    //   return d;
+    // }
+
+    // return b;
+  }
+
+  // Duration get _duration => positionData?.duration ?? Duration.zero;
   Duration get _position => positionData?.position ?? Duration.zero;
-  Duration get _bufferedPosition => positionData?.bufferedPosition ?? Duration.zero;
+  Duration get _buffered => positionData?.bufferedPosition ?? Duration.zero;
   Duration get _remaining => _duration - _position;
 
   // String time(Duration e) {
@@ -78,10 +109,11 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
       stream: audio.streamPositionData,
       builder: (_, snap) {
         positionData = snap.data;
-        // final ddd = _duration.inMilliseconds.toDouble();
-        // final ppp = _position.inMilliseconds.toDouble();
+        // final ddd = positionData?.duration.inMilliseconds.toDouble();
+        // final ppp = positionData?.position.inMilliseconds.toDouble();
+        // final bbb = positionData?.bufferedPosition.inMilliseconds.toDouble();
         // final asdf = min(ppp, ddd);
-        // debugPrint('_position.inMilliseconds $ddd $ppp $asdf');
+        // debugPrint('inMilliseconds $ddd $ppp $bbb');
 
         return SizedBox(
           height: 50,
@@ -116,11 +148,14 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
                   child: ExcludeSemantics(
                     child: Slider(
                       min: 0.0,
-                      max: _duration.inMilliseconds.toDouble(),
-                      // max: checkValue(_duration, _bufferedPosition),
-                      // value: _bufferedPosition.inMilliseconds.toDouble(),
-                      value: checkValue(_bufferedPosition, _duration),
-                      // value: min(_bufferedPosition.inMilliseconds.toDouble(),
+                      max: ((_duration > _buffered) ? _duration : _buffered)
+                          .inMilliseconds
+                          .toDouble(),
+                      // max: checkValue(_duration, _buffered),
+                      value: _buffered.inMilliseconds.toDouble(),
+                      // value: checkValue(_buffered, _duration),
+                      // value: checkValueTmp(false),
+                      // value: min(_buffered.inMilliseconds.toDouble(),
                       //     _duration.inMilliseconds.toDouble()),
                       onChanged: null,
                       onChangeEnd: null,
@@ -138,13 +173,16 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
                   ),
                   child: Slider(
                     min: 0.0,
+                    // max: checkValueTmp(true),
+                    // max: _duration.inMilliseconds.toDouble(),
                     max: _duration.inMilliseconds.toDouble(),
                     // max: checkValue(_position, _duration),
                     // value: _dragValue ??
                     //     min(_position.inMilliseconds.toDouble(),
                     //         _duration.inMilliseconds.toDouble()),
-                    // value: _dragValue ?? _position.inMilliseconds.toDouble(),
-                    value: _dragValue ?? checkValue(_position, _duration),
+                    value: _dragValue ?? _position.inMilliseconds.toDouble(),
+                    // value: _dragValue ?? checkValue(_position, _duration),
+                    // value: _dragValue ?? checkValueTmp(true),
                     onChanged: (value) {
                       setState(() {
                         _dragValue = value;
@@ -174,6 +212,33 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
     );
   }
 
+  /*
+  double checkValueTmp(bool isSeek) {
+    final p = _position.inMilliseconds.toDouble();
+    final b = _buffered.inMilliseconds.toDouble();
+    double d = _duration.inMilliseconds.toDouble();
+    if (d == 0.0 && audio.player.sequence != null) {
+      final index = audio.player.currentIndex;
+      final abc = audio.player.sequence!.elementAt(index!);
+      AudioTrackType track = abc.tag.trackInfo;
+      d = Duration(seconds: track.duration).inMilliseconds.toDouble();
+    }
+
+    if (isSeek) {
+      if (d > p) {
+        return d;
+      }
+
+      return p;
+    }
+
+    if (d > b) {
+      return d;
+    }
+
+    return b;
+  }
+
   double checkValue(Duration vCurrent, Duration vMax) {
     // _position.inMilliseconds.toDouble()
     // value >= min && value <= max
@@ -191,7 +256,7 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
 
     return a;
   }
-  /*
+
   Widget buildOrg(BuildContext context) {
     // print(widget.position.inMilliseconds/widget.duration.inMilliseconds);
     return Stack(
