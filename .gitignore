@@ -12,6 +12,9 @@
 **/Info.plist
 **/GoogleService-Info.plist
 
+# Android
+/android/app/src/main/res/values/strings.xml
+
 # Miscellaneous
 *.class
 *.log
