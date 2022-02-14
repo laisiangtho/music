@@ -389,7 +389,8 @@ class _SheetFilterState extends State<_SheetFilter> {
     return ViewHeaderSliverSnap(
       pinned: true,
       floating: true,
-      reservedPadding: MediaQuery.of(context).padding.top,
+      // reservedPadding: MediaQuery.of(context).padding.top,
+      padding: MediaQuery.of(context).viewPadding,
       heights: const [kBottomNavigationBarHeight],
       // heights: const [kToolbarHeight],
       // backgroundColor: Theme.of(context).primaryColor,

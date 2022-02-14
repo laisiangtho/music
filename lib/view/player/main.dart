@@ -153,7 +153,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     // NOTE: status bar height and reserved sheet top
-    scrollNotify.reservedHeight = 25;
+    // scrollNotify.reservedHeight = 25;
     screenController.forward();
   }
 
@@ -169,6 +169,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
             if (isSizeDefault) {
               sizeValueInitial = sizeValueMin * heightFactor;
             }
+
+            debugPrint('??? $sizeValueMin $sizeValueInitial $heightFactor');
 
             return DraggableScrollableSheet(
               // key: ValueKey<double>(sizeValueInitial),
@@ -207,7 +209,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
           // reservedPadding: 20,
           // reservedPadding: MediaQuery.of(context).padding.bottom,
           // heights: const [kBottomNavigationBarHeight],
-          heights: const [kBottomNavigationBarHeight],
+          padding: MediaQuery.of(context).viewPadding,
+          heights: [kBottomNavigationBarHeight, MediaQuery.of(context).padding.bottom],
           backgroundColor: Theme.of(context).primaryColor,
 
           overlapsBorderColor: Theme.of(context).shadowColor,
@@ -244,7 +247,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
     return Container(
       // margin: const EdgeInsets.only(top: 23),
       // padding: const EdgeInsets.only(bottom: 30),
-      // padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       decoration: BoxDecoration(
         // color: Theme.of(context).scaffoldBackgroundColor,
         color: Theme.of(context).primaryColor,
