@@ -5,15 +5,14 @@
 /!assets/mock-*.*
 
 # Android
-*/key.properties
-**/google-services.json
+/android/key.properties
+/android/app/google-services.json
+/android/app/src/main/res/values/strings.xml
 
 # iOS
-**/Info.plist
-**/GoogleService-Info.plist
+/ios/Runner/Info.plist
+/ios/Runner/GoogleService-Info.plist
 
-# Android
-/android/app/src/main/res/values/strings.xml
 
 # Miscellaneous
 *.class
