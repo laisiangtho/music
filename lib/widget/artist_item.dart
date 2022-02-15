@@ -181,9 +181,9 @@ class ArtistWrapItem extends StatelessWidget {
       key: key,
       child: WidgetLabel(
         label: artist.name,
-        labelStyle: Theme.of(context).textTheme.subtitle2!.copyWith(
-              fontSize: 15,
-            ),
+        // labelStyle: Theme.of(context).textTheme.subtitle2!.copyWith(
+        //       fontSize: 15,
+        //     ),
         message: '* (??)'
             .replaceFirst('*', artist.name)
             .replaceFirst('??', artist.aka)
@@ -191,9 +191,10 @@ class ArtistWrapItem extends StatelessWidget {
       ),
       color: Theme.of(context).shadowColor,
       borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 13),
-      // minSize: 35,
-      onPressed: () => core.navigate(to: '/artist-info', args: artist, routePush: routePush),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 13),
+      onPressed: () {
+        core.navigate(to: '/artist-info', args: artist, routePush: routePush);
+      },
     );
   }
 }
@@ -218,7 +219,7 @@ class ArtistWrapMore extends StatelessWidget {
       key: key,
       child: WidgetLabel(
         label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
-        labelStyle: Theme.of(context).textTheme.subtitle1,
+        // labelStyle: Theme.of(context).textTheme.bodyText1,
       ),
       color: Theme.of(context).shadowColor,
       borderRadius: const BorderRadius.all(Radius.circular(100.0)),

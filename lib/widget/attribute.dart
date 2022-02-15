@@ -358,10 +358,7 @@ class StaticBadgeAttribute extends StatelessWidget {
             child: Text(
               label,
               // style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w600),
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    fontFamily: 'Lato',
-                    fontSize: 15,
-                  ),
+              style: Theme.of(context).textTheme.labelSmall,
             ),
           ),
         ],

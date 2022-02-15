@@ -12,7 +12,7 @@ import 'package:lidea/icon.dart';
 
 import '/core/main.dart';
 import '/type/main.dart';
-// import '/widget/main.dart';
+import '/widget/main.dart';
 
 part 'bar.dart';
 

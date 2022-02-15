@@ -27,16 +27,15 @@ mixin _Bar on _State {
                         ? (align == 0)
                             ? Hero(
                                 tag: 'appbar-left-$canPop',
-                                child: CupertinoButton(
-                                  padding: EdgeInsets.zero,
-                                  minSize: 30,
+                                child: WidgetButton(
+                                  // padding: EdgeInsets.zero,
+                                  // minSize: 30,
                                   onPressed: () {
                                     arguments.navigator!.currentState!.maybePop();
                                   },
                                   child: WidgetLabel(
                                     icon: CupertinoIcons.left_chevron,
                                     label: preference.text.back,
-                                    // label: AppLocalizations.of(context)!.back,
                                   ),
                                 ),
                               )
@@ -63,7 +62,7 @@ mixin _Bar on _State {
                     'Album',
                     style: Theme.of(context)
                         .textTheme
-                        .headline5!
+                        .titleMedium!
                         .copyWith(fontSize: (30 * org.shrink).clamp(22, 30).toDouble()),
                     maxLines: 1,
                     overflow: TextOverflow.fade,

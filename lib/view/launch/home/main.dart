@@ -177,7 +177,8 @@ class _View extends _State with _Bar, _Refresh {
                           enabled: false,
                           decoration: InputDecoration(
                             hintText: preference.text.aWordOrTwo,
-                            prefixIcon: const Icon(LideaIcon.find, size: 20),
+                            prefixIcon: const Icon(LideaIcon.find),
+                            hintStyle: const TextStyle(height: 1.3),
                             fillColor:
                                 Theme.of(context).inputDecorationTheme.fillColor!.withOpacity(0.4),
                           ),
@@ -308,8 +309,8 @@ class _View extends _State with _Bar, _Refresh {
                   child: Wrap(
                     // crossAxisAlignment: WrapCrossAlignment.center,
                     alignment: WrapAlignment.center,
-                    // spacing: 15,
-                    // runSpacing: 20,
+                    spacing: 15,
+                    runSpacing: 20,
                     children: [
                       WidgetButton(
                         child: WidgetLabel(
@@ -363,6 +364,15 @@ class _View extends _State with _Bar, _Refresh {
                           core.navigate(to: '/reorderable');
                         },
                       ),
+                      WidgetButton(
+                        child: const WidgetLabel(
+                          icon: LideaIcon.layers,
+                          label: 'Settings',
+                        ),
+                        onPressed: () {
+                          core.navigate(to: '/settings');
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -374,7 +384,7 @@ class _View extends _State with _Bar, _Refresh {
         recentSearchContainer(),
 
         SliverPadding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 25),
           sliver: SliverToBoxAdapter(
             child: Text(
               core.collection.language('Discover music'),

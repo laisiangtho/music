@@ -32,7 +32,9 @@ mixin _Bar on _State {
             // child: const Icon(
             //   CupertinoIcons.left_chevron,
             // ),
-            onPressed: null,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
 
           actions: [

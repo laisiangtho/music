@@ -31,7 +31,7 @@ class WidgetBlockMore extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(100)),
         // elevation: 1,
         color: Theme.of(context).shadowColor.withOpacity(0.5),
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         child: WidgetLabel(
           label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
         ),

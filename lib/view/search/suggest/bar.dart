@@ -32,9 +32,9 @@ mixin _Bar on _State {
                 ),
                 Hero(
                   tag: 'appbar-right',
-                  child: CupertinoButton(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                  child: WidgetButton(
+                    // alignment: Alignment.center,
+                    padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                     // padding: EdgeInsets.zero,
                     onPressed: onCancel,
                     child: Material(
@@ -69,9 +69,9 @@ mixin _Bar on _State {
       // enableInteractiveSelection: true,
       // enableSuggestions: true,
       maxLines: 1,
-      strutStyle: const StrutStyle(height: 1.4),
+      strutStyle: const StrutStyle(height: 1.3),
       decoration: InputDecoration(
-        prefixIcon: const Icon(LideaIcon.find, size: 19),
+        prefixIcon: const Icon(LideaIcon.find),
         /*
         suffixIcon: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -133,9 +133,10 @@ mixin _Bar on _State {
                   onPressed: onClear,
                   padding: const EdgeInsets.all(0),
                   child: Icon(
-                    CupertinoIcons.xmark,
+                    // CupertinoIcons.xmark,
+                    Icons.clear_rounded,
                     color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
-                    size: 17,
+                    // size: 19,
                     semanticLabel: "input",
                   ),
                 ),

@@ -61,8 +61,10 @@ class _TrackOptionState extends State<TrackOption> {
               leading: const WidgetLabel(
                 icon: Icons.music_note_rounded,
               ),
-              collapsedHeight: kToolbarHeight,
-              expandedHeight: 90,
+              // collapsedHeight: kToolbarHeight,
+              // expandedHeight: 90,
+              title: Text(preference.text.track(false)),
+              /*
               flexibleSpace: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
                   var top = constraints.biggest.height;
@@ -95,8 +97,34 @@ class _TrackOptionState extends State<TrackOption> {
                   );
                 },
               ),
+              */
             );
           },
+        ),
+        SliverToBoxAdapter(
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                child: Text(
+                  track.title,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                child: Text(
+                  track.artist,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ),
+            ],
+          ),
         ),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -144,11 +172,12 @@ class _TrackOptionState extends State<TrackOption> {
             selectedColor: Theme.of(context).highlightColor,
             minLeadingWidth: 60,
             // contentPadding: const EdgeInsets.all(10),
-            minVerticalPadding: 7,
+            // minVerticalPadding: 7,
             leading: WidgetLabel(
               // icon: hasLike ? Icons.favorite : Icons.favorite_border_rounded,
+              // icon: hasLike ? Icons.grade_rounded : Icons.grade_outlined_,
               icon: hasLike ? Icons.grade_rounded : Icons.grade_outlined,
-              iconSize: 40,
+              iconSize: 50,
             ),
 
             title: Text.rich(
@@ -157,7 +186,7 @@ class _TrackOptionState extends State<TrackOption> {
                 children: [
                   TextSpan(
                     text: 'from ',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Theme.of(context).primaryColorDark,
                         ),
                   ),

@@ -104,9 +104,10 @@ class _AlbumBoardState extends State<AlbumBoard> {
       padding: widget.padding,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 300.0,
-        mainAxisExtent: 170,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 7.0,
+        mainAxisExtent: 200,
+        // mainAxisExtent: 170,
+        mainAxisSpacing: 7.0,
+        crossAxisSpacing: 3.0,
         // childAspectRatio: 1.0,
       ),
       duration: const Duration(milliseconds: 320),
@@ -216,7 +217,7 @@ class AlbumFlat extends StatelessWidget {
                   ),
                 ),
               SizedBox(
-                height: 170,
+                height: 200,
                 child: WidgetListBuilder(
                   primary: false,
                   shrinkWrap: true,

@@ -65,9 +65,9 @@ mixin _Bar on _State {
                 Hero(
                   tag: 'appbar-right',
                   child: canPop
-                      ? CupertinoButton(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      ? WidgetButton(
+                          // alignment: Alignment.center,
+                          padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                           // padding: EdgeInsets.zero,
                           child: const WidgetLabel(icon: CupertinoIcons.home),
                           onPressed: () {
@@ -96,11 +96,11 @@ mixin _Bar on _State {
       // textInputAction: TextInputAction.search,
       // keyboardType: TextInputType.text,
       controller: textController,
-      strutStyle: const StrutStyle(height: 1.4),
+      // strutStyle: const StrutStyle(height: 1.4),
       decoration: InputDecoration(
         hintText: preference.text.aWordOrTwo,
-        // hintStyle: const TextStyle(height: 1.3),
-        prefixIcon: const Icon(LideaIcon.find, size: 19),
+        hintStyle: const TextStyle(height: 1.3),
+        prefixIcon: const Icon(LideaIcon.find),
         // prefixIcon: Container(
         //   padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
         //   margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

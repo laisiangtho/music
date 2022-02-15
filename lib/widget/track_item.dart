@@ -109,7 +109,7 @@ class TrackListItem extends StatelessWidget {
       key: key,
       // contentPadding: EdgeInsets.zero,
       minVerticalPadding: 0,
-      style: ListTileStyle.drawer,
+      // style: ListTileStyle.drawer,
       /*
       leading: DecoratedBox(
         decoration: BoxDecoration(
@@ -134,7 +134,7 @@ class TrackListItem extends StatelessWidget {
       ),
       */
       leading: WidgetButton(
-        padding: const EdgeInsets.all(7.0),
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: queued ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
           // color: Theme.of(context).backgroundColor,
@@ -155,21 +155,22 @@ class TrackListItem extends StatelessWidget {
       ),
       title: Text(
         track.title,
-        style: Theme.of(context).textTheme.bodyText1,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        // style: Theme.of(context).textTheme.bodyText1,
       ),
       subtitle: Text(
         track.artist,
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              fontSize: 13,
-            ),
+        style: Theme.of(context).textTheme.bodySmall,
       ),
       trailing: Text(
         cache.duration(track.trackInfo.duration),
-        style: Theme.of(context).textTheme.headline6!.copyWith(
-              fontSize: 14,
-              fontFamily: 'Lato',
-              fontWeight: FontWeight.normal,
-            ),
+        style: Theme.of(context).textTheme.labelSmall,
+        // style: Theme.of(context).textTheme.headline6!.copyWith(
+        //       fontSize: 14,
+        //       fontFamily: 'Lato',
+        //       fontWeight: FontWeight.normal,
+        //     ),
       ),
       onTap: onPress,
       onLongPress: () => showPlaylistEditor(context),

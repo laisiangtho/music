@@ -37,7 +37,7 @@ class _DetailState extends State<_Detail> {
       expand: false,
       initialChildSize: 0.6,
       minChildSize: 0.3,
-      maxChildSize: 0.8,
+      maxChildSize: 0.9,
       builder: (context, scrollController) {
         // return scrollView(scrollController);
 
@@ -75,8 +75,9 @@ class _DetailState extends State<_Detail> {
               // leading: const Icon(
               //   Icons.queue_music_rounded,
               // ),
-              leading: const WidgetLabel(
+              leading: WidgetLabel(
                 icon: Icons.queue_music_rounded,
+                iconColor: Theme.of(context).hintColor,
               ),
 
               title: Text(
@@ -89,7 +90,7 @@ class _DetailState extends State<_Detail> {
                   child: WidgetLabel(
                     // icon: Icons.edit_rounded,
                     icon: LideaIcon.tools,
-                    iconSize: 23,
+                    iconSize: 21,
                     message: preference.text.renameTo(preference.text.playlist(false)),
                   ),
                   onPressed: () {
@@ -128,12 +129,18 @@ class _DetailState extends State<_Detail> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
           sliver: SliverToBoxAdapter(
             child: WidgetLabel(
               alignment: Alignment.centerLeft,
               label: preference.text.track(true),
             ),
+            // child: WidgetBlockTile(
+            //   title: WidgetLabel(
+            //     alignment: Alignment.centerLeft,
+            //     label: preference.text.track(true),
+            //   ),
+            // ),
           ),
         ),
 
@@ -172,14 +179,14 @@ class _DetailState extends State<_Detail> {
         <Widget>[
           if (library.description.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
               child: Text(
                 library.description,
                 textAlign: TextAlign.center,
               ),
             ),
           WidgetLabel(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             alignment: Alignment.centerLeft,
             label: preference.text.option(true),
           ),
@@ -187,29 +194,28 @@ class _DetailState extends State<_Detail> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
             leading: const Icon(
               Icons.play_arrow_rounded,
-              size: 35,
+              size: 50,
             ),
             title: Text(
               preference.text.play(false),
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             trailing: Text(library.list.length.toString()),
             onTap: () {
               if (library.list.isNotEmpty) {
                 core.audio.queuefromTrack(library.list, group: true);
               }
-              // core.audio.queuefromRandom;
             },
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
             leading: const Icon(
               Icons.delete,
-              size: 35,
+              size: 50,
             ),
             title: Text(
               preference.text.delete,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             onTap: () {
               // box.deleteAt(index);
@@ -226,11 +232,11 @@ class _DetailState extends State<_Detail> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
             leading: const Icon(
               Icons.clear_all,
-              size: 35,
+              size: 50,
             ),
             title: Text(
               preference.text.reset,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             onTap: () {
               library.list.clear();

@@ -63,7 +63,7 @@ class AlbumListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: const Alignment(0, 0),
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
       child: Column(
         children: [
           Expanded(
@@ -117,32 +117,29 @@ class AlbumListItem extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(0, -1),
+            alignment: const Alignment(0, -0.95),
             child: Text(
               year,
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontSize: 18,
-                    fontFamily: 'Lato',
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).hintColor,
                   ),
             ),
           ),
           Align(
-            alignment: const Alignment(-0.8, 0.9),
+            alignment: const Alignment(-0.8, 0.95),
             child: Text(
               duration,
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontSize: 12,
-                    fontFamily: 'Lato',
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).focusColor,
                   ),
             ),
           ),
           Align(
-            alignment: const Alignment(0.86, 0.9),
+            alignment: const Alignment(0.86, 0.95),
             child: Text(
               track,
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontSize: 12,
-                    fontFamily: 'Lato',
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).focusColor,
                   ),
             ),
           ),
@@ -158,11 +155,11 @@ class AlbumListItem extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
           // textStyle: const TextStyle(fontSize: 15),
-          textStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-                // fontSize: 16,
-                fontFamily: 'Lato',
-                fontWeight: FontWeight.normal,
-              ),
+          // textStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
+          //       // fontSize: 16,
+          //       fontFamily: 'Lato',
+          //       fontWeight: FontWeight.normal,
+          //     ),
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         ),
         child: Column(
@@ -173,21 +170,13 @@ class AlbumListItem extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              // style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.normal),
-              // strutStyle: const StrutStyle(height: 1.6),
             ),
-            // Text(genre, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText2),
             Text(
               artists,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 14),
-              // style: Theme.of(context)
-              //     .textTheme
-              //     .headline5!
-              //     .copyWith(fontWeight: FontWeight.normal, height: 1.3),
-              // // strutStyle: const StrutStyle(height: 1.3),
             )
           ],
         ),
@@ -330,7 +319,7 @@ class AlbumPickItem extends StatelessWidget {
             // fit: StackFit.loose,
             children: [
               Align(
-                alignment: const Alignment(0, -.38),
+                alignment: const Alignment(0, -.40),
                 child: SizedBox(
                   child: Icon(
                     LideaIcon.cd,
@@ -340,7 +329,7 @@ class AlbumPickItem extends StatelessWidget {
                 ),
               ),
               Align(
-                alignment: const Alignment(0, -.23),
+                alignment: const Alignment(0, -.27),
                 child: SizedBox(
                   child: Icon(
                     // LideaIcon.play,
@@ -364,8 +353,9 @@ class AlbumPickItem extends StatelessWidget {
                 // alignment: Alignment(0, 1.0),
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
-                  height: 40.0,
-                  width: double.infinity,
+                  // TODO ???
+                  height: 56.0,
+                  // width: double.infinity,
                   child: DecoratedBox(
                     decoration: const BoxDecoration(
                       border: Border(
@@ -397,42 +387,32 @@ class AlbumPickItem extends StatelessWidget {
           //   child: Text(
           //     genre,
           //     textAlign: TextAlign.center,
-          //     // style: Theme.of(context).textTheme.bodyText2,
-          //     style: Theme.of(context).textTheme.headline5!.copyWith(
-          //           fontSize: 17,
-          //           fontFamily: 'Lato',
-          //         ),
           //   ),
           // ),
           Align(
-            alignment: const Alignment(0, -1),
+            alignment: const Alignment(0, -0.9),
             child: Text(
               year,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    fontSize: 17,
-                    fontFamily: 'Lato',
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: Theme.of(context).hintColor,
                   ),
             ),
           ),
           Align(
-            alignment: const Alignment(-0.9, 1),
+            alignment: const Alignment(-0.9, 1.35),
             child: Text(
               duration,
-              // style: Theme.of(context).textTheme.bodyText2,
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    fontSize: 14,
-                    fontFamily: 'Lato',
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).focusColor,
                   ),
             ),
           ),
           Align(
-            alignment: const Alignment(0.9, 1),
+            alignment: const Alignment(0.9, 1.35),
             child: Text(
               '#$track',
-              // style: Theme.of(context).textTheme.bodyText2,
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    fontSize: 17,
-                    fontFamily: 'Lato',
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).focusColor,
                   ),
             ),
           ),
@@ -447,8 +427,7 @@ class AlbumPickItem extends StatelessWidget {
       child: WidgetLabel(
         label: name,
         message: name,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-        labelStyle: Theme.of(context).textTheme.bodyText1,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 2),
       ),
       onPressed: navigate,
     );

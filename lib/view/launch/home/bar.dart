@@ -50,7 +50,7 @@ mixin _Bar on _State {
                     core.collection.env.name,
                     style: Theme.of(context)
                         .textTheme
-                        .headline5!
+                        .titleLarge!
                         .copyWith(fontSize: (30 * org.shrink).clamp(22.0, 30.0).toDouble()),
                     maxLines: 1,
                     softWrap: false,
@@ -64,12 +64,12 @@ mixin _Bar on _State {
               right: 0,
               top: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 child: Hero(
                   tag: 'appbar-right',
-                  child: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    minSize: 30,
+                  child: WidgetButton(
+                    // padding: EdgeInsets.zero,
+                    // minSize: 30,
                     child: Tooltip(
                       message: preference.text.option(true),
                       child: Selector<Authentication, bool>(
@@ -133,7 +133,7 @@ mixin _Bar on _State {
             padding: EdgeInsets.all(3),
             child: Icon(
               Icons.face_retouching_natural_rounded,
-              size: 25,
+              // size: 25,
             ),
           ),
         ),
