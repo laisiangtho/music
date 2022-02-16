@@ -146,8 +146,8 @@ class Audio extends UnitAudio {
     for (AudioTrackType track in cache.trackByIds(toAdd)) {
       libraryQueue.listAdd(track.id);
 
-      LockCachingAudioSource audioSource = await queueSourceCache(track.id);
-      // AudioSource audioSource = await queueSourceUri(track.id);
+      // LockCachingAudioSource audioSource = await queueSourceCache(track.id);
+      AudioSource audioSource = await queueSourceUri(track.id);
 
       track.queued = true;
       int index = queue.sequence.indexWhere((e) => e.tag.trackInfo.id == track.id);

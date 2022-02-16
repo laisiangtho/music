@@ -22,19 +22,17 @@ mixin _Bar on _State {
                   left: align,
                   top: 0,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                     child: canPop
                         ? (align == 0)
                             ? Hero(
                                 tag: 'appbar-left-$canPop',
-                                child: CupertinoButton(
-                                  padding: EdgeInsets.zero,
-                                  minSize: 30,
+                                child: WidgetButton(
                                   onPressed: () {
                                     arguments.navigator!.currentState!.maybePop();
                                   },
                                   child: WidgetLabel(
-                                    icon: CupertinoIcons.left_chevron,
+                                    icon: Icons.arrow_back_ios_new_rounded,
                                     label: preference.text.back,
                                     // label: AppLocalizations.of(context)!.back,
                                   ),
@@ -60,7 +58,7 @@ mixin _Bar on _State {
               right: 0,
               top: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 13),
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
                 child: Hero(
                   tag: 'appbar-right-$canPop',
                   // child: CupertinoButton(

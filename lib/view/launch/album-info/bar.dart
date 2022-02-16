@@ -34,7 +34,7 @@ mixin _Bar on _State {
                                     arguments.navigator!.currentState!.maybePop();
                                   },
                                   child: WidgetLabel(
-                                    icon: CupertinoIcons.left_chevron,
+                                    icon: Icons.arrow_back_ios_new_rounded,
                                     label: preference.text.back,
                                   ),
                                 ),

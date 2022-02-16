@@ -93,7 +93,8 @@ class _PlayListsEditorState extends State<PlayListsEditor> {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 7),
           child: Text(
             preference.text.cancel,
-            style: DefaultTextStyle.of(context).style,
+            // style: DefaultTextStyle.of(context).style,
+            // style: Theme.of(context).textTheme.button,
           ),
           onPressed: () => Navigator.of(context).pop(false),
         ),
@@ -101,9 +102,12 @@ class _PlayListsEditorState extends State<PlayListsEditor> {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 7),
           child: Text(
             preference.text.confirm,
-            style: DefaultTextStyle.of(context).style.copyWith(
-                  color: Theme.of(context).errorColor,
-                ),
+            // style: DefaultTextStyle.of(context).style.copyWith(
+            //       color: Theme.of(context).errorColor,
+            //     ),
+            style: TextStyle(
+              color: Theme.of(context).errorColor,
+            ),
           ),
           // Navigator.of(context, rootNavigator: true).pop(false)
           // onPressed: () => Navigator.of(context).pop(true),
