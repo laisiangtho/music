@@ -187,9 +187,9 @@ class _View extends _State with _Bar {
           // key: Key('${verse.keys.first}'),
           key: verse.keys.first,
           scrollPhysics: const NeverScrollableScrollPhysics(),
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                fontSize: core.collection.fontSize,
-              ),
+          style: TextStyle(
+            fontSize: core.collection.fontSize,
+          ),
         ),
       ),
     );

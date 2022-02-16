@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter/gestures.dart';
@@ -171,10 +171,13 @@ class _View extends _State with _Bar {
                             children: [
                               Text(
                                 likes.list.length.toString(),
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: TextStyle(
+                                  color: likes.list.isEmpty ? Theme.of(context).focusColor : null,
+                                ),
                               ),
-                              const Icon(
-                                Icons.navigate_next,
+                              Icon(
+                                Icons.navigate_next_rounded,
+                                color: likes.list.isEmpty ? Theme.of(context).focusColor : null,
                               ),
                             ],
                           ),
@@ -189,7 +192,7 @@ class _View extends _State with _Bar {
                         ),
                         ListTile(
                           leading: const Icon(
-                            Icons.play_arrow,
+                            Icons.queue_music_rounded,
                             size: 30,
                           ),
                           title: Text(
@@ -199,9 +202,14 @@ class _View extends _State with _Bar {
                             children: [
                               Text(
                                 queues.list.length.toString(),
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: TextStyle(
+                                  color: queues.list.isEmpty ? Theme.of(context).focusColor : null,
+                                ),
                               ),
-                              const Icon(Icons.navigate_next),
+                              Icon(
+                                Icons.navigate_next_rounded,
+                                color: queues.list.isEmpty ? Theme.of(context).focusColor : null,
+                              ),
                             ],
                           ),
                           onTap: () {
@@ -284,26 +292,32 @@ class _View extends _State with _Bar {
                   itemBuilder: (_, index) {
                     final item = playlists.elementAt(index);
 
+                    final noTrack = item.list.isEmpty;
+
                     return ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                       leading: const WidgetLabel(
                         // icon: Icons.queue_music_rounded,
-                        // icon: Icons.playlist_add,
+                        icon: Icons.playlist_play_rounded,
                         // icon: Icons.playlist_add_check,
-                        icon: Icons.queue_music_rounded,
+                        // icon: Icons.queue_music_rounded,
                         iconSize: 35,
                       ),
                       title: Text(
                         item.name,
-                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                       trailing: Wrap(
                         children: [
                           Text(
                             item.list.length.toString(),
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: TextStyle(
+                              color: noTrack ? Theme.of(context).focusColor : null,
+                            ),
                           ),
-                          const Icon(Icons.navigate_next),
+                          Icon(
+                            Icons.navigate_next_rounded,
+                            color: noTrack ? Theme.of(context).focusColor : null,
+                          ),
                         ],
                       ),
                       onTap: () => showDetail(item.key),

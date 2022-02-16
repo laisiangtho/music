@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 // import 'package:flutter/rendering.dart';
 
 import 'package:lidea/provider.dart';
@@ -221,7 +221,6 @@ class _View extends _State with _Bar {
             title: WidgetLabel(
               // alignment: Alignment.centerLeft,
               label: preference.text.wouldYouLiketoSignIn,
-              labelStyle: Theme.of(context).textTheme.bodyText1,
             ),
           ),
           Padding(
@@ -252,18 +251,10 @@ class _View extends _State with _Bar {
     return SliverList(
       delegate: SliverChildListDelegate(
         <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-          //   child: WidgetLabel(
-          //     // label: authenticate.user!.displayName!,
-          //     label: 'Khen Solomon Lethil',
-          //     labelStyle: Theme.of(context).textTheme.headline5,
-          //   ),
-          // ),
           WidgetBlockTile(
             title: WidgetLabel(
               label: authenticate.user!.displayName!,
-              labelStyle: Theme.of(context).textTheme.headline5,
+              labelStyle: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           Padding(
@@ -273,7 +264,7 @@ class _View extends _State with _Bar {
                 WidgetLabel(
                   label: authenticate.user!.email!,
                   // label: 'khensolomon@gmail.com',
-                  labelStyle: Theme.of(context).textTheme.overline,
+                  labelStyle: Theme.of(context).textTheme.labelSmall,
                 ),
                 // Text(
                 //   authenticate.id,

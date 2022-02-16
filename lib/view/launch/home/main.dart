@@ -213,12 +213,12 @@ class _View extends _State with _Bar, _Refresh {
         // ),
 
         SliverPadding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           sliver: SliverToBoxAdapter(
             child: Text(
               core.collection.language('Personalized experience'),
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ),
@@ -389,7 +389,7 @@ class _View extends _State with _Bar, _Refresh {
             child: Text(
               core.collection.language('Discover music'),
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ),
@@ -520,10 +520,9 @@ class _View extends _State with _Bar, _Refresh {
           textDirection: TextDirection.ltr,
           children: items.take(3).map(
             (e) {
-              return CupertinoButton(
+              return WidgetButton(
                 child: Text(
                   e.value.word,
-                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 onPressed: () => onSearch(e.value.word),
               );
@@ -535,31 +534,6 @@ class _View extends _State with _Bar, _Refresh {
   }
 
   Widget researchWrap(List<MapEntry<dynamic, RecentSearchType>> items) {
-    // return Selector<Core, List<MapEntry<dynamic, RecentSearchType>>>(
-    //   selector: (_, e) => e.collection.recentSearches.toList(),
-    //   builder: (BuildContext _, List<MapEntry<dynamic, RecentSearchType>> items, Widget? __) {
-    //     items.sort((a, b) => b.value.date!.compareTo(a.value.date!));
-    //     if (items.isEmpty) {
-    //       return const Icon(LideaIcon.dotHoriz);
-    //     }
-    //     return Wrap(
-    //       alignment: WrapAlignment.center,
-    //       crossAxisAlignment: WrapCrossAlignment.center,
-    //       textDirection: TextDirection.ltr,
-    //       children: items.take(3).map(
-    //         (e) {
-    //           return CupertinoButton(
-    //             child: Text(
-    //               e.value.word,
-    //               style: Theme.of(context).textTheme.bodyText1,
-    //             ),
-    //             onPressed: () => onSearch(e.value.word),
-    //           );
-    //         },
-    //       ).toList(),
-    //     );
-    //   },
-    // );
     return Wrap(
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -570,7 +544,6 @@ class _View extends _State with _Bar, _Refresh {
             margin: const EdgeInsets.symmetric(horizontal: 10),
             child: WidgetLabel(
               label: e.value.word,
-              labelStyle: Theme.of(context).textTheme.bodyText1,
             ),
             onPressed: () => onSearch(e.value.word),
           );

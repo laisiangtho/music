@@ -389,7 +389,6 @@ class _View extends _State with _Bar {
       leading: const Icon(CupertinoIcons.arrow_turn_down_right),
       title: Text(
         word,
-        style: Theme.of(context).textTheme.bodyText1,
       ),
       // onTap: () => onSearch(word),
       onTap: () {
@@ -487,25 +486,21 @@ class _View extends _State with _Bar {
 
   Widget _recentItem(String word) {
     int hightlight = suggestQuery.length < word.length ? suggestQuery.length : word.length;
-    return RichText(
-      // strutStyle: StrutStyle(height: 1.0),
-      text: TextSpan(
+    return Text.rich(
+      TextSpan(
         text: word.substring(0, hightlight),
         semanticsLabel: word,
         style: TextStyle(
           fontSize: 22,
           // color: Theme.of(context).highlightColor,
           color: Theme.of(context).primaryColorDark,
-          // color: Theme.of(context).textTheme.caption!.color,
-          // color: Theme.of(context).primaryTextTheme.button!.color,
           fontWeight: FontWeight.w300,
         ),
         children: <TextSpan>[
           TextSpan(
             text: word.substring(hightlight),
             style: TextStyle(
-              // color: Theme.of(context).primaryTextTheme.button!.color,
-              color: Theme.of(context).primaryTextTheme.bodyText1!.color,
+              color: Theme.of(context).highlightColor,
             ),
           )
         ],
@@ -526,9 +521,9 @@ class _View extends _State with _Bar {
             child: Text(
               preference.text.delete,
               textAlign: TextAlign.right,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    color: Theme.of(context).primaryColor,
-                  ),
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
             ),
           ),
         ],

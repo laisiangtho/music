@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter/gestures.dart';
 // import 'package:flutter/services.dart';
@@ -94,21 +94,21 @@ class _View extends _State with _Bar {
         SliverList(
           delegate: SliverChildListDelegate(
             <Widget>[
-              CupertinoButton(
+              WidgetButton(
                 child: const Chip(
-                  avatar: Icon(CupertinoIcons.back),
+                  avatar: Icon(Icons.arrow_back_ios_new_rounded),
                   labelPadding: EdgeInsets.zero,
                   label: Text('Back'),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              CupertinoButton(
+              WidgetButton(
                 child: const Chip(
                   label: Text('Continue to article'),
                 ),
                 onPressed: () => core.navigate(to: '/article'),
               ),
-              CupertinoButton(
+              WidgetButton(
                 child: const Chip(
                   label: Text('Navigate to search'),
                 ),

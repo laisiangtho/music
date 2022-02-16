@@ -287,7 +287,7 @@ class _View extends _State with _Bar {
                   : null,
               title: Text(
                 title.replaceAll(RegExp(r'\(.+?\)$'), ""),
-                style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 25),
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
             Builder(
@@ -295,7 +295,7 @@ class _View extends _State with _Bar {
                 if (hasPurchased) {
                   return const SizedBox();
                 }
-                return CupertinoButton(
+                return WidgetButton(
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   // minSize: 25,
                   color: Theme.of(context).highlightColor,
@@ -342,7 +342,6 @@ class _View extends _State with _Bar {
                 semanticsLabel: description,
                 // textScaleFactor:0.9,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
           ],

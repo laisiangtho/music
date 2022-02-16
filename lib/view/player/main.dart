@@ -194,7 +194,6 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                 content: WidgetLabel(
                   // icon: Icons.warning_rounded,
                   label: preference.language(msg),
-                  labelStyle: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
             )
@@ -360,9 +359,11 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                 child: StreamBuilder<SequenceState?>(
                   stream: player.sequenceStateStream,
                   builder: (_, snapshot) => WidgetButton(
-                    child: const WidgetLabel(
+                    child: WidgetLabel(
                       icon: Icons.skip_previous,
-                      message: "Previous",
+                      // message: "Previous",
+                      message: preference.text.previousTo(preference.text.track(false)),
+                      iconSize: 40,
                     ),
                     onPressed: player.hasPrevious ? player.seekToPrevious : null,
                   ),
@@ -388,10 +389,11 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                 child: StreamBuilder<SequenceState?>(
                   stream: player.sequenceStateStream,
                   builder: (_, snapshot) => WidgetButton(
-                    child: const WidgetLabel(
+                    child: WidgetLabel(
                       icon: Icons.skip_next,
                       iconSize: 40,
-                      message: "Next",
+                      // message: "Next",
+                      message: preference.text.nextTo(preference.text.track(false)),
                     ),
                     onPressed: player.hasNext ? player.seekToNext : null,
                   ),
