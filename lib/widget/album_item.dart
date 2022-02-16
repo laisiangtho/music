@@ -154,12 +154,6 @@ class AlbumListItem extends StatelessWidget {
       message: name,
       child: TextButton(
         style: TextButton.styleFrom(
-          // textStyle: const TextStyle(fontSize: 15),
-          // textStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-          //       // fontSize: 16,
-          //       fontFamily: 'Lato',
-          //       fontWeight: FontWeight.normal,
-          //     ),
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         ),
         child: Column(
@@ -202,19 +196,20 @@ class AlbumListItemHolder extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   clipBehavior: Clip.hardEdge,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFe6e7e8),
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  decoration: BoxDecoration(
+                    // color: Color(0xFFe6e7e8),
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
                   ),
                   child: Stack(
                     alignment: const Alignment(0, 0),
-                    children: const [
+                    children: [
                       Align(
-                        alignment: Alignment(0, 0),
+                        alignment: const Alignment(0, 0),
                         child: Icon(
                           LideaIcon.cd,
                           size: 75,
-                          color: Color(0xFFd9dadb),
+                          color: Theme.of(context).shadowColor,
                         ),
                       ),
                     ],
@@ -240,28 +235,22 @@ class AlbumListItemHolder extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // const DecoratedBox(
-        //   decoration: const BoxDecoration(
-        //     color: const Color(0xFFe6e7e8),
-        //     borderRadius: const BorderRadius.all(Radius.circular(100)),
-        //   ),
-        //   // child: buttonArt(context)
-        //   child: Text('')
-        // ),
         Container(
           width: double.infinity,
-          height: 21,
-          decoration: const BoxDecoration(
-            color: Color(0xFFe6e7e8),
-            borderRadius: BorderRadius.all(Radius.circular(100)),
+          height: 25,
+          decoration: BoxDecoration(
+            // color: Color(0xFFe6e7e8),
+            color: Theme.of(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
           ),
         ),
         Container(
           width: double.infinity,
-          height: 18,
-          decoration: const BoxDecoration(
-            color: Color(0xFFe6e7e8),
-            borderRadius: BorderRadius.all(Radius.circular(100)),
+          height: 15,
+          decoration: BoxDecoration(
+            // color: Color(0xFFe6e7e8),
+            color: Theme.of(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
           ),
         )
       ],
@@ -308,7 +297,6 @@ class AlbumPickItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 3),
       child: SizedBox(
         width: 170,
-        // height: 170,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: Theme.of(context).shadowColor,
@@ -332,37 +320,28 @@ class AlbumPickItem extends StatelessWidget {
                 alignment: const Alignment(0, -.27),
                 child: SizedBox(
                   child: Icon(
-                    // LideaIcon.play,
                     Icons.play_arrow_rounded,
                     size: 60,
                     color: Theme.of(context).shadowColor,
                   ),
                 ),
               ),
-              // Align(
-              //   alignment: Alignment(0, 1.0),
-              //   child: Text('?'),
-              // ),
               Container(
                 height: 125,
-                // width: double.infinity,
                 alignment: Alignment.topCenter,
                 child: buttonArt(context),
               ),
               Align(
-                // alignment: Alignment(0, 1.0),
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
-                  // TODO ???
                   height: 56.0,
-                  // width: double.infinity,
+                  width: double.infinity,
                   child: DecoratedBox(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
                           width: 3.0,
-                          // color: Theme.of(context).scaffoldBackgroundColor,
-                          color: Color(0XFFfff0de),
+                          color: Theme.of(context).backgroundColor,
                         ),
                       ),
                     ),
@@ -382,13 +361,6 @@ class AlbumPickItem extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          // Align(
-          //   alignment: const Alignment(0, -1),
-          //   child: Text(
-          //     genre,
-          //     textAlign: TextAlign.center,
-          //   ),
-          // ),
           Align(
             alignment: const Alignment(0, -0.9),
             child: Text(
@@ -425,9 +397,10 @@ class AlbumPickItem extends StatelessWidget {
   Widget buttonTitle(BuildContext context) {
     return WidgetButton(
       child: WidgetLabel(
-        label: name,
         message: name,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 2),
+        label: name,
+        labelStyle: Theme.of(context).textTheme.labelLarge,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
       ),
       onPressed: navigate,
     );
@@ -443,7 +416,6 @@ class AlbumPickItemHolder extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 3),
       child: SizedBox(
         width: 170,
-        // height: 170,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: Theme.of(context).shadowColor,
@@ -452,49 +424,41 @@ class AlbumPickItemHolder extends StatelessWidget {
           child: Stack(
             alignment: Alignment.topCenter,
             // fit: StackFit.loose,
-            children: const [
+            children: [
               Align(
-                alignment: Alignment(0, -.38),
+                alignment: const Alignment(0, -.40),
                 child: SizedBox(
                   child: Icon(
                     LideaIcon.cd,
                     size: 100,
-                    color: Color(0xFFd9dadb),
+                    color: Theme.of(context).backgroundColor,
                   ),
                 ),
               ),
               Align(
-                alignment: Alignment(0, -.25),
+                alignment: const Alignment(0, -.27),
                 child: SizedBox(
                   child: Icon(
-                    // LideaIcon.play,
                     Icons.play_arrow_rounded,
-                    size: 55,
-                    color: Color(0xFFe6e7e8),
+                    size: 60,
+                    color: Theme.of(context).shadowColor,
                   ),
                 ),
               ),
-              // Align(
-              //   alignment: Alignment(0, 1.0),
-              //   child: Text('?'),
-              // ),
               Align(
-                // alignment: Alignment(0, 1.0),
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
-                  height: 40.0,
+                  height: 56,
                   width: double.infinity,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
                           width: 3.0,
-                          // color: Theme.of(context).scaffoldBackgroundColor,
-                          color: Color(0XFFfff0de),
+                          color: Theme.of(context).backgroundColor,
                         ),
                       ),
                     ),
-                    // child: Text(''),
                   ),
                 ),
               ),
@@ -503,15 +467,5 @@ class AlbumPickItemHolder extends StatelessWidget {
         ),
       ),
     );
-    // return Container(
-    //   // clipBehavior:Clip.hardEdge,
-    //   margin: const EdgeInsets.all(3),
-    //   width: 170,
-    //   decoration: const BoxDecoration(
-    //     color: Color(0xFFe6e7e8),
-    //     borderRadius: BorderRadius.all(Radius.circular(5)),
-    //   ),
-    //   child:
-    // );
   }
 }

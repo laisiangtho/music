@@ -26,30 +26,13 @@ class ButtonWithLabelAttribute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      key: key,
-      // color: Theme.of(context).chipTheme.selectedColor,
-      // color: Theme.of(context).primaryColor,
-      // padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
-      padding: EdgeInsets.zero,
-      alignment: Alignment.center,
-      minSize: 40,
-      child: RichText(
-        maxLines: 1,
+    return WidgetButton(
+      child: WidgetLabel(
+        icon: icon,
+        iconSize: 22,
+        label: label,
         overflow: TextOverflow.fade,
-        // strutStyle: const StrutStyle(height: 1.3),
-        text: TextSpan(
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(height: 1.0, fontSize: 19),
-          // style: TextStyle(height: 1.0, fontSize: 19),
-          children: <InlineSpan>[
-            WidgetSpan(
-              child: Icon(icon, size: 22),
-            ),
-            TextSpan(
-              text: label,
-            ),
-          ],
-        ),
+        maxLines: 1,
       ),
       onPressed: onPressed,
     );
@@ -82,7 +65,7 @@ class LabelAttribute extends StatelessWidget {
       textAlign: TextAlign.center,
       strutStyle: const StrutStyle(height: 1.5),
       text: TextSpan(
-        style: Theme.of(context).textTheme.subtitle1!.copyWith(height: 1.25, fontSize: 19),
+        style: Theme.of(context).textTheme.labelMedium,
         // style: TextStyle(height: 1.0, fontSize: 19),
         children: <InlineSpan>[
           if (icon != null && iconLeft == true)
@@ -117,15 +100,12 @@ class ButtonAttribute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      key: key,
-      // color: Theme.of(context).chipTheme.selectedColor,
-      // color: Theme.of(context).primaryColor,
-      // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      padding: EdgeInsets.zero,
-      alignment: alignment,
-      minSize: 40,
-      child: Icon(icon, size: 22),
+    return WidgetButton(
+      child: WidgetLabel(
+        icon: icon,
+        iconSize: 22,
+        alignment: alignment,
+      ),
       onPressed: onPressed,
     );
   }
@@ -148,7 +128,7 @@ class PageAttribute extends StatelessWidget {
         maxLines: 1,
         softWrap: false,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.subtitle1!.copyWith(height: 1.3, fontSize: fontSize),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: fontSize),
       ),
     );
   }
@@ -174,7 +154,7 @@ class TitleAttribute extends StatelessWidget {
         children: [
           Text(
             text,
-            style: Theme.of(context).textTheme.headline1,
+            style: Theme.of(context).textTheme.displayLarge,
             textAlign: TextAlign.center,
           ),
           if (aka != null && aka!.isNotEmpty)
@@ -184,45 +164,16 @@ class TitleAttribute extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: '($aka)',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           fontWeight: FontWeight.w300,
                         ),
                   ),
                 ],
               ),
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
+              style: Theme.of(context).textTheme.titleLarge,
             )
         ],
       ),
-      /*
-      child: RichText(
-        textAlign: TextAlign.center,
-        // strutStyle: const StrutStyle(height: 1.9),
-        text: TextSpan(
-          text: text,
-          style: Theme.of(context).textTheme.headline1,
-          children: <TextSpan>[
-            if (aka != null && aka!.isNotEmpty)
-              TextSpan(
-                text: '\n($aka)',
-                style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  // height: 1.3,
-                  // fontSize: 25,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 1.0,
-                      color: Theme.of(context).shadowColor,
-                      offset: const Offset(1.0, 0.0),
-                    ),
-                  ],
-                ),
-              ),
-          ],
-        ),
-      ),
-      */
     );
   }
 }
@@ -248,10 +199,7 @@ class YearWrap extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                 child: Text(
                   e,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontFamily: 'Lato',
-                        fontSize: 15,
-                      ),
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
             )
@@ -269,21 +217,16 @@ class YearAttribute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Text(text,key: key,style: Theme.of(context).textTheme.bodyText1);
     return Container(
       key: key,
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 14),
-      decoration: BoxDecoration(
-        color: Theme.of(context).splashColor,
-        borderRadius: BorderRadius.circular(3),
-      ),
+      // padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 14),
+      // decoration: BoxDecoration(
+      //   color: Theme.of(context).splashColor,
+      //   borderRadius: BorderRadius.circular(3),
+      // ),
       child: Text(
         text,
-        // style: Theme.of(context).textTheme.caption!.copyWith(
-        //   height: 1.0
-        // ),
         style: const TextStyle(fontSize: 14),
-        strutStyle: const StrutStyle(height: 1.0),
       ),
     );
   }
@@ -327,7 +270,7 @@ class GenreAttribute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, key: key, style: Theme.of(context).textTheme.bodyText1);
+    return Text(text, key: key, style: Theme.of(context).textTheme.labelMedium);
   }
 }
 
@@ -357,7 +300,6 @@ class StaticBadgeAttribute extends StatelessWidget {
             padding: const EdgeInsets.only(top: 12),
             child: Text(
               label,
-              // style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w600),
               style: Theme.of(context).textTheme.labelSmall,
             ),
           ),
@@ -376,19 +318,6 @@ class PlayAllAttribute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Padding(
-    //   key: key,
-    //   padding: const EdgeInsets.symmetric(vertical: 20),
-    //   child: CupertinoButton(
-    //     child: Text(
-    //       label,
-    //       style: Theme.of(context).textTheme.bodyText1,
-    //     ),
-    //     borderRadius: const BorderRadius.all(Radius.circular(100)),
-    //     // color: Theme.of(context).buttonColor,
-    //     onPressed: onPressed,
-    //   ),
-    // );
     return WidgetButton(
       // elevation: 1,
       margin: const EdgeInsets.symmetric(vertical: 20),
@@ -402,8 +331,7 @@ class PlayAllAttribute extends StatelessWidget {
       // textStyle: TextStyle(
       //   color: Theme.of(context).primaryColor,
       // ),
-      textStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-            fontSize: 25,
+      textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
             color: Theme.of(context).primaryColor,
           ),
       child: Text(

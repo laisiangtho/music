@@ -19,11 +19,9 @@ class ScreenLauncher extends StatelessWidget {
                 text: TextSpan(
                   text: '"',
                   semanticsLabel: "open quotation mark",
-                  style: TextStyle(
-                    color: Theme.of(context).primaryTextTheme.button!.color,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w200,
-                  ),
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        fontWeight: FontWeight.w300,
+                      ),
                   children: const <TextSpan>[
                     TextSpan(
                       text: 'Listen',
@@ -38,7 +36,10 @@ class ScreenLauncher extends StatelessWidget {
                     TextSpan(
                       text: 'Zaideih\n',
                       semanticsLabel: "Zaideih",
-                      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 47),
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.w200,
+                      ),
                     ),
                     TextSpan(
                       text: 'Music ',
@@ -53,7 +54,7 @@ class ScreenLauncher extends StatelessWidget {
                     TextSpan(
                       text: '"',
                       semanticsLabel: "close quotation mark",
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(fontSize: 23),
                     ),
                   ],
                 ),

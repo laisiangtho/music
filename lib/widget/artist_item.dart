@@ -23,38 +23,24 @@ class ArtistListItem extends StatelessWidget {
       leading: DecoratedBox(
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
-          // color: Theme.of(context).backgroundColor,
-          // borderRadius: BorderRadius.circular(3),
           borderRadius: BorderRadius.circular(8),
-          // borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         child: const Padding(
           padding: EdgeInsets.all(7.0),
           child: Icon(
-            // playing?LideaIcon.pause:LideaIcon.play,
             LideaIcon.artist,
-            // color: queued?Theme.of(context).highlightColor:null,
-            // color: Theme.of(context).primaryColor,
             size: 25,
           ),
         ),
       ),
-      // title: Text('meta.title',
-      //   strutStyle: const StrutStyle(
-      //     height: 1.0
-      //   ),
-      // ),
-      title: RichText(
-        // textAlign: TextAlign.center,
-        strutStyle: const StrutStyle(height: 1.0),
-        text: TextSpan(
+      title: Text.rich(
+        TextSpan(
           text: name,
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(height: 1.3),
           children: <TextSpan>[
             if (aka.isNotEmpty)
               TextSpan(
                 text: ' ($aka)',
-                style: Theme.of(context).textTheme.subtitle2!.copyWith(height: 1.3),
+                style: Theme.of(context).textTheme.labelMedium,
               ),
           ],
         ),
@@ -73,11 +59,7 @@ class ArtistListItem extends StatelessWidget {
       trailing: Text(
         intl.NumberFormat.compact().format(plays),
         // strutStyle: const StrutStyle(height: 1.5),
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              // fontSize: 13,
-              fontFamily: 'Lato',
-              // fontWeight: FontWeight.normal,
-            ),
+        style: Theme.of(context).textTheme.labelSmall,
       ),
       onTap: () => core.navigate(to: '/artist-info', args: meta, routePush: false),
     );
@@ -88,37 +70,29 @@ class ArtistListItem extends StatelessWidget {
     IconData icon,
     String label,
   ) {
-    // return Chip(
-    //   padding: EdgeInsets.zero,
-    //   // labelPadding: EdgeInsets.zero,
-    //   // avatar: CircleAvatar(
-    //   //   backgroundColor: Colors.grey.shade800,
-    //   //   child: const Text('AB'),
-    //   // ),
-    //   avatar: Icon(icon,size: 14,),
-    //   label: Text(label.toString()),
-    // );
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 15,
-          // color: Theme.of(context).textTheme.caption!.color!.withOpacity(0.5),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3),
-          child: Text(
-            label,
-            // strutStyle: const StrutStyle(height: 1.2),
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  fontSize: 13,
-                  fontFamily: 'Lato',
-                  fontWeight: FontWeight.normal,
-                ),
-          ),
-        ),
-      ],
+    return WidgetLabel(
+      icon: icon,
+      iconColor: Theme.of(context).focusColor,
+      iconSize: 15,
+      label: label,
+      labelStyle: Theme.of(context).textTheme.bodySmall,
     );
+    // return Row(
+    //   children: [
+    //     Icon(
+    //       icon,
+    //       size: 15,
+    //     ),
+    //     Padding(
+    //       padding: const EdgeInsets.symmetric(horizontal: 3),
+    //       child: Text(
+    //         label,
+    //         // strutStyle: const StrutStyle(height: 1.2),
+    //         style: Theme.of(context).textTheme.bodySmall,
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 }
 
@@ -127,14 +101,15 @@ class ArtistListItemHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ListTile(
+    return ListTile(
       minVerticalPadding: 0,
       leading: DecoratedBox(
         decoration: BoxDecoration(
-          color: Color(0xFFe6e7e8),
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          // color: Color(0xFFe6e7e8),
+          color: Theme.of(context).backgroundColor,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
-        child: Padding(
+        child: const Padding(
           padding: EdgeInsets.all(7.0),
           child: Icon(
             LideaIcon.artist,
@@ -143,20 +118,20 @@ class ArtistListItemHolder extends StatelessWidget {
         ),
       ),
       title: SizedBox(
-        height: 18.0,
+        height: 19.0,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Color(0xFFe6e7e8),
-            borderRadius: BorderRadius.all(Radius.circular(100)),
+            color: Theme.of(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
           ),
         ),
       ),
       subtitle: SizedBox(
-        height: 10.0,
+        height: 12.0,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Color(0xFFe6e7e8),
-            borderRadius: BorderRadius.all(Radius.circular(100)),
+            color: Theme.of(context).backgroundColor.withOpacity(0.7),
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
           ),
         ),
       ),
@@ -181,9 +156,6 @@ class ArtistWrapItem extends StatelessWidget {
       key: key,
       child: WidgetLabel(
         label: artist.name,
-        // labelStyle: Theme.of(context).textTheme.subtitle2!.copyWith(
-        //       fontSize: 15,
-        //     ),
         message: '* (??)'
             .replaceFirst('*', artist.name)
             .replaceFirst('??', artist.aka)
@@ -219,7 +191,6 @@ class ArtistWrapMore extends StatelessWidget {
       key: key,
       child: WidgetLabel(
         label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
-        // labelStyle: Theme.of(context).textTheme.bodyText1,
       ),
       color: Theme.of(context).shadowColor,
       borderRadius: const BorderRadius.all(Radius.circular(100.0)),
@@ -227,20 +198,5 @@ class ArtistWrapMore extends StatelessWidget {
       // minSize: 35,
       onPressed: onPressed,
     );
-    /*
-    return CupertinoButton(
-      key: key,
-      child: Text(
-        more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
-        style: Theme.of(context).textTheme.subtitle2!.copyWith(fontSize: 15, height: 1),
-        strutStyle: const StrutStyle(height: 1.3),
-      ),
-      color: Theme.of(context).shadowColor,
-      borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 17),
-      minSize: 35,
-      onPressed: onPressed,
-    );
-    */
   }
 }

@@ -34,16 +34,19 @@ class _PlayerInfoState extends State<PlayerInfo> {
           AudioTrackType track = tag.trackInfo;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
             child: Column(
               children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                  child: Divider(),
+                ),
                 Text(
                   track.title,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline3,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 7),
+                  padding: const EdgeInsets.symmetric(vertical: 25),
                   child: Wrap(
                     alignment: WrapAlignment.center,
                     crossAxisAlignment: WrapCrossAlignment.center,
@@ -54,6 +57,7 @@ class _PlayerInfoState extends State<PlayerInfo> {
                       return WidgetButton(
                         child: WidgetLabel(
                           label: artist.name,
+                          labelStyle: Theme.of(context).textTheme.labelLarge,
                         ),
                         onPressed: () {
                           core.navigate(to: '/artist-info', args: artist, routePush: true);
@@ -66,7 +70,7 @@ class _PlayerInfoState extends State<PlayerInfo> {
                   child: Text(
                     tag.album,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                   onPressed: () {
                     core.navigate(to: '/album-info', args: tag.albumInfo);

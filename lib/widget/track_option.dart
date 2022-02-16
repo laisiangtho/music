@@ -64,40 +64,6 @@ class _TrackOptionState extends State<TrackOption> {
               // collapsedHeight: kToolbarHeight,
               // expandedHeight: 90,
               title: Text(preference.text.track(false)),
-              /*
-              flexibleSpace: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  var top = constraints.biggest.height;
-                  return FlexibleSpaceBar(
-                    // centerTitle: true,
-                    collapseMode: CollapseMode.none,
-                    title: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          track.title,
-                          // track.title + track.title + track.title + track.title,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        if (top > 64)
-                          Text(
-                            track.artist,
-                            overflow: TextOverflow.ellipsis,
-                            // maxLines: top > 71 && top < 91 ? 3 : 1,
-                            maxLines: 1,
-
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 12),
-                          ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              */
             );
           },
         ),
@@ -193,7 +159,7 @@ class _TrackOptionState extends State<TrackOption> {
                   const TextSpan(text: '"'),
                   TextSpan(
                     text: track.album,
-                    style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Navigator.of(context).pop;
@@ -206,38 +172,29 @@ class _TrackOptionState extends State<TrackOption> {
                   const TextSpan(text: '", '),
                   TextSpan(
                     text: 'duration: ',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Theme.of(context).primaryColorDark,
-                        ),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColorDark,
+                    ),
                     children: [
                       TextSpan(
                         text: cache.duration(track.trackInfo.duration),
-                        // style: const TextStyle(fontFamily: 'Lato'),
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontFamily: 'Lato',
-                            ),
                       ),
                     ],
                   ),
                   TextSpan(
                     text: ' plays: ',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Theme.of(context).primaryColorDark,
-                        ),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColorDark,
+                    ),
                     children: [
                       TextSpan(
                         text: track.trackInfo.plays.toString(),
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontFamily: 'Lato',
-                            ),
                       ),
                     ],
                   ),
                 ],
               ),
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    fontFamily: 'Lato',
-                  ),
+              style: Theme.of(context).textTheme.labelMedium,
             ),
             onTap: () {
               if (hasLike) {
@@ -310,15 +267,9 @@ class _TrackOptionState extends State<TrackOption> {
                   ),
                   title: Text(
                     item.name,
-                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                   trailing: Text(
                     item.list.length.toString(),
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                          fontSize: 15,
-                          fontFamily: 'Lato',
-                          fontWeight: FontWeight.normal,
-                        ),
                   ),
                   onTap: () {
                     if (hasAdded) {

@@ -120,17 +120,17 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
           child: Stack(
             children: [
               Align(
-                alignment: const Alignment(0.90, -0.7),
+                alignment: const Alignment(0.90, -1),
                 child: Text(
                   core.collection.cacheBucket.duration(_duration.inSeconds),
-                  style: Theme.of(context).textTheme.overline,
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
               Align(
-                alignment: const Alignment(-.90, -0.7),
+                alignment: const Alignment(-.90, -1),
                 child: Text(
                   core.collection.cacheBucket.duration(_remaining.inSeconds),
-                  style: Theme.of(context).textTheme.overline,
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
               Align(
@@ -211,140 +211,6 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
       },
     );
   }
-
-  /*
-  double checkValueTmp(bool isSeek) {
-    final p = _position.inMilliseconds.toDouble();
-    final b = _buffered.inMilliseconds.toDouble();
-    double d = _duration.inMilliseconds.toDouble();
-    if (d == 0.0 && audio.player.sequence != null) {
-      final index = audio.player.currentIndex;
-      final abc = audio.player.sequence!.elementAt(index!);
-      AudioTrackType track = abc.tag.trackInfo;
-      d = Duration(seconds: track.duration).inMilliseconds.toDouble();
-    }
-
-    if (isSeek) {
-      if (d > p) {
-        return d;
-      }
-
-      return p;
-    }
-
-    if (d > b) {
-      return d;
-    }
-
-    return b;
-  }
-
-  double checkValue(Duration vCurrent, Duration vMax) {
-    // _position.inMilliseconds.toDouble()
-    // value >= min && value <= max
-    final a = vCurrent.inMilliseconds.toDouble();
-    final b = vMax.inMilliseconds.toDouble();
-
-    if (a < 0.0) {
-      debugPrint('??? less than  $a');
-      return 0.0;
-    }
-    if (a > b) {
-      debugPrint('??? greater  $a $b');
-      return b;
-    }
-
-    return a;
-  }
-
-  Widget buildOrg(BuildContext context) {
-    // print(widget.position.inMilliseconds/widget.duration.inMilliseconds);
-    return Stack(
-      children: [
-        Align(
-          alignment: const Alignment(0.90, -1.0),
-          child: Opacity(
-            opacity: widget.opacity,
-            child: Text(
-                RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("$_duration")?.group(1) ??
-                    '$_duration',
-                style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 12)),
-          ),
-        ),
-        Opacity(
-          opacity: widget.opacity,
-          child: Align(
-            alignment: const Alignment(-.90, -1.0),
-            child: Text(
-                RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("$_remaining")?.group(1) ??
-                    '$_remaining',
-                style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 12)),
-          ),
-        ),
-        SliderTheme(
-          data: _sliderThemeData.copyWith(
-            thumbShape: HiddenThumbComponentShape(),
-            overlayShape: RoundSliderOverlayShape(overlayRadius: isCollapsed ? 0.0 : 15.0),
-            trackHeight: isCollapsed ? 0.2 : 3,
-            // thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5.0),
-            // activeTrackColor: Colors.blue,
-            // inactiveTrackColor: Colors.grey,
-            // activeTrackColor: Colors.blue.shade100,
-            // inactiveTrackColor: Colors.grey.shade300,
-          ),
-          child: ExcludeSemantics(
-            child: Slider(
-              min: 0.0,
-              max: widget.duration.inMilliseconds.toDouble(),
-              value: min(widget.bufferedPosition.inMilliseconds.toDouble(),
-                  widget.duration.inMilliseconds.toDouble()),
-              onChanged: (value) {
-                setState(() {
-                  _dragValue = value;
-                });
-                if (widget.onChanged != null) {
-                  widget.onChanged!(Duration(milliseconds: value.round()));
-                }
-              },
-              onChangeEnd: (value) {
-                if (widget.onChangeEnd != null) {
-                  widget.onChangeEnd!(Duration(milliseconds: value.round()));
-                }
-                _dragValue = null;
-              },
-            ),
-          ),
-        ),
-        SliderTheme(
-          data: _sliderThemeData.copyWith(
-            inactiveTrackColor: Colors.transparent,
-            thumbShape: RoundSliderThumbShape(enabledThumbRadius: isCollapsed ? 2.0 : 5.0),
-          ),
-          child: Slider(
-            min: 0.0,
-            max: widget.duration.inMilliseconds.toDouble(),
-            value: min(_dragValue ?? widget.position.inMilliseconds.toDouble(),
-                widget.duration.inMilliseconds.toDouble()),
-            onChanged: (value) {
-              setState(() {
-                _dragValue = value;
-              });
-              if (widget.onChanged != null) {
-                widget.onChanged!(Duration(milliseconds: value.round()));
-              }
-            },
-            onChangeEnd: (value) {
-              if (widget.onChangeEnd != null) {
-                widget.onChangeEnd!(Duration(milliseconds: value.round()));
-              }
-              _dragValue = null;
-            },
-          ),
-        ),
-      ],
-    );
-  }
-  */
 }
 
 class HiddenThumbComponentShape extends SliderComponentShape {

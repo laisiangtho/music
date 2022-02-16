@@ -181,9 +181,7 @@ class _SheetFilterState extends State<_SheetFilter> {
                   if (filter.character.length > 6) const TextSpan(text: '...')
                 ],
               ),
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           Card(
@@ -206,7 +204,7 @@ class _SheetFilterState extends State<_SheetFilter> {
       margin: const EdgeInsets.all(2),
       child: Text(
         name,
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+        style: Theme.of(context).textTheme.labelMedium!.copyWith(
             color: (filter.character.isNotEmpty)
                 ? (hasCharList(name))
                     ? Theme.of(context).highlightColor
@@ -249,9 +247,7 @@ class _SheetFilterState extends State<_SheetFilter> {
                   if (filter.language.length > 7) const TextSpan(text: '...')
                 ],
               ),
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           Card(
@@ -287,7 +283,6 @@ class _SheetFilterState extends State<_SheetFilter> {
             : null,
         label: lang.name.toTitleCase(),
         labelPadding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-        labelStyle: Theme.of(context).textTheme.bodyText1,
         softWrap: true,
         maxLines: 3,
       ),
@@ -322,9 +317,7 @@ class _SheetFilterState extends State<_SheetFilter> {
                   if (filter.genre.length > 1) const TextSpan(text: '...')
                 ],
               ),
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           Card(
@@ -360,7 +353,6 @@ class _SheetFilterState extends State<_SheetFilter> {
             : null,
         label: genre.name,
         labelPadding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-        labelStyle: Theme.of(context).textTheme.bodyText1,
         softWrap: true,
         maxLines: 3,
       ),
@@ -421,16 +413,9 @@ class _SheetFilterState extends State<_SheetFilter> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              RichText(
-                strutStyle: const StrutStyle(
-                  // height: 1,
-                  fontFamily: 'Lato',
-                ),
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   text: 'Albums',
-                  // style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
-                  style: Theme.of(context).textTheme.headline5,
-                  // style: Theme.of(context).textTheme.headline3!.copyWith(height: 1.4),
                   children: [
                     // const TextSpan(text: ' ('),
                     // TextSpan(

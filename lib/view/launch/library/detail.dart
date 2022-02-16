@@ -107,7 +107,7 @@ class _DetailState extends State<_Detail> {
           },
         ),
         // SliverToBoxAdapter(
-        //   child: CupertinoButton(
+        //   child: WidgetButton(
         //     child: const Text('Delete'),
         //     onPressed: () {
         //       // box.deleteAt(index);

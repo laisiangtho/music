@@ -86,15 +86,11 @@ class _PlayListsEditorState extends State<PlayListsEditor> {
       // buttonPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       // actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: <Widget>[
-        // CupertinoButton
-
-        // const Divider(),
         WidgetButton(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 7),
           child: Text(
             preference.text.cancel,
             // style: DefaultTextStyle.of(context).style,
-            // style: Theme.of(context).textTheme.button,
           ),
           onPressed: () => Navigator.of(context).pop(false),
         ),
@@ -145,7 +141,7 @@ class _PlayListsEditorState extends State<PlayListsEditor> {
                   },
                   decoration: InputDecoration(
                     labelText: preference.text.title(false),
-                    floatingLabelStyle: Theme.of(context).textTheme.subtitle1,
+                    floatingLabelStyle: Theme.of(context).textTheme.titleSmall,
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     prefixIcon: const Icon(Icons.gesture),
                     prefixIconConstraints: BoxConstraints.tight(const Size(25, 25)),

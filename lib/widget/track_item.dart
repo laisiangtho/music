@@ -107,32 +107,7 @@ class TrackListItem extends StatelessWidget {
   }) {
     return ListTile(
       key: key,
-      // contentPadding: EdgeInsets.zero,
       minVerticalPadding: 0,
-      // style: ListTileStyle.drawer,
-      /*
-      leading: DecoratedBox(
-        decoration: BoxDecoration(
-          color: queued ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
-          // color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(7.0),
-          child: Icon(
-            // playing?ZaideihIcon.pause:ZaideihIcon.play,
-            playing
-                ? LideaIcon.pause
-                : queued
-                    ? LideaIcon.play
-                    : Icons.playlist_add,
-            // color: queued?Theme.of(context).highlightColor:null,
-            // color: Theme.of(context).primaryColor,
-            size: 25,
-          ),
-        ),
-      ),
-      */
       leading: WidgetButton(
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
@@ -148,8 +123,6 @@ class TrackListItem extends StatelessWidget {
                   ? Icons.play_arrow_rounded
                   : Icons.playlist_add_rounded,
           // color: queued?Theme.of(context).highlightColor:null,
-          // color: Theme.of(context).primaryColor,
-          // size: 25,
         ),
         onPressed: onPress,
       ),
@@ -157,7 +130,6 @@ class TrackListItem extends StatelessWidget {
         track.title,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        // style: Theme.of(context).textTheme.bodyText1,
       ),
       subtitle: Text(
         track.artist,
@@ -166,11 +138,6 @@ class TrackListItem extends StatelessWidget {
       trailing: Text(
         cache.duration(track.trackInfo.duration),
         style: Theme.of(context).textTheme.labelSmall,
-        // style: Theme.of(context).textTheme.headline6!.copyWith(
-        //       fontSize: 14,
-        //       fontFamily: 'Lato',
-        //       fontWeight: FontWeight.normal,
-        //     ),
       ),
       onTap: onPress,
       onLongPress: () => showPlaylistEditor(context),
@@ -183,36 +150,35 @@ class TrackListItemHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ListTile(
+    return ListTile(
       minVerticalPadding: 0,
       leading: DecoratedBox(
         decoration: BoxDecoration(
-          color: Color(0xFFe6e7e8),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Theme.of(context).backgroundColor,
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
         ),
-        child: Padding(
+        child: const Padding(
           padding: EdgeInsets.all(7.0),
           child: Icon(
             Icons.playlist_add,
-            size: 25,
           ),
         ),
       ),
       title: SizedBox(
-        height: 18.0,
+        height: 19.0,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Color(0xFFe6e7e8),
-            borderRadius: BorderRadius.all(Radius.circular(100)),
+            color: Theme.of(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
           ),
         ),
       ),
       subtitle: SizedBox(
-        height: 18.0,
+        height: 12.0,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Color(0xFFe6e7e8),
-            borderRadius: BorderRadius.all(Radius.circular(100)),
+            color: Theme.of(context).backgroundColor.withOpacity(0.7),
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
           ),
         ),
       ),

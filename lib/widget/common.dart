@@ -38,42 +38,6 @@ class WidgetBlockMore extends StatelessWidget {
         onPressed: onPressed,
       ),
     );
-    // return Padding(
-    //   padding: padding,
-    //   child: Row(
-    //     // mainAxisAlignment: mainAxisAlignment,
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     // crossAxisAlignment: CrossAxisAlignment.center,
-    //     children: [
-    //       WidgetButton(
-    //         // decoration: BoxDecoration(
-    //         //   color: Theme.of(context).shadowColor,
-    //         //   borderRadius: const BorderRadius.all(Radius.circular(100)),
-    //         // ),
-    //         color: Theme.of(context).shadowColor,
-    //         borderRadius: const BorderRadius.all(Radius.circular(100)),
-    //         elevation: 2,
-    //         // clipBehavior: Clip.antiAlias,
-    //         padding: const EdgeInsets.symmetric(horizontal: 15),
-    //         child: WidgetLabel(
-    //           // alignment: Alignment.center,
-    //           label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
-    //           labelStyle: Theme.of(context).textTheme.bodyText1,
-    //         ),
-    //         onPressed: onPressed,
-    //       )
-    //       // WidgetLabel(
-    //       //   alignment: Alignment.centerLeft,
-    //       //   label: label,
-    //       // ),
-    //       // if (more != null)
-    //       //   WidgetButton(
-    //       //     child: more!,
-    //       //     onPressed: onPressed,
-    //       //   )
-    //     ],
-    //   ),
-    // );
   }
 }
 

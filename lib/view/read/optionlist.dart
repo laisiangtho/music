@@ -79,16 +79,14 @@ class _PopOptionListState extends State<PopOptionList> with TickerProviderStateM
 
   List<Widget> fontSizeOptions() {
     return <Widget>[
-      CupertinoButton(
+      WidgetButton(
           color: Theme.of(context).primaryColor,
           borderRadius: const BorderRadius.all(Radius.circular(3)),
-          // padding: EdgeInsets.zero,
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-          minSize: 40,
           child: Text(
             'A',
             // style: TextStyle(fontSize: 14),
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   fontSize: 14,
                 ),
           ),
@@ -109,16 +107,15 @@ class _PopOptionListState extends State<PopOptionList> with TickerProviderStateM
       //     ],
       //   ),
       // ),
-      CupertinoButton(
+      WidgetButton(
           color: Theme.of(context).primaryColor,
           borderRadius: const BorderRadius.all(Radius.circular(3)),
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-          minSize: 40,
           // ignore: prefer_const_constructors
           child: Text(
             'A',
             // style: TextStyle(fontSize: 25),
-            style: Theme.of(context).textTheme.bodyText1!,
+            style: Theme.of(context).textTheme.labelMedium,
           ),
           // onPressed: ()=> setFontSize(true)
           onPressed: () => widget.setFontSize(true)),

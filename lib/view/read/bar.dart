@@ -22,7 +22,7 @@ mixin _Bar on _State {
               // alignment: const Alignment(-1, 0),
               child: Hero(
                 tag: 'appbar-left-2',
-                child: CupertinoButton(
+                child: WidgetButton(
                   padding: EdgeInsets.zero,
                   child: WidgetLabel(
                     icon: Icons.bookmark_add,
@@ -81,17 +81,6 @@ mixin _Bar on _State {
                               right: Radius.elliptical(20, 50),
                             ),
                           ),
-                          // child: CupertinoButton(
-                          //   padding: EdgeInsets.zero,
-                          //   child: Text(
-                          //     '150',
-                          //     style: Theme.of(context)
-                          //         .textTheme
-                          //         .bodyText1!
-                          //         .copyWith(fontSize: (org.shrink * 19).clamp(15, 19)),
-                          //   ),
-                          //   onPressed: () => true,
-                          // ),
                           child: _barButton(
                             label: '150',
                             message: 'Chapter',
@@ -114,7 +103,7 @@ mixin _Bar on _State {
                   duration: const Duration(milliseconds: 0),
                   constraints: BoxConstraints(maxWidth: width, minWidth: 30.0),
                   padding: EdgeInsets.symmetric(vertical: snap.shrink * 12),
-                  child: CupertinoButton(
+                  child: WidgetButton(
                     padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: WidgetLabel(
                       icon: LideaIcon.textSize,
@@ -141,9 +130,8 @@ mixin _Bar on _State {
       required void Function()? onPressed}) {
     return Tooltip(
       message: message,
-      child: CupertinoButton(
+      child: WidgetButton(
         key: key,
-        minSize: 33,
         padding: const EdgeInsets.symmetric(horizontal: 7),
         child: Text(
           label,
@@ -153,7 +141,7 @@ mixin _Bar on _State {
           textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
-              .bodyText1!
+              .labelMedium!
               .copyWith(fontSize: (shrink * 19).clamp(15, 19)),
         ),
         onPressed: onPressed,
