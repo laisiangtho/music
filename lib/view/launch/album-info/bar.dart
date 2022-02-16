@@ -28,8 +28,6 @@ mixin _Bar on _State {
                             ? Hero(
                                 tag: 'appbar-left-$canPop',
                                 child: WidgetButton(
-                                  // padding: EdgeInsets.zero,
-                                  // minSize: 30,
                                   onPressed: () {
                                     arguments.navigator!.currentState!.maybePop();
                                   },
@@ -40,7 +38,7 @@ mixin _Bar on _State {
                                 ),
                               )
                             : WidgetLabel(
-                                icon: CupertinoIcons.left_chevron,
+                                icon: Icons.arrow_back_ios_new_rounded,
                                 label: preference.text.back,
                               )
                         : const SizedBox(),
@@ -62,7 +60,7 @@ mixin _Bar on _State {
                     'Album',
                     style: Theme.of(context)
                         .textTheme
-                        .titleMedium!
+                        .titleLarge!
                         .copyWith(fontSize: (30 * org.shrink).clamp(22, 30).toDouble()),
                     maxLines: 1,
                     overflow: TextOverflow.fade,

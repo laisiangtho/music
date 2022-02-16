@@ -27,21 +27,19 @@ mixin _Bar on _State {
                         ? (align == 0)
                             ? Hero(
                                 tag: 'appbar-left-$canPop',
-                                child: CupertinoButton(
-                                  padding: EdgeInsets.zero,
-                                  minSize: 30,
+                                child: WidgetButton(
                                   onPressed: () {
                                     arguments.navigator!.currentState!.maybePop();
                                   },
                                   child: WidgetLabel(
-                                    icon: CupertinoIcons.left_chevron,
+                                    icon: Icons.arrow_back_ios_new_rounded,
                                     label: preference.text.back,
                                     // label: AppLocalizations.of(context)!.back,
                                   ),
                                 ),
                               )
                             : WidgetLabel(
-                                icon: CupertinoIcons.left_chevron,
+                                icon: Icons.arrow_back_ios_new_rounded,
                                 label: preference.text.back,
                               )
                         : const SizedBox(),
@@ -63,7 +61,7 @@ mixin _Bar on _State {
                     'Recent plays',
                     style: Theme.of(context)
                         .textTheme
-                        .headline5!
+                        .titleLarge!
                         .copyWith(fontSize: (30 * org.shrink).clamp(22, 30).toDouble()),
                     maxLines: 1,
                     overflow: TextOverflow.fade,
@@ -78,7 +76,7 @@ mixin _Bar on _State {
             //     padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
             //     child: Hero(
             //       tag: 'appbar-right',
-            //       child: CupertinoButton(
+            //       child: WidgetButton(
             //         padding: EdgeInsets.zero,
             //         minSize: 30,
             //         child: const WidgetLabel(

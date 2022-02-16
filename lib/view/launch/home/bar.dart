@@ -25,7 +25,7 @@ mixin _Bar on _State {
                   child: Material(
                     type: MaterialType.transparency,
                     child: SizedBox(),
-                    // child: CupertinoButton(
+                    // child: WidgetButton(
                     //   padding: EdgeInsets.zero,
                     //   minSize: 30,
                     //   onPressed: null,

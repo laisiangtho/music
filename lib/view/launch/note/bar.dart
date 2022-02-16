@@ -26,18 +26,18 @@ mixin _Bar on _State {
             //         child: (align == 0)
             //             ? Hero(
             //                 tag: 'appbar-left',
-            //                 child: CupertinoButton(
+            //                 child: WidgetButton(
             //                   padding: EdgeInsets.zero,
             //                   minSize: 30,
             //                   onPressed: () => Navigator.of(context).pop(),
             //                   child: WidgetLabel(
-            //                     icon: CupertinoIcons.left_chevron,
+            //                     icon: Icons.arrow_back_ios_new_rounded,
             //                     label: translate.back,
             //                   ),
             //                 ),
             //               )
             //             : WidgetLabel(
-            //                 icon: CupertinoIcons.left_chevron,
+            //                 icon: Icons.arrow_back_ios_new_rounded,
             //                 label: translate.back,
             //               ),
             //       ),
@@ -57,21 +57,19 @@ mixin _Bar on _State {
                         ? (align == 0)
                             ? Hero(
                                 tag: 'appbar-left-$canPop',
-                                child: CupertinoButton(
-                                  padding: EdgeInsets.zero,
-                                  minSize: 30,
+                                child: WidgetButton(
                                   onPressed: () {
                                     arguments.navigator!.currentState!.maybePop();
                                   },
                                   child: WidgetLabel(
-                                    icon: CupertinoIcons.left_chevron,
+                                    icon: Icons.arrow_back_ios_new_rounded,
                                     label: preference.text.back,
                                     // label: AppLocalizations.of(context)!.back,
                                   ),
                                 ),
                               )
                             : WidgetLabel(
-                                icon: CupertinoIcons.left_chevron,
+                                icon: Icons.arrow_back_ios_new_rounded,
                                 label: preference.text.back,
                               )
                         : const SizedBox(),
@@ -93,7 +91,7 @@ mixin _Bar on _State {
                     'Note',
                     style: Theme.of(context)
                         .textTheme
-                        .headline5!
+                        .titleLarge!
                         .copyWith(fontSize: (30 * org.shrink).clamp(22, 30).toDouble()),
                     maxLines: 1,
                     softWrap: false,
@@ -109,9 +107,7 @@ mixin _Bar on _State {
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
                 child: Hero(
                   tag: 'appbar-right',
-                  child: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    minSize: 30,
+                  child: WidgetButton(
                     child: AnimatedBuilder(
                       animation: dragController,
                       builder: (context, _) {

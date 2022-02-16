@@ -69,7 +69,7 @@ mixin _Bar on _State {
       // enableInteractiveSelection: true,
       // enableSuggestions: true,
       maxLines: 1,
-      strutStyle: const StrutStyle(height: 1.3),
+      // strutStyle: const StrutStyle(height: 1.3),
       decoration: InputDecoration(
         prefixIcon: const Icon(LideaIcon.find),
         /*
@@ -84,7 +84,7 @@ mixin _Bar on _State {
               child: Semantics(
                 enabled: true,
                 label: translate.clear,
-                child: CupertinoButton(
+                child: WidgetButton(
                   onPressed: onClear,
                   padding: const EdgeInsets.all(0),
                   child: Icon(
@@ -103,7 +103,7 @@ mixin _Bar on _State {
             //   child: Semantics(
             //     enabled: true,
             //     label: translate.clear,
-            //     child: CupertinoButton(
+            //     child: WidgetButton(
             //       onPressed: onClear,
             //       padding: const EdgeInsets.all(0),
             //       child: Icon(
@@ -129,11 +129,10 @@ mixin _Bar on _State {
               child: Semantics(
                 enabled: true,
                 label: preference.text.clear,
-                child: CupertinoButton(
+                child: WidgetButton(
                   onPressed: onClear,
                   padding: const EdgeInsets.all(0),
                   child: Icon(
-                    // CupertinoIcons.xmark,
                     Icons.clear_rounded,
                     color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
                     // size: 19,

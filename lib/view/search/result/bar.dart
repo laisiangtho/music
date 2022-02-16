@@ -99,7 +99,7 @@ mixin _Bar on _State {
       // strutStyle: const StrutStyle(height: 1.4),
       decoration: InputDecoration(
         hintText: preference.text.aWordOrTwo,
-        hintStyle: const TextStyle(height: 1.3),
+        // hintStyle: const TextStyle(height: 1.3),
         prefixIcon: const Icon(LideaIcon.find),
         // prefixIcon: Container(
         //   padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),

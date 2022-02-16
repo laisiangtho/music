@@ -32,18 +32,16 @@ mixin _Bar on _State {
                           child: (align == 0)
                               ? Hero(
                                   tag: 'appbar-left',
-                                  child: CupertinoButton(
-                                    padding: EdgeInsets.zero,
-                                    minSize: 30,
+                                  child: WidgetButton(
                                     onPressed: () => Navigator.of(context).pop(),
                                     child: WidgetLabel(
-                                      icon: CupertinoIcons.left_chevron,
+                                      icon: Icons.arrow_back_ios_new_rounded,
                                       label: preference.text.back,
                                     ),
                                   ),
                                 )
                               : WidgetLabel(
-                                  icon: CupertinoIcons.left_chevron,
+                                  icon: Icons.arrow_back_ios_new_rounded,
                                   label: preference.text.back,
                                 ),
                         ),
@@ -61,13 +59,13 @@ mixin _Bar on _State {
                   //       child: child!
                   //     );
                   //   },
-                  //   child: CupertinoButton(
+                  //   child: WidgetButton(
                   //     padding: const EdgeInsets.only(left:7),
                   //     child: const Hero(
                   //       tag: 'appbar-left',
                   //       child: LabelAttribute(
                   //         // icon: Icons.arrow_back_ios_new,
-                  //         icon: CupertinoIcons.left_chevron,
+                  //         icon: Icons.arrow_back_ios_new_rounded,
                   //         label: 'Back',
                   //       ),
                   //     ),
@@ -83,7 +81,7 @@ mixin _Bar on _State {
                         type: MaterialType.transparency,
                         child: Text(
                           'Blog',
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.titleLarge,
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                         ),
@@ -98,12 +96,10 @@ mixin _Bar on _State {
                       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
                       child: Hero(
                         tag: 'appbar-right',
-                        child: CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          minSize: 30,
+                        child: WidgetButton(
                           child: WidgetLabel(
                             // icon: Icons.tune,
-                            icon: CupertinoIcons.slider_horizontal_3,
+                            icon: Icons.tune_rounded,
                             // icon: LideaIcon.sliders,
                             label: preference.text.filter(false),
                           ),
@@ -145,9 +141,7 @@ mixin _Bar on _State {
             strutStyle: StrutStyle(height: 1 * stretch),
             text: TextSpan(
               text: 'Selected ',
-              style: Theme.of(context).textTheme.headline3!.copyWith(
-                    height: 1.2,
-                    fontWeight: FontWeight.w400,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontSize: 18 * stretch,
                   ),
               children: const [

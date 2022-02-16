@@ -23,14 +23,14 @@ mixin _Bar on _State {
             borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(3, 2)),
           ),
           automaticallyImplyLeading: false,
-          leading: CupertinoButton(
+          leading: WidgetButton(
             padding: EdgeInsets.zero,
             child: WidgetLabel(
-              icon: CupertinoIcons.left_chevron,
+              icon: Icons.arrow_back_ios_new_rounded,
               label: preference.text.back,
             ),
             // child: const Icon(
-            //   CupertinoIcons.left_chevron,
+            //   Icons.arrow_back_ios_new_rounded,
             // ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -46,7 +46,7 @@ mixin _Bar on _State {
               icon: const Icon(Icons.bakery_dining),
               onPressed: () => false,
             ),
-            CupertinoButton(
+            WidgetButton(
               child: const Icon(Icons.restore),
               // child: Icon(LideaIcon.history),
               onPressed: () async {

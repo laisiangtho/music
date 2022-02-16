@@ -39,7 +39,7 @@ mixin _Bar on _State {
                                 ),
                               )
                             : WidgetLabel(
-                                icon: CupertinoIcons.left_chevron,
+                                icon: Icons.arrow_back_ios_new_rounded,
                                 label: preference.text.back,
                               )
                         : const SizedBox(),
@@ -61,7 +61,7 @@ mixin _Bar on _State {
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
                 child: Hero(
                   tag: 'appbar-right-$canPop',
-                  // child: CupertinoButton(
+                  // child: WidgetButton(
                   //   padding: EdgeInsets.zero,
                   //   minSize: 30,
                   //   onPressed:
