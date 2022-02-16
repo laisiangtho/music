@@ -390,6 +390,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                   builder: (_, snapshot) => WidgetButton(
                     child: const WidgetLabel(
                       icon: Icons.skip_next,
+                      iconSize: 40,
                       message: "Next",
                     ),
                     onPressed: player.hasNext ? player.seekToNext : null,
