@@ -10,7 +10,7 @@ import 'package:lidea/provider.dart';
 import 'package:lidea/hive.dart';
 import 'package:lidea/view/main.dart';
 import 'package:lidea/audio.dart';
-import 'package:lidea/icon.dart';
+// import 'package:lidea/icon.dart';
 // import 'package:lidea/extension.dart';
 
 import '/core/main.dart';
@@ -66,8 +66,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
   ).animate(screenController);
 
   late final Core core = context.read<Core>();
-  late final AudioPlayer player = core.audio.player;
-  late final ValueNotifier<String> playerErrorMessage = core.audio.errorMessage;
+  late final Audio audio = core.audio;
+
   // late final ViewScrollNotify scrollNotify = Provider.of<ViewScrollNotify>(context, listen: false);
   late final ViewScrollNotify scrollNotify = context.read<ViewScrollNotify>();
 
@@ -176,34 +176,35 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
     // scrollNotify.reservedHeight = 25;
     screenController.forward();
 
-    playerErrorMessage.addListener(() {
-      final msg = playerErrorMessage.value;
-      if (msg.isNotEmpty) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(
-              SnackBar(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                ),
-                elevation: 0.5,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                behavior: SnackBarBehavior.floating,
-                content: WidgetLabel(
-                  // icon: Icons.warning_rounded,
-                  label: preference.language(msg),
-                ),
-              ),
-            )
-            .closed
-            .then((value) {
-          playerErrorMessage.value = '';
-          debugPrint('??? errorMessage $value');
-        });
-      }
-    });
+    // audio.message.listen((msg) {
+    //   if (msg.isNotEmpty) {
+    //     if (msg.isNotEmpty) {
+    //       ScaffoldMessenger.of(context)
+    //           .showSnackBar(
+    //             SnackBar(
+    //               shape: const RoundedRectangleBorder(
+    //                 borderRadius: BorderRadius.all(
+    //                   Radius.circular(5),
+    //                 ),
+    //               ),
+    //               elevation: 0.5,
+    //               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+    //               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+    //               behavior: SnackBarBehavior.floating,
+    //               content: WidgetLabel(
+    //                 // icon: Icons.warning_rounded,
+    //                 label: preference.language(msg),
+    //               ),
+    //             ),
+    //           )
+    //           .closed
+    //           .then((value) {
+    //         audio.message.value = '';
+    //         debugPrint('??? errorMessage $value');
+    //       });
+    //     }
+    //   }
+    // });
   }
 
   @override
@@ -356,17 +357,19 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                   }
                   return child!;
                 },
-                child: StreamBuilder<SequenceState?>(
-                  stream: player.sequenceStateStream,
-                  builder: (_, snapshot) => WidgetButton(
-                    child: WidgetLabel(
-                      icon: Icons.skip_previous,
-                      // message: "Previous",
-                      message: preference.text.previousTo(preference.text.track(false)),
-                      iconSize: 40,
-                    ),
-                    onPressed: player.hasPrevious ? player.seekToPrevious : null,
-                  ),
+                child: StreamBuilder<AudioQueueStateType>(
+                  stream: audio.queueState,
+                  builder: (context, snapshot) {
+                    final state = snapshot.data ?? AudioQueueStateType.empty;
+                    return WidgetButton(
+                      child: WidgetLabel(
+                        icon: Icons.skip_previous,
+                        iconSize: 40,
+                        message: preference.text.previousTo(preference.text.track(false)),
+                      ),
+                      onPressed: state.hasPrevious ? audio.skipToPrevious : null,
+                    );
+                  },
                 ),
               ),
             ),
@@ -386,17 +389,19 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                   }
                   return child!;
                 },
-                child: StreamBuilder<SequenceState?>(
-                  stream: player.sequenceStateStream,
-                  builder: (_, snapshot) => WidgetButton(
-                    child: WidgetLabel(
-                      icon: Icons.skip_next,
-                      iconSize: 40,
-                      // message: "Next",
-                      message: preference.text.nextTo(preference.text.track(false)),
-                    ),
-                    onPressed: player.hasNext ? player.seekToNext : null,
-                  ),
+                child: StreamBuilder<AudioQueueStateType>(
+                  stream: audio.queueState,
+                  builder: (context, snapshot) {
+                    final state = snapshot.data ?? AudioQueueStateType.empty;
+                    return WidgetButton(
+                      child: WidgetLabel(
+                        icon: Icons.skip_next,
+                        iconSize: 40,
+                        message: preference.text.nextTo(preference.text.track(false)),
+                      ),
+                      onPressed: state.hasNext ? audio.skipToNext : null,
+                    );
+                  },
                 ),
               ),
             ),

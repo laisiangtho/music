@@ -57,74 +57,52 @@ class TrackListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<Core, bool>(
-      key: key,
-      selector: (_, _e) => track.trackInfo.queued,
-      builder: (_, isQueued, child) {
-        if (isQueued) {
-          // debugPrint('isQueued ${track.trackInfo.id}');
-          return Selector<Core, bool>(
-            selector: (_, _e) => track.trackInfo.playing,
-            builder: (context, isPlaying, child) {
-              // debugPrint('isPlaying ${track.trackInfo.id}');
-              if (isPlaying) {
-                return container(
-                  context: context,
-                  queued: true,
-                  playing: true,
-                  onPress: audio.player.pause,
-                );
-              }
-              return child!;
-            },
-            child: container(
-              context: context,
-              queued: true,
-              onPress: () {
-                debugPrint('??? queuePlayAtId');
-                audio.queuePlayAtId(track.trackInfo.id);
-              },
-            ),
+    return StreamBuilder<AudioMediaStateType>(
+      stream: audio.mediaState(track.trackInfo.id.toString()),
+      builder: (context, snap) {
+        // final state = snap.data ?? AudioQueueStateType.empty;
+
+        final state = snap.data;
+
+        if (snap.hasData) {
+          return _container(
+            queued: state!.queued,
+            playing: state.playing,
+            index: state.index,
           );
         }
-        return child!;
+        return _container(
+          queued: false,
+          playing: false,
+        );
       },
-      child: container(
-        context: context,
-        onPress: () {
-          debugPrint('??? queuefromTrack');
-          audio.queuefromTrack([track.trackInfo.id]);
-        },
-      ),
     );
   }
 
-  Widget container({
-    required BuildContext context,
+  Widget _container({
     bool queued = false,
     bool playing = false,
-    void Function()? onPress,
+    int? index,
   }) {
     return ListTile(
       key: key,
       minVerticalPadding: 0,
-      leading: WidgetButton(
-        padding: const EdgeInsets.all(10.0),
+      leading: DecoratedBox(
         decoration: BoxDecoration(
           color: queued ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
-          // color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(5),
         ),
-        child: Icon(
-          // playing?ZaideihIcon.pause:ZaideihIcon.play,
-          playing
-              ? Icons.pause_rounded
-              : queued
-                  ? Icons.play_arrow_rounded
-                  : Icons.playlist_add_rounded,
-          // color: queued?Theme.of(context).highlightColor:null,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Icon(
+            playing
+                ? Icons.pause_rounded
+                : queued
+                    ? Icons.play_arrow_rounded
+                    : Icons.playlist_add_rounded,
+            // color: queued?Theme.of(context).highlightColor:null,
+          ),
         ),
-        onPressed: onPress,
       ),
       title: Text(
         track.title,
@@ -139,7 +117,9 @@ class TrackListItem extends StatelessWidget {
         cache.duration(track.trackInfo.duration),
         style: Theme.of(context).textTheme.labelSmall,
       ),
-      onTap: onPress,
+      onTap: () {
+        audio.addQueueItem(audio.generateMediaItem(track.trackInfo.id));
+      },
       onLongPress: () => showPlaylistEditor(context),
     );
   }

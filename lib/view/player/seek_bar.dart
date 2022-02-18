@@ -42,12 +42,15 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
 
   late AudioPositionType? positionData;
 
+  // TODO: duration needed to test on iOS
   Duration get _duration {
     Duration _stmDur = positionData?.duration ?? Duration.zero;
     Duration _stmPos = _position;
-    final item = audio.player.sequenceState?.currentSource;
+    // final item = audio.player.sequenceState?.currentSource;
+    // final item = audio.queueState;
+    final item = audio.currentMeta;
     if (_stmDur == Duration.zero && item != null) {
-      AudioTrackType track = item.tag.trackInfo;
+      AudioTrackType track = item.trackInfo;
       final _trkDur = Duration(seconds: track.duration);
 
       if (_trkDur > _stmPos) {
@@ -78,10 +81,12 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
   Duration get _buffered => positionData?.bufferedPosition ?? Duration.zero;
   Duration get _remaining => _duration - _position;
 
-  // String time(Duration e) {
-  //   // return RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch(e)?.group(1) ?? '$_duration';
-  //   return RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch(e.toString())?.group(1) ?? '$e';
-  // }
+  String _time(Duration e) {
+    // core.collection.cacheBucket.duration(e.inSeconds),
+    // RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("$_remaining")?.group(1) ?? '$_remaining',
+    // return RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch(e)?.group(1) ?? '$_duration';
+    return RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("$e")?.group(1) ?? '$e';
+  }
 
   bool get isCollapsed => false;
   // bool get isCollapsed => widget.opacity == 0.0;
@@ -106,9 +111,11 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
   Widget build(BuildContext context) {
     return StreamBuilder<AudioPositionType>(
       key: widget.key,
-      stream: audio.streamPositionData,
+      // stream: audio.streamPositionData,
+      stream: audio.positionDataStream,
       builder: (_, snap) {
-        positionData = snap.data;
+        // positionData = snap.data;
+        positionData = snap.data ?? AudioPositionType(Duration.zero, Duration.zero, Duration.zero);
         // final ddd = positionData?.duration.inMilliseconds.toDouble();
         // final ppp = positionData?.position.inMilliseconds.toDouble();
         // final bbb = positionData?.bufferedPosition.inMilliseconds.toDouble();
@@ -122,14 +129,14 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
               Align(
                 alignment: const Alignment(0.90, -1),
                 child: Text(
-                  core.collection.cacheBucket.duration(_duration.inSeconds),
+                  _time(_remaining),
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
               Align(
                 alignment: const Alignment(-.90, -1),
                 child: Text(
-                  core.collection.cacheBucket.duration(_remaining.inSeconds),
+                  _time(_duration),
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
@@ -196,10 +203,7 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
                       // audio.player.seek(Duration(milliseconds: value.round()));
                     },
                     onChangeEnd: (value) {
-                      // if (widget.onChangeEnd != null) {
-                      //   widget.onChangeEnd!(Duration(milliseconds: value.round()));
-                      // }
-                      audio.player.seek(Duration(milliseconds: value.round()));
+                      audio.seek(Duration(milliseconds: value.round()));
                       _dragValue = null;
                     },
                   ),

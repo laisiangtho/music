@@ -10,7 +10,6 @@ class PlayerOther extends StatefulWidget {
 class _PlayerOtherState extends State<PlayerOther> {
   late final Core core = context.read<Core>();
   late final Audio audio = core.audio;
-  late final AudioPlayer player = audio.player;
 
   @override
   Widget build(BuildContext context) {
@@ -60,21 +59,21 @@ class _PlayerOtherState extends State<PlayerOther> {
         ListTile(
           title: const Text('Multi: download'),
           onTap: () {
-            core.audio.trackDownload([89, 3384, 7]).then((value) {
-              debugPrint('Downloaded');
-            }).catchError((e) {
-              debugPrint(e);
-            });
+            // core.audio.trackDownload([89, 3384, 7]).then((value) {
+            //   debugPrint('Downloaded');
+            // }).catchError((e) {
+            //   debugPrint(e);
+            // });
           },
         ),
         ListTile(
           title: const Text('Multi: delete'),
           onTap: () {
-            core.audio.trackDelete([89, 3384, 7]).then((value) {
-              debugPrint('Deleted');
-            }).catchError((e) {
-              debugPrint(e);
-            });
+            // core.audio.trackDelete([89, 3384, 7]).then((value) {
+            //   debugPrint('Deleted');
+            // }).catchError((e) {
+            //   debugPrint(e);
+            // });
           },
         ),
       ],
@@ -88,29 +87,29 @@ class _PlayerOtherState extends State<PlayerOther> {
         ListTile(
           title: const Text('is available?'),
           onTap: () {
-            core.audio.trackUrlById(3384).then((value) {
-              debugPrint('$value');
-            });
+            // core.audio.trackUrlById(3384).then((value) {
+            //   debugPrint('$value');
+            // });
           },
         ),
         ListTile(
           title: const Text('download'),
           onTap: () {
-            audio.trackDownload([3384]).then((value) {
-              debugPrint('downloaded');
-            }).catchError((e) {
-              debugPrint(e);
-            });
+            // audio.trackDownload([3384]).then((value) {
+            //   debugPrint('downloaded');
+            // }).catchError((e) {
+            //   debugPrint(e);
+            // });
           },
         ),
         ListTile(
           title: const Text('delete'),
           onTap: () {
-            audio.trackDelete([3384]).then((value) {
-              debugPrint('deleted');
-            }).catchError((e) {
-              debugPrint(e);
-            });
+            // audio.trackDelete([3384]).then((value) {
+            //   debugPrint('deleted');
+            // }).catchError((e) {
+            //   debugPrint(e);
+            // });
           },
         ),
       ],
