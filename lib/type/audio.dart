@@ -183,6 +183,7 @@ class AudioBucketType {
 
   Iterable<AudioCategoryLang> langAvailable() => category.lang.where((e) => e.album > 0);
 
+  /// Generate complete set of audio info.
   AudioMetaType meta(int trackId) {
     AudioTrackType track = trackById(trackId);
     return AudioMetaType(
@@ -502,8 +503,10 @@ class AudioMetaType {
   String get title => trackInfo.title;
   String get album => albumInfo.name;
   String get artist => artistInfo.map((e) => e.name).join(', ');
+
   String get artwork =>
-      cover ?? "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg";
+      cover ??
+      "https://raw.githubusercontent.com/khensolomon/zaideih/master/assets/art/default.png";
 }
 
 // NOTE: only type, AudioBucketType child
@@ -598,11 +601,3 @@ class AudioCategoryGenre {
 //   // List<int> albumFilterLangList = [];
 //   // List<int> albumFilterGenreList = [];
 // }
-
-class AudioPositionType {
-  final Duration position;
-  final Duration bufferedPosition;
-  final Duration duration;
-
-  AudioPositionType(this.position, this.bufferedPosition, this.duration);
-}
