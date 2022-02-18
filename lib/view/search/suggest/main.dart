@@ -176,6 +176,7 @@ abstract class _State extends State<Main> with TickerProviderStateMixin {
   }
 
   // NOTE: used in bar, suggest & result
+  // TODO: result not getting searchQuery
   void onSearch(String ord) {
     suggestQuery = ord;
     searchQuery = suggestQuery;

@@ -21,7 +21,7 @@ class _DetailState extends State<_Detail> {
   // late final AudioBucketType cache = core.collection.cacheBucket;
   late final Box<LibraryType> box = core.collection.boxOfLibrary;
 
-  Iterable<AudioMetaType> get trackMeta => core.audio.trackMetaById(library.list);
+  Iterable<AudioMetaType> get trackMeta => core.audio.metaById(library.list);
   LibraryType get library => box.values.firstWhere((e) => e.key == widget.index);
 
   @override

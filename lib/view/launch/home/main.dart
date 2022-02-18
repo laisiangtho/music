@@ -45,7 +45,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   Authentication get authenticate => context.read<Authentication>();
 
   AudioBucketType get cache => core.collection.cacheBucket;
-  // Iterable<AudioMetaType> get trackMeta => core.audio.trackMetaById([3384,3876,77,5,7,8]);
+  // Iterable<AudioMetaType> get trackMeta => core.audio.metaById([3384,3876,77,5,7,8]);
   // Iterable<int> get trackMeta => [3384,3876,77,5,7,8];
   Iterable<int> get trackMeta => cache.track.take(7).map((e) => e.id);
   Iterable<AudioCategoryLang> get language => cache.langAvailable();

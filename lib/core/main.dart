@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 // NOTE: Preference
 // import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:lidea/hive.dart';
+// import 'package:lidea/hive.dart';
 import 'package:lidea/intl.dart';
 import 'package:lidea/unit/controller.dart';
 
@@ -25,9 +25,9 @@ import 'package:lidea/unit/store.dart';
 // NOTE: SQLite
 // import 'package:lidea/unit/sqlite.dart';
 // NOTE: Audio
+import 'package:lidea/audio.dart';
 import 'package:lidea/unit/audio.dart';
 // import 'package:audio_session/audio_session.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
 // NOTE: Core notify and Initializing properties
@@ -67,7 +67,8 @@ class Core extends _Abstract with _Mock {
 
     await store.init();
     await _sql.init();
-    await audio.init();
+    final _audioHandler = Audio(notify: notify, cluster: collection);
+    audio = await _audioHandler.init();
 
     // await mockTest();
 

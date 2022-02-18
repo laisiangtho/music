@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter/gestures.dart';
 // import 'package:flutter/services.dart';
@@ -60,7 +60,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   List<String> get albumGenre => cache.genreList(album.genre).map((e) => e.name).toList();
   List<String> get albumYear => album.year;
 
-  Iterable<AudioMetaType> get albumTrack => audio.trackMetaByUd([albumId]);
+  Iterable<AudioMetaType> get albumTrack => audio.metaByUd([albumId]);
 
   Iterable<int> get albumArtists =>
       albumTrack.map((e) => e.trackInfo.artists).expand((i) => i).toSet();

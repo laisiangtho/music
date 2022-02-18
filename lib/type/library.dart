@@ -45,34 +45,41 @@ class LibraryType extends HiveObject {
     };
   }
 
-  void listAdd(int trackId) {
-    if (!list.contains(trackId)) {
-      list.add(trackId);
-      save();
-    }
-  }
-
-  void listRemove(int trackId) {
-    if (list.contains(trackId)) {
-      list.remove(trackId);
-      save();
-    }
-  }
-
-  void listUpdate(Iterable<int> ids) {
-    for (var rid in list.toSet().difference(ids.toSet())) {
-      list.remove(rid);
-    }
-    for (var rid in ids.toSet().difference(list.toSet())) {
-      list.add(rid);
-    }
+  void listAdd(Iterable<int> ids) {
+    // if (!list.contains(trackId)) {
+    //   list.add(trackId);
+    //   save();
+    // }
+    list.addAll(ids);
     save();
   }
 
-  void listClear() {
-    list.clear();
+  void listRemove(Iterable<int> ids) {
+    // if (list.contains(trackId)) {
+    //   list.remove(trackId);
+    //   save();
+    // }
+    list.removeWhere((e) => ids.contains(e));
     save();
   }
+
+  // void listUpdate(Iterable<int> ids) {
+  //   // for (var rid in list.toSet().difference(ids.toSet())) {
+  //   //   list.remove(rid);
+  //   // }
+  //   // for (var rid in ids.toSet().difference(list.toSet())) {
+  //   //   list.add(rid);
+  //   // }
+  //   final rid = list.toSet().difference(ids.toSet());
+  //   listRemove(rid);
+  //   final aid = ids.toSet().difference(list.toSet());
+  //   listRemove(aid);
+  // }
+
+  // void listClear() {
+  //   list.clear();
+  //   save();
+  // }
 }
 
 class LibraryAdapter extends TypeAdapter<LibraryType> {

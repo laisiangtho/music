@@ -96,7 +96,7 @@ class _View extends _State with _Bar {
         else
           TrackList(
             key: const ValueKey<String>('tracklist-recent-play'),
-            tracks: core.audio.trackMetaById(items.map((e) => e.id).toList()),
+            tracks: core.audio.metaById(items.map((e) => e.id).toList()),
           ),
         // SliverList(
         //   delegate: SliverChildBuilderDelegate(
