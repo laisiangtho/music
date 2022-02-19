@@ -176,35 +176,35 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
     // scrollNotify.reservedHeight = 25;
     screenController.forward();
 
-    // audio.message.listen((msg) {
-    //   if (msg.isNotEmpty) {
-    //     if (msg.isNotEmpty) {
-    //       ScaffoldMessenger.of(context)
-    //           .showSnackBar(
-    //             SnackBar(
-    //               shape: const RoundedRectangleBorder(
-    //                 borderRadius: BorderRadius.all(
-    //                   Radius.circular(5),
-    //                 ),
-    //               ),
-    //               elevation: 0.5,
-    //               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-    //               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-    //               behavior: SnackBarBehavior.floating,
-    //               content: WidgetLabel(
-    //                 // icon: Icons.warning_rounded,
-    //                 label: preference.language(msg),
-    //               ),
-    //             ),
-    //           )
-    //           .closed
-    //           .then((value) {
-    //         audio.message.value = '';
-    //         debugPrint('??? errorMessage $value');
-    //       });
-    //     }
-    //   }
-    // });
+    audio.message.listen((msg) {
+      if (msg.isNotEmpty) {
+        if (msg.isNotEmpty) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(
+                SnackBar(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                  ),
+                  elevation: 0.5,
+                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  behavior: SnackBarBehavior.floating,
+                  content: WidgetLabel(
+                    // icon: Icons.warning_rounded,
+                    label: preference.language(msg),
+                  ),
+                ),
+              )
+              .closed
+              .then((value) {
+            audio.message.value = '';
+            debugPrint('??? errorMessage $value');
+          });
+        }
+      }
+    });
   }
 
   @override
