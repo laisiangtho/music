@@ -322,8 +322,9 @@ class PlayAllAttribute extends StatelessWidget {
       // elevation: 1,
       margin: const EdgeInsets.symmetric(vertical: 20),
       borderRadius: BorderRadius.circular(100),
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 25),
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 20),
       color: Theme.of(context).highlightColor,
+      // padding: const EdgeInsets.fromLTRB(20, 7, 10, 7),
       // decoration: BoxDecoration(
       //   borderRadius: BorderRadius.circular(10), color: Colors.amber,
       //   // border:BoxBorder()

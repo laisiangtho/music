@@ -30,7 +30,6 @@ mixin _Refresh on _State {
   Future<void> _refreshTrigger() async {
     await Future.delayed(const Duration(milliseconds: 700));
     // debugPrint('alive update is disabled');
-    debugPrint('refresh: ??');
   }
 
   Widget _refreshIndicator(RefreshIndicatorMode mode, double percentageComplete) {

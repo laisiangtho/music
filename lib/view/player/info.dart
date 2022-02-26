@@ -50,6 +50,14 @@ class _PlayerInfoState extends State<PlayerInfo> {
                 meta.title,
                 textAlign: TextAlign.center,
               ),
+              WidgetButton(
+                child: const WidgetLabel(
+                  icon: Icons.cloud_download_rounded,
+                ),
+                onPressed: () {
+                  audio.trackCacheDownloadTesting([meta.trackInfo.id]);
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25),
                 child: Wrap(

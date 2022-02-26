@@ -8,18 +8,11 @@ class TrackListItem extends StatelessWidget {
 
   Core get core => context.read<Core>();
   Audio get audio => core.audio;
-  AudioBucketType get cache => core.collection.cacheBucket;
+  AudioBucketType get _bucket => core.collection.cacheBucket;
 
   Preference get preference => core.preference;
 
-  void showPlaylistEditor(BuildContext context) {
-    // showBottomSheet(
-    //   context: context,
-    //   builder: (BuildContext context) => const PlaylistEditor(),
-    //   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    //   elevation: 10,
-    // );
-    // final abc = SystemUiOverlayStyle.light;
+  void showOption() {
     showModalBottomSheet(
       context: context,
       // builder: (BuildContext context) => TrackOption(
@@ -27,14 +20,8 @@ class TrackListItem extends StatelessWidget {
       // ),
       builder: (BuildContext context) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
-          // value: SystemUiOverlayStyle.light.copyWith(
-          //   systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-          //   systemNavigationBarDividerColor: Theme.of(context).focusColor,
-          // ),
           value: SystemUiOverlayStyle(
-            // systemNavigationBarColor: Theme.of(context).primaryColor,
             systemNavigationBarDividerColor: Theme.of(context).focusColor,
-            // systemNavigationBarIconBrightness: Brightness.dark,
           ),
           child: TrackOption(
             trackId: track.trackInfo.id,
@@ -42,8 +29,6 @@ class TrackListItem extends StatelessWidget {
         );
       },
       barrierColor: Theme.of(context).shadowColor.withOpacity(0.6),
-      // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      // backgroundColor: Theme.of(context).primaryColor,
       isScrollControlled: true,
       elevation: 10,
       useRootNavigator: true,
@@ -58,49 +43,75 @@ class TrackListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AudioMediaStateType>(
-      stream: audio.mediaState(track.trackInfo.id.toString()),
+      stream: audio.trackState(track.trackInfo.id),
       builder: (context, snap) {
-        // final state = snap.data ?? AudioQueueStateType.empty;
-
-        final state = snap.data;
-
         if (snap.hasData) {
-          return _container(
-            queued: state!.queued,
-            playing: state.playing,
-            index: state.index,
-          );
+          return _container(snap.data!);
         }
-        return _container(
-          queued: false,
-          playing: false,
-        );
+        return _container(const AudioMediaStateType());
       },
     );
   }
 
-  Widget _container({
-    bool queued = false,
-    bool playing = false,
-    int? index,
-  }) {
+  Widget _container(AudioMediaStateType state) {
+    final queued = state.queued;
+    final playing = state.playing;
+    final cache = state.cache;
+    final cached = cache.caching == 1.0;
     return ListTile(
       key: key,
       minVerticalPadding: 0,
-      leading: DecoratedBox(
-        decoration: BoxDecoration(
-          color: queued ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Icon(
-            playing
-                ? Icons.pause_rounded
-                : queued
-                    ? Icons.play_arrow_rounded
-                    : Icons.playlist_add_rounded,
-            // color: queued?Theme.of(context).highlightColor:null,
+      // ),
+      leading: SizedBox(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: queued ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.antiAlias,
+              fit: StackFit.loose,
+              children: [
+                if (cached)
+                  Positioned(
+                    bottom: 0,
+                    right: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Icon(
+                        Icons.cloud_done,
+                        size: 12,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    ),
+                  ),
+                Positioned(
+                  // bottom: 0,
+                  // left: 2,
+                  child: SizedBox.square(
+                    dimension: 30,
+                    child: CircularProgressIndicator(
+                      value: cached ? 0.0 : cache.caching,
+                      color: Theme.of(context).focusColor,
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Icon(
+                    playing
+                        ? Icons.pause_rounded
+                        : queued
+                            ? Icons.play_arrow_rounded
+                            : Icons.playlist_add_rounded,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -114,13 +125,13 @@ class TrackListItem extends StatelessWidget {
         style: Theme.of(context).textTheme.bodySmall,
       ),
       trailing: Text(
-        cache.duration(track.trackInfo.duration),
+        _bucket.duration(track.trackInfo.duration),
         style: Theme.of(context).textTheme.labelSmall,
       ),
       onTap: () {
         audio.addQueueItem(audio.generateMediaItem(track.trackInfo.id));
       },
-      onLongPress: () => showPlaylistEditor(context),
+      onLongPress: showOption,
     );
   }
 }
@@ -138,9 +149,9 @@ class TrackListItemHolder extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(5)),
         ),
         child: const Padding(
-          padding: EdgeInsets.all(7.0),
+          padding: EdgeInsets.all(12.0),
           child: Icon(
-            Icons.playlist_add,
+            Icons.playlist_add_rounded,
           ),
         ),
       ),

@@ -67,7 +67,7 @@ class Core extends _Abstract with _Mock {
 
     await store.init();
     await _sql.init();
-    final _audioHandler = Audio(notify: notify, cluster: collection);
+    final _audioHandler = Audio(cluster: collection);
     audio = await _audioHandler.init();
 
     // await mockTest();

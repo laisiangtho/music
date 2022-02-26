@@ -109,7 +109,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
 
   // Iterable<AudioMetaType> get artistTrack => track.map((e) => cache.meta(e.id)).take(10);
   // Iterable<AudioMetaType> get artistTrack => track.map((e) => cache.meta(e.id));
-  Iterable<int> get artistTrack => track.map((e) => e.id);
+  List<int> get artistTrackIds => track.map((e) => e.id).toList();
 
   // List<String> get artistAlbumId => track.map((e) => e.uid).toSet().toList();
 
@@ -144,7 +144,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
       artistAlbum.map((e) => e.year.where((x) => x != '')).expand((e) => e).toSet().toList()
         ..sort((a, b) => a.compareTo(b));
 
-  void playAll() {
+  void _playAll() {
     audio.queuefromTrack(track.map((e) => e.id).toList(), group: true);
   }
 }
@@ -188,7 +188,7 @@ class _View extends _State with _Bar {
         ),
 
         TrackFlat(
-          tracks: artistTrack,
+          tracks: artistTrackIds,
           label: 'Tracks (?)',
           showMore: '* / ?',
           limit: 3,
@@ -219,9 +219,9 @@ class _View extends _State with _Bar {
   }
 
   Widget workingContainer() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        <Widget>[
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -242,10 +242,18 @@ class _View extends _State with _Bar {
             aka: artist.aka,
           ),
           YearWrap(year: artistYear),
-          Center(
-            child: PlayAllAttribute(
-              onPressed: playAll,
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PlayAllAttribute(
+                onPressed: _playAll,
+              ),
+              CacheWidget(
+                context: context,
+                trackIds: artistTrackIds,
+                name: artist.name,
+              ),
+            ],
           ),
         ],
       ),

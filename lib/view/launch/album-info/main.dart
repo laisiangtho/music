@@ -64,6 +64,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
 
   Iterable<int> get albumArtists =>
       albumTrack.map((e) => e.trackInfo.artists).expand((i) => i).toSet();
+  List<int> get albumTrackIds => albumTrack.map((e) => e.trackInfo.id).toList();
   // Iterable<AudioArtistType> get albumArtists => albumTrack.map(
   //   (e) => e.trackInfo.artists
   // ).expand((i) => i).toSet().map(
@@ -86,14 +87,8 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
     if (mounted) super.setState(fn);
   }
 
-  // void onClear() {
-  //   Future.microtask(() {});
-  // }
-
-  void onSearch(String word) {}
-
-  void onDelete(String word) {
-    Future.delayed(Duration.zero, () {});
+  void _playAll() {
+    core.audio.queuefromAlbum([albumId]);
   }
 }
 
@@ -139,8 +134,18 @@ class _View extends _State with _Bar {
                 ),
                 TitleAttribute(text: albumName),
                 YearWrap(year: albumYear),
-                PlayAllAttribute(
-                  onPressed: () => core.audio.queuefromAlbum([albumId]),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PlayAllAttribute(
+                      onPressed: _playAll,
+                    ),
+                    CacheWidget(
+                      context: context,
+                      trackIds: albumTrackIds,
+                      name: album.name,
+                    ),
+                  ],
                 ),
                 GenreWrap(
                   genre: albumGenre,

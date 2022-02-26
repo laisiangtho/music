@@ -112,7 +112,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   }
 
   late final List<Map<GlobalKey, String>> tmpverse = List.generate(10, (index) {
-    return {GlobalKey(): '??? $index'};
+    return {GlobalKey(): '? $index'};
   });
 }
 

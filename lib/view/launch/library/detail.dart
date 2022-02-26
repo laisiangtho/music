@@ -27,8 +27,6 @@ class _DetailState extends State<_Detail> {
   @override
   void initState() {
     super.initState();
-    // library.box?.watch();
-    // final adfd =
   }
 
   @override
@@ -185,10 +183,26 @@ class _DetailState extends State<_Detail> {
                 textAlign: TextAlign.center,
               ),
             ),
-          WidgetLabel(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-            alignment: Alignment.centerLeft,
-            label: preference.text.option(true),
+          // WidgetLabel(
+          //   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          //   alignment: Alignment.centerLeft,
+          //   label: preference.text.option(true),
+          // ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                WidgetLabel(
+                  label: preference.text.option(true),
+                ),
+                CacheWidget(
+                  context: context,
+                  trackIds: library.list,
+                  name: library.name,
+                ),
+              ],
+            ),
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),

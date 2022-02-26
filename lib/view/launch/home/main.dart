@@ -54,7 +54,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
   Iterable<AudioAlbumType> get albumPopular => cache.album.take(17);
 
   // bool _showModal = false;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final _scaffoldKey = GlobalKey<ScaffoldState>();
   // late PersistentBottomSheetController? _bottomSheetController;
 
   @override
@@ -65,7 +65,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    scrollController.dispose();
+    // scrollController.dispose();
     super.dispose();
   }
 
@@ -109,7 +109,7 @@ class _View extends _State with _Bar, _Refresh {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       body: ViewPage(
         // key: widget.key,
         // controller: scrollController,
@@ -120,8 +120,8 @@ class _View extends _State with _Bar, _Refresh {
 
   Widget body() {
     return CustomScrollView(
-      // primary: true,
-      controller: scrollController,
+      primary: true,
+      // controller: scrollController,
       slivers: <Widget>[
         bar(),
         refresh(),
@@ -195,23 +195,6 @@ class _View extends _State with _Bar, _Refresh {
           ),
         ),
 
-        // const SliverPadding(
-        //   padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-        //   sliver: SliverToBoxAdapter(
-        //     child: Text('abc'),
-        //   ),
-        // ),
-        // SliverLayoutBuilder(
-        //   builder: (_, __) {
-        //     return const SliverPadding(
-        //       padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-        //       sliver: SliverToBoxAdapter(
-        //         child: Text('abc'),
-        //       ),
-        //     );
-        //   },
-        // ),
-
         SliverPadding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           sliver: SliverToBoxAdapter(
@@ -223,18 +206,6 @@ class _View extends _State with _Bar, _Refresh {
           ),
         ),
 
-        // SliverToBoxAdapter(
-        //   child: AlbumFlat(
-        //     context: context,
-        //     primary: false,
-        //     album: albumPopular,
-        //     label: 'Most play album (?)',
-        //     more: const WidgetLabel(
-        //       icon: Icons.more_horiz_rounded,
-        //     ),
-        //   ),
-        // ),
-
         AlbumFlat(
           context: context,
           album: albumPopular,
@@ -245,29 +216,14 @@ class _View extends _State with _Bar, _Refresh {
         ),
 
         // favoriteContainer(),
-        // SliverToBoxAdapter(
-        //   child: TrackFlat(
-        //     primary: false,
-        //     tracks: trackMeta,
-        //     label: 'widget Most play track (?)',
-        //   ),
-        // ),
-        // TrackFlat(
-        //   tracks: trackMeta,
-        //   label: '--- Most play track (?)',
-        // ),
 
         ValueListenableBuilder(
           valueListenable: box.listenable(),
           builder: (context, Box<RecentPlayType> o, child) {
-            // debugPrint('??? recent play');
             if (o.isEmpty || o.length < 5) {
               return child!;
             }
             final recentPlayIds = o.values.take(7).map((e) => e.id);
-            // return SliverToBoxAdapter(
-            //   child: Text('?? ${o.values.length}'),
-            // );
             return TrackFlat(
               label: '--- Recent play track (?)',
               tracks: recentPlayIds,

@@ -18,8 +18,8 @@ class _PlayerOtherState extends State<PlayerOther> {
       delegate: SliverChildListDelegate(
         [
           queueContainer(),
+          singleTaskContainer(),
           multiTaskContainer(),
-          optionContainer(),
         ],
       ),
     );
@@ -52,35 +52,7 @@ class _PlayerOtherState extends State<PlayerOther> {
     );
   }
 
-  Widget multiTaskContainer() {
-    return Column(
-      children: [
-        const Text('Multi task'),
-        ListTile(
-          title: const Text('Multi: download'),
-          onTap: () {
-            // core.audio.trackDownload([89, 3384, 7]).then((value) {
-            //   debugPrint('Downloaded');
-            // }).catchError((e) {
-            //   debugPrint(e);
-            // });
-          },
-        ),
-        ListTile(
-          title: const Text('Multi: delete'),
-          onTap: () {
-            // core.audio.trackDelete([89, 3384, 7]).then((value) {
-            //   debugPrint('Deleted');
-            // }).catchError((e) {
-            //   debugPrint(e);
-            // });
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget optionContainer() {
+  Widget singleTaskContainer() {
     return Column(
       children: [
         const Text('Check'),
@@ -95,11 +67,7 @@ class _PlayerOtherState extends State<PlayerOther> {
         ListTile(
           title: const Text('download'),
           onTap: () {
-            // audio.trackDownload([3384]).then((value) {
-            //   debugPrint('downloaded');
-            // }).catchError((e) {
-            //   debugPrint(e);
-            // });
+            audio.trackCacheDownloadTesting([3384]);
           },
         ),
         ListTile(
@@ -107,6 +75,30 @@ class _PlayerOtherState extends State<PlayerOther> {
           onTap: () {
             // audio.trackDelete([3384]).then((value) {
             //   debugPrint('deleted');
+            // }).catchError((e) {
+            //   debugPrint(e);
+            // });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget multiTaskContainer() {
+    return Column(
+      children: [
+        const Text('Multi task'),
+        ListTile(
+          title: const Text('Multi: download'),
+          onTap: () {
+            audio.trackCacheDownloadTesting([89, 3384, 7]);
+          },
+        ),
+        ListTile(
+          title: const Text('Multi: delete'),
+          onTap: () {
+            // core.audio.trackDelete([89, 3384, 7]).then((value) {
+            //   debugPrint('Deleted');
             // }).catchError((e) {
             //   debugPrint(e);
             // });

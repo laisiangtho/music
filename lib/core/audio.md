@@ -143,8 +143,6 @@ class Audio extends UnitAudio {
 
     libraryQueue.listUpdate(ids);
 
-    // debugPrint('??? processingState ${player.processingState.name}');
-    // debugPrint('??? playerState ${player.playerState.playing}');
 
     for (AudioTrackType track in cache.trackByIds(toAdd)) {
       libraryQueue.listAdd(track.id);
@@ -168,7 +166,6 @@ class Audio extends UnitAudio {
     }).catchError((e) {
       player.stop();
       errorMessage.value = e;
-      // debugPrint('??? errorAudioSource $e');
     });
   }
 

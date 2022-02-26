@@ -37,6 +37,7 @@ part 'track_item.dart';
 
 part 'track_option.dart';
 part 'playlists_editor.dart';
+part 'cache_all.dart';
 
 // enum Status {
 //   none,

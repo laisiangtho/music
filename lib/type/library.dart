@@ -45,13 +45,13 @@ class LibraryType extends HiveObject {
     };
   }
 
-  void listAdd(Iterable<int> ids) {
-    // if (!list.contains(trackId)) {
-    //   list.add(trackId);
-    //   save();
-    // }
-    list.addAll(ids);
-    save();
+  void listAdd(int trackId) {
+    if (!list.contains(trackId)) {
+      list.add(trackId);
+      save();
+    }
+    // list.addAll(ids);
+    // save();
   }
 
   void listRemove(Iterable<int> ids) {

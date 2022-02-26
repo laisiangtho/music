@@ -163,67 +163,56 @@ class _ArtistWrapState extends State<ArtistWrap> {
       primary: widget.primary,
       padding: widget.padding,
       show: count > 0,
-      child: FutureBuilder(
-        future: Future.microtask(() => true),
-        builder: (_, snap) {
-          if (snap.hasData == false) return const SizedBox();
-          return Column(
-            children: [
-              if (widget.label != null)
-                WidgetBlockTile(
-                  title: WidgetLabel(
-                    // alignment: Alignment.centerLeft,
-                    label: widget.label!.replaceFirst('?', total.toString()),
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  textDirection: TextDirection.ltr,
-                  children: List.generate(
-                    count + 1,
-                    (index) {
-                      final inRange = index == count;
-                      if (inRange) {
-                        if (_hasMore) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-                            child: ArtistWrapMore(
-                              more: 'more * of ?',
-                              total: total,
-                              count: count,
-                              onPressed: _hasMore ? loadMore : null,
-                            ),
-                          );
-                        }
-                        return const SizedBox();
-                      }
+      child: Column(
+        children: [
+          if (widget.label != null)
+            WidgetBlockTile(
+              title: WidgetLabel(
+                // alignment: Alignment.centerLeft,
+                label: widget.label!.replaceFirst('?', total.toString()),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              textDirection: TextDirection.ltr,
+              children: List.generate(
+                count + 1,
+                (index) {
+                  final inRange = index == count;
+                  if (inRange) {
+                    if (_hasMore) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-                        child: ArtistWrapItem(
-                          context: context,
-                          routePush: widget.routePush,
-                          // artist: artist.elementAt(index),
-                          artist: cache.artistById(
-                            artist.elementAt(index),
-                          ),
+                        child: ArtistWrapMore(
+                          more: 'more * of ?',
+                          total: total,
+                          count: count,
+                          onPressed: _hasMore ? loadMore : null,
                         ),
                       );
-                    },
-                  ),
-                ),
+                    }
+                    return const SizedBox();
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+                    child: ArtistWrapItem(
+                      context: context,
+                      routePush: widget.routePush,
+                      // artist: artist.elementAt(index),
+                      artist: cache.artistById(
+                        artist.elementAt(index),
+                      ),
+                    ),
+                  );
+                },
               ),
-            ],
-          );
-        },
+            ),
+          ),
+        ],
       ),
     );
-    // if (artist.isEmpty) return const SizedBox();
-    // return Padding(
-    //   padding: widget.padding,
-    //   child: ,
-    // );
   }
 }
