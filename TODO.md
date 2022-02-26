@@ -1,6 +1,8 @@
 # Todo
 
-version: 1.0.0+1
+version: 1.0.0+6
 
 - initial
-  - [ ] db index (save Initiated in 5080-7000 ms)
+  - [x] db index (save Initiated in 5080-7000 ms)
+  - [x] Downloads/cache options
+  - [x] repeat mode all
