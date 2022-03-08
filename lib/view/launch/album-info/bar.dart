@@ -28,8 +28,14 @@ mixin _Bar on _State {
                             ? Hero(
                                 tag: 'appbar-left-$canPop',
                                 child: WidgetButton(
+                                  duration: const Duration(milliseconds: 150),
                                   onPressed: () {
+                                    // arguments.navigator!.currentState!.pop();
                                     arguments.navigator!.currentState!.maybePop();
+                                    // Navigator.of(context).maybePop();
+                                    // Navigator.of(context).pop();
+                                    // arguments.navigator!.currentState!.pop();
+                                    debugPrint('??? album-info pop');
                                   },
                                   child: WidgetLabel(
                                     icon: Icons.arrow_back_ios_new_rounded,

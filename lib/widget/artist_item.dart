@@ -144,9 +144,18 @@ class ArtistWrapItem extends StatelessWidget {
   final AudioArtistType artist;
   final bool routePush;
 
-  const ArtistWrapItem(
-      {Key? key, required this.context, required this.artist, this.routePush = true})
-      : super(key: key);
+  // final FutureOr<T> Function<T>()? whenNavigate;
+  final FutureOr Function()? whenNavigate;
+
+  const ArtistWrapItem({
+    Key? key,
+    required this.context,
+    required this.artist,
+    this.routePush = true,
+    this.whenNavigate,
+    // this.whenComplete,
+    // this.whenNavigate,
+  }) : super(key: key);
 
   Core get core => context.read<Core>();
 
@@ -154,18 +163,49 @@ class ArtistWrapItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return WidgetButton(
       key: key,
+      margin: const EdgeInsets.only(right: 2, bottom: 1, top: 1),
       child: WidgetLabel(
+        // alignment: Alignment.centerLeft,
         label: artist.name,
-        message: '* (??)'
-            .replaceFirst('*', artist.name)
+        message: '(*) (??)'
+            .replaceFirst('(*)', artist.name)
             .replaceFirst('??', artist.aka)
             .replaceFirst(' ()', ''),
       ),
-      color: Theme.of(context).shadowColor,
-      borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 13),
+      // color: Theme.of(context).shadowColor,
+      // borderRadius: const BorderRadius.all(Radius.circular(100.0)),
+      // padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 13),
+      // color: Theme.of(context).shadowColor,
+      // borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+      decoration: BoxDecoration(
+        color: Theme.of(context).shadowColor,
+        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+        shape: BoxShape.rectangle,
+      ),
       onPressed: () {
-        core.navigate(to: '/artist-info', args: artist, routePush: routePush);
+        // core.navigate(to: '/artist-info', args: artist, routePush: routePush);
+        // Navigator.of(context).maybePop().whenComplete(() {
+        //   Future.delayed(const Duration(milliseconds: 200), () {
+        //     if (Navigator.of(context).canPop()) Navigator.pop(context);
+        //   }).whenComplete(() {
+        //     core.navigate(
+        //       to: '/artist-info',
+        //       args: artist,
+        //       routePush: routePush,
+        //     );
+        //   });
+        // });
+
+        Future.microtask(() async {
+          await whenNavigate?.call();
+        }).whenComplete(() {
+          core.navigate(
+            to: '/artist-info',
+            args: artist,
+            routePush: routePush,
+          );
+        });
       },
     );
   }
@@ -192,9 +232,12 @@ class ArtistWrapMore extends StatelessWidget {
       child: WidgetLabel(
         label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
       ),
-      color: Theme.of(context).shadowColor,
-      borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 17),
+
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Theme.of(context).shadowColor.withOpacity(0.3),
+        borderRadius: const BorderRadius.all(Radius.circular(100.0)),
+      ),
       // minSize: 35,
       onPressed: onPressed,
     );

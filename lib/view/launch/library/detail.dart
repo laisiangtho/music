@@ -12,6 +12,7 @@ class _Detail extends StatefulWidget {
 class _DetailState extends State<_Detail> {
   late final Core core = context.read<Core>();
   late final Preference preference = core.preference;
+  late final Audio audio = core.audio;
 
   // late final AudioBucketType cache = core.collection.cacheBucket;
   // late final _fieldController = TextEditingController();
@@ -21,8 +22,8 @@ class _DetailState extends State<_Detail> {
   // late final AudioBucketType cache = core.collection.cacheBucket;
   late final Box<LibraryType> box = core.collection.boxOfLibrary;
 
-  Iterable<AudioMetaType> get trackMeta => core.audio.metaById(library.list);
   LibraryType get library => box.values.firstWhere((e) => e.key == widget.index);
+  Iterable<AudioMetaType> get trackMeta => audio.metaById(library.list);
 
   @override
   void initState() {
@@ -37,8 +38,6 @@ class _DetailState extends State<_Detail> {
       minChildSize: 0.3,
       maxChildSize: 0.9,
       builder: (context, scrollController) {
-        // return scrollView(scrollController);
-
         return ValueListenableBuilder(
           valueListenable: box.listenable(keys: [widget.index]),
           builder: (context, Box<LibraryType> o, child) {
@@ -104,16 +103,6 @@ class _DetailState extends State<_Detail> {
             );
           },
         ),
-        // SliverToBoxAdapter(
-        //   child: WidgetButton(
-        //     child: const Text('Delete'),
-        //     onPressed: () {
-        //       // box.deleteAt(index);
-        //       library.delete();
-        //       Navigator.of(context).pop();
-        //     },
-        //   ),
-        // ),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           sliver: FutureBuilder(
@@ -127,45 +116,66 @@ class _DetailState extends State<_Detail> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
           sliver: SliverToBoxAdapter(
-            child: WidgetLabel(
-              alignment: Alignment.centerLeft,
-              label: preference.text.track(true),
-            ),
-            // child: WidgetBlockTile(
-            //   title: WidgetLabel(
-            //     alignment: Alignment.centerLeft,
-            //     label: preference.text.track(true),
-            //   ),
+            // child: WidgetLabel(
+            //   alignment: Alignment.centerLeft,
+            //   label: preference.text.track(true),
             // ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                WidgetLabel(
+                  alignment: Alignment.centerLeft,
+                  label: preference.text.track(true),
+                ),
+                CacheWidget(
+                  context: context,
+                  trackIds: library.list,
+                  name: library.name,
+                ),
+              ],
+            ),
           ),
         ),
-
-        // Padding(
-        //     padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-        //     child: ,
+        // SliverPadding(
+        //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        //   sliver: FutureBuilder(
+        //     future: Future.delayed(const Duration(milliseconds: 200), () => true),
+        //     builder: (_, snap) {
+        //       if (snap.hasData && trackMeta.isNotEmpty) {
+        //         return TrackList(
+        //           // key: UniqueKey(),
+        //           tracks: trackMeta,
+        //         );
+        //       }
+        //       return SliverToBoxAdapter(
+        //         child: Text(
+        //           preference.text.noItem(preference.text.track(true)),
+        //           textAlign: TextAlign.center,
+        //         ),
+        //       );
+        //     },
         //   ),
+        // ),
 
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          sliver: FutureBuilder(
-            future: Future.delayed(const Duration(milliseconds: 200), () => true),
-            builder: (_, snap) {
-              if (snap.hasData && trackMeta.isNotEmpty) {
-                return TrackList(
-                  // key: UniqueKey(),
-                  tracks: trackMeta,
-                );
-              }
-              return SliverToBoxAdapter(
-                child: Text(
-                  preference.text.noItem(preference.text.track(true)),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            },
-          ),
+        TrackList(
+          key: const Key('library-track-list'),
+          tracks: trackMeta,
+          itemReorderable: (int oldIndex, int newIndex) async {
+            if (oldIndex < newIndex) newIndex--;
+            if (oldIndex == newIndex) return;
+
+            final itemMoved = library.list.removeAt(oldIndex);
+            library.list.insert(newIndex, itemMoved);
+            library.save();
+
+            final index = audio.queue.value.indexWhere((e) => int.parse(e.id) == itemMoved);
+            if (index >= 0) {
+              audio.moveQueueItem(oldIndex, index);
+              // audio.updateMediaItem();
+            }
+          },
         ),
       ],
     );
@@ -183,27 +193,28 @@ class _DetailState extends State<_Detail> {
                 textAlign: TextAlign.center,
               ),
             ),
-          // WidgetLabel(
-          //   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-          //   alignment: Alignment.centerLeft,
-          //   label: preference.text.option(true),
-          // ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                WidgetLabel(
-                  label: preference.text.option(true),
-                ),
-                CacheWidget(
-                  context: context,
-                  trackIds: library.list,
-                  name: library.name,
-                ),
-              ],
-            ),
+          WidgetLabel(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+            alignment: Alignment.centerLeft,
+            label: preference.text.option(true),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       WidgetLabel(
+          //         label: preference.text.option(true),
+          //       ),
+          //       CacheWidget(
+          //         context: context,
+          //         trackIds: library.list,
+          //         name: library.name,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
             leading: const Icon(
@@ -217,10 +228,11 @@ class _DetailState extends State<_Detail> {
             trailing: Text(library.list.length.toString()),
             onTap: () {
               if (library.list.isNotEmpty) {
-                core.audio.queuefromTrack(library.list, group: true);
+                audio.queuefromTrack(library.list, group: true);
               }
             },
           ),
+
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
             leading: const Icon(
@@ -242,6 +254,7 @@ class _DetailState extends State<_Detail> {
               // });
             },
           ),
+
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
             leading: const Icon(

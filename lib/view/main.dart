@@ -102,9 +102,9 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
       _navPageViewAction(at);
     }
     final _vi = AppRoutes.homeNavigator;
-    final state = _vi.currentState;
-    if (to != null && state != null) {
-      final canPop = state.canPop();
+    final nav = _vi.currentState;
+    if (to != null && nav != null) {
+      final canPop = nav.canPop();
       // final canPop = Navigator.canPop(context);
       final arguments = ViewNavigationArguments(
         navigator: _vi,
@@ -112,12 +112,41 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
         canPop: canPop,
       );
       if (routePush) {
-        state.pushNamed(to, arguments: arguments);
+        nav.pushNamed(to, arguments: arguments);
         // Navigator.of(context).pushNamed(to, arguments: arguments);
       } else {
-        state.pushReplacementNamed(to, arguments: arguments);
+        // nav.pushReplacementNamed(to, arguments: arguments);
+        nav.pushNamedAndRemoveUntil(
+          to,
+          ModalRoute.withName('/'),
+          arguments: arguments,
+        );
         // Navigator.of(context).pushReplacementNamed(to, arguments: arguments);
+        // nav.pushNamedAndRemoveUntil(
+        //   to,
+        //   (route) => false,
+        //   arguments: arguments,
+        // );
       }
+
+      /*
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        "/album-info",
+        ModalRoute.withName('/'),
+        arguments: arguments,
+      );
+
+      nav.pushNamedAndRemoveUntil(to, (route) => false, arguments: arguments,);
+      nav.pushNamedAndRemoveUntil(to, ModalRoute.withName('/'), arguments: arguments,);
+      */
+      // Navigator.pushNamedAndRemoveUntil(
+      //   context,
+      //   "/album-info",
+      //   ModalRoute.withName('/'),
+      //   arguments: arguments,
+      // );
+
       final screenName = core.collection.screenName(to);
       final screenClass = core.collection.screenClass(core.navigation.name);
       core.analytics.screen(screenName, screenClass);

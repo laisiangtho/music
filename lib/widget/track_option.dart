@@ -18,12 +18,23 @@ class _TrackOptionState extends State<TrackOption> {
 
   late final AudioBucketType cache = core.collection.cacheBucket;
   late final Box<LibraryType> box = core.collection.boxOfLibrary;
+  LibraryType get likes => core.collection.valueOfLibraryLike;
+  bool get hasLike => likes.list.contains(widget.trackId);
 
   AudioMetaType get track => cache.meta(widget.trackId);
 
   @override
   void initState() {
     super.initState();
+    // final abc = track.artistInfo;
+  }
+
+  Future whenNavigate() {
+    return Navigator.of(context).maybePop().whenComplete(() {
+      return Future.delayed(const Duration(milliseconds: 200), () {
+        if (Navigator.of(context).canPop()) Navigator.pop(context);
+      });
+    });
   }
 
   @override
@@ -67,43 +78,150 @@ class _TrackOptionState extends State<TrackOption> {
             );
           },
         ),
-        SliverToBoxAdapter(
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
-                child: Text(
-                  track.title,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
-                child: Text(
-                  track.artist,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ),
-            ],
-          ),
-        ),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-          sliver: FutureBuilder(
-            future: Future.delayed(const Duration(milliseconds: 240), () => true),
-            builder: (_, snap) {
-              if (snap.hasData) {
-                return likeContainer(core.collection.valueOfLibraryLike);
-              }
-              return const SliverToBoxAdapter();
-            },
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              <Widget>[
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+                  child: WidgetLabel(
+                    alignment: Alignment.centerLeft,
+                    label: 'Like it?',
+                  ),
+                ),
+                ListTile(
+                  leading: const WidgetLabel(
+                    icon: Icons.audiotrack,
+                  ),
+                  title: Text(
+                    track.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  trailing: WidgetLabel(
+                    icon: Icons.star_rounded,
+                    iconColor: hasLike ? Theme.of(context).highlightColor : null,
+                  ),
+                  onTap: () {
+                    if (hasLike) {
+                      likes.list.remove(widget.trackId);
+                    } else {
+                      likes.list.add(widget.trackId);
+                    }
+                    if (likes.isInBox) {
+                      likes.save();
+                    } else {
+                      box.add(likes);
+                    }
+                  },
+                ),
+                ListTile(
+                  leading: const WidgetLabel(
+                    icon: Icons.person,
+                  ),
+                  title: Wrap(
+                    children: List.generate(
+                      track.artistInfo.length,
+                      (index) {
+                        return ArtistWrapItem(
+                          context: context,
+                          artist: track.artistInfo.elementAt(index),
+                          routePush: false,
+                          whenNavigate: whenNavigate,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: const WidgetLabel(
+                    // icon: LideaIcon.album,
+                    icon: Icons.album,
+                  ),
+                  title: Text(track.album),
+                  onTap: () {
+                    // Navigator.of(context).maybePop().whenComplete(() {
+                    //   Future.delayed(const Duration(milliseconds: 200), () {
+                    //     if (Navigator.of(context).canPop()) Navigator.pop(context);
+                    //   }).whenComplete(() {});
+                    // });
+                    whenNavigate().whenComplete(() {
+                      core.navigate(
+                        to: '/album-info',
+                        args: track.albumInfo,
+                        routePush: false,
+                      );
+                    });
+                  },
+                ),
+                ListTile(
+                  leading: const WidgetLabel(
+                    icon: Icons.more_horiz,
+                  ),
+                  title: Text.rich(
+                    TextSpan(
+                      text: 'Played: ',
+                      children: [
+                        TextSpan(
+                          text: track.trackInfo.plays.toString(),
+                        ),
+                        TextSpan(
+                          text: ', with duration: ',
+                          children: [
+                            TextSpan(
+                              text: cache.duration(track.trackInfo.duration),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    // style: Theme.of(context).textTheme.labelMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+        // SliverToBoxAdapter(
+        //   child: Column(
+        //     // mainAxisSize: MainAxisSize.min,
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: [
+        //       Padding(
+        //         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+        //         child: Text(
+        //           track.title,
+        //           textAlign: TextAlign.center,
+        //           style: Theme.of(context).textTheme.titleLarge,
+        //         ),
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+        //         child: Text(
+        //           track.artist,
+        //           textAlign: TextAlign.center,
+        //           style: Theme.of(context).textTheme.headlineMedium,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        // SliverPadding(
+        //   padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+        //   sliver: FutureBuilder(
+        //     future: Future.delayed(const Duration(milliseconds: 240), () => true),
+        //     builder: (_, snap) {
+        //       if (snap.hasData) {
+        //         return likeContainer();
+        //       }
+        //       return const SliverToBoxAdapter();
+        //     },
+        //   ),
+        // ),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 25),
           sliver: FutureBuilder(
@@ -120,9 +238,9 @@ class _TrackOptionState extends State<TrackOption> {
       ],
     );
   }
-
-  SliverList likeContainer(LibraryType item) {
-    bool hasLike = item.list.contains(widget.trackId);
+  /*
+  SliverList likeContainer() {
+    bool hasLike = likes.list.contains(widget.trackId);
     return SliverList(
       delegate: SliverChildListDelegate(
         <Widget>[
@@ -162,11 +280,17 @@ class _TrackOptionState extends State<TrackOption> {
                     style: const TextStyle(fontSize: 20),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.of(context).pop;
-                        core.navigate(to: '/album-info', args: track.albumInfo);
-                        // Navigator.of(context, rootNavigator: true).pop();
-                        // Navigator.of(context).popUntil((route) => route.isFirst);
-                        // core.navigate(to: '/album-info', args: track.albumInfo, routePush: false);
+                        Navigator.of(context).maybePop().whenComplete(() {
+                          Future.delayed(const Duration(milliseconds: 200), () {
+                            if (Navigator.of(context).canPop()) Navigator.pop(context);
+                          }).whenComplete(() {
+                            core.navigate(
+                              to: '/album-info',
+                              args: track.albumInfo,
+                              routePush: false,
+                            );
+                          });
+                        });
                       },
                   ),
                   const TextSpan(text: '", '),
@@ -198,14 +322,14 @@ class _TrackOptionState extends State<TrackOption> {
             ),
             onTap: () {
               if (hasLike) {
-                item.list.remove(widget.trackId);
+                likes.list.remove(widget.trackId);
               } else {
-                item.list.add(widget.trackId);
+                likes.list.add(widget.trackId);
               }
-              if (item.isInBox) {
-                item.save();
+              if (likes.isInBox) {
+                likes.save();
               } else {
-                box.add(item);
+                box.add(likes);
               }
             },
           ),
@@ -213,6 +337,7 @@ class _TrackOptionState extends State<TrackOption> {
       ),
     );
   }
+  */
 
   Widget playlistsContainer(List<LibraryType> items) {
     return SliverList(

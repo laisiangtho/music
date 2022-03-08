@@ -3,6 +3,7 @@
 
 // import 'package:flutter/gestures.dart';
 // import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 // import 'package:flutter/cupertino.dart';
 
@@ -23,6 +24,8 @@ part 'mode.dart';
 part 'queue.dart';
 part 'info.dart';
 part 'other.dart';
+
+late final DraggableScrollableController draggableController = DraggableScrollableController();
 
 class Player extends StatefulWidget {
   final List<ViewNavigationModel> pageButton;
@@ -74,7 +77,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
   late final Preference preference = core.preference;
 
   late ScrollController controller;
-  late final DraggableScrollableController draggableController = DraggableScrollableController();
+  // late final DraggableScrollableController draggableController = DraggableScrollableController();
   // late BuildContext draggableContext;
 
   // NOTE: device height and width
@@ -243,7 +246,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
           // reservedPadding: MediaQuery.of(context).padding.bottom,
           // heights: const [kBottomNavigationBarHeight],
           // padding: MediaQuery.of(context).viewPadding,
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          // padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           heights: const [kBottomNavigationBarHeight],
           backgroundColor: Theme.of(context).primaryColor,
 
@@ -266,7 +269,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
         const SliverToBoxAdapter(
           child: PlayerInfo(),
         ),
-        // const PlayerQueue(),
+        const PlayerQueue(),
         const PlayerOther(),
         // SliverList(
         //   delegate: SliverChildListDelegate(

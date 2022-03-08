@@ -184,6 +184,7 @@ class _View extends _State with _Bar {
         ArtistWrap(
           artists: artistRecommended,
           label: 'Recommeded',
+          routePush: false,
           limit: 7,
         ),
 
@@ -197,6 +198,7 @@ class _View extends _State with _Bar {
         ArtistWrap(
           artists: artistRelated,
           label: 'Related',
+          routePush: false,
           limit: 5,
         ),
         // // ArtistWrap(artists: [3,9,8,12,60], heading: 'Related', limit: 5,),
@@ -205,15 +207,15 @@ class _View extends _State with _Bar {
           albums: artistAlbum,
           controller: scrollController,
         ),
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-        ),
+        // Selector<ViewScrollNotify, double>(
+        //   selector: (_, e) => e.bottomPadding,
+        //   builder: (context, bottomPadding, child) {
+        //     return SliverPadding(
+        //       padding: EdgeInsets.only(bottom: bottomPadding),
+        //       sliver: child,
+        //     );
+        //   },
+        // ),
       ],
     );
   }

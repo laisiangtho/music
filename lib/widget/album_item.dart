@@ -76,7 +76,7 @@ class AlbumListItem extends StatelessWidget {
                     color: Theme.of(context).shadowColor,
                     borderRadius: const BorderRadius.all(Radius.circular(5)),
                   ),
-                  child: buttonArt(context),
+                  child: buttonArt(),
                 ),
               ],
             ),
@@ -86,7 +86,7 @@ class AlbumListItem extends StatelessWidget {
             child: Container(
               height: 100,
               alignment: const Alignment(0, 0),
-              child: buttonTitle(context),
+              child: buttonTitle(),
             ),
           ),
         ],
@@ -94,7 +94,7 @@ class AlbumListItem extends StatelessWidget {
     );
   }
 
-  Widget buttonArt(BuildContext context) {
+  Widget buttonArt() {
     return TextButton(
       child: Stack(
         alignment: const Alignment(0, 0),
@@ -149,7 +149,7 @@ class AlbumListItem extends StatelessWidget {
     );
   }
 
-  Widget buttonTitle(BuildContext context) {
+  Widget buttonTitle() {
     return Tooltip(
       message: name,
       child: TextButton(
@@ -329,7 +329,7 @@ class AlbumPickItem extends StatelessWidget {
               Container(
                 height: 125,
                 alignment: Alignment.topCenter,
-                child: buttonArt(context),
+                child: buttonArt(),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -345,7 +345,7 @@ class AlbumPickItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: buttonTitle(context),
+                    child: buttonTitle(),
                   ),
                 ),
               ),
@@ -356,7 +356,7 @@ class AlbumPickItem extends StatelessWidget {
     );
   }
 
-  Widget buttonArt(BuildContext context) {
+  Widget buttonArt() {
     return TextButton(
       child: Stack(
         alignment: Alignment.topCenter,
@@ -394,7 +394,7 @@ class AlbumPickItem extends StatelessWidget {
     );
   }
 
-  Widget buttonTitle(BuildContext context) {
+  Widget buttonTitle() {
     return WidgetButton(
       child: WidgetLabel(
         message: name,

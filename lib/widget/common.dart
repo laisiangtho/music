@@ -19,7 +19,7 @@ class WidgetBlockMore extends StatelessWidget {
     this.total = 0,
     this.count = 0,
     this.onPressed,
-    this.padding = const EdgeInsets.fromLTRB(25, 10, 25, 0),
+    this.padding = const EdgeInsets.fromLTRB(25, 0, 25, 0),
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
   }) : super(key: key);
 
@@ -31,7 +31,7 @@ class WidgetBlockMore extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(100)),
         // elevation: 1,
         color: Theme.of(context).shadowColor.withOpacity(0.5),
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 7),
         child: WidgetLabel(
           label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
         ),

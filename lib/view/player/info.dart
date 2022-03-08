@@ -13,20 +13,28 @@ class _PlayerInfoState extends State<PlayerInfo> {
   late final Preference preference = core.preference;
 
   late final Box<LibraryType> box = core.collection.boxOfLibrary;
+  // LibraryType get likes => core.collection.valueOfLibraryLike;
+  // bool get hasLike => likes.list.contains(track!.trackInfo.id);
 
   @override
   void initState() {
     super.initState();
   }
 
+  Future whenNavigate() {
+    return draggableController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.ease,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AudioMetaType?>(
       stream: audio.streamMeta,
-      builder: (context, snapshot) {
-        final meta = snapshot.data;
-
-        if (meta == null) {
+      builder: (context, snap) {
+        if (snap.data == null) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 7),
             child: Center(
@@ -37,62 +45,82 @@ class _PlayerInfoState extends State<PlayerInfo> {
             ),
           );
         }
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                child: Divider(),
-              ),
-              Text(
-                meta.title,
-                textAlign: TextAlign.center,
-              ),
-              WidgetButton(
-                child: const WidgetLabel(
-                  icon: Icons.cloud_download_rounded,
-                ),
-                onPressed: () {
-                  audio.trackCacheDownloadTesting([meta.trackInfo.id]);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25),
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  textDirection: TextDirection.ltr,
-                  spacing: 7,
-                  children: List<Widget>.generate(meta.artistInfo.length, (index) {
-                    final artist = meta.artistInfo.elementAt(index);
-                    return WidgetButton(
-                      child: WidgetLabel(
-                        label: artist.name,
-                        labelStyle: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      onPressed: () {
-                        core.navigate(to: '/artist-info', args: artist, routePush: true);
-                      },
-                    );
-                  }),
-                ),
-              ),
-              WidgetButton(
-                child: Text(
-                  meta.album,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
-                onPressed: () {
-                  core.navigate(to: '/album-info', args: meta.albumInfo);
-                },
-              ),
-            ],
-          ),
-        );
+        return body(snap.data!);
       },
+    );
+  }
+
+  Widget body(AudioMetaType track) {
+    return Column(
+      children: [
+        ValueListenableBuilder(
+          valueListenable: box.listenable(),
+          builder: (context, Box<LibraryType> box, child) {
+            final like = core.collection.valueOfLibraryLike;
+            final trackId = track.trackInfo.id;
+            bool hasLike = like.list.contains(trackId);
+            return ListTile(
+              leading: const WidgetLabel(
+                icon: Icons.audiotrack,
+              ),
+              title: Text(
+                track.title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              trailing: WidgetLabel(
+                icon: Icons.star_rounded,
+                iconColor: hasLike ? Theme.of(context).highlightColor : null,
+              ),
+              onTap: () {
+                if (hasLike) {
+                  like.list.remove(trackId);
+                } else {
+                  like.list.add(trackId);
+                }
+                if (like.isInBox) {
+                  like.save();
+                } else {
+                  box.add(like);
+                }
+              },
+            );
+          },
+        ),
+        ListTile(
+          leading: const WidgetLabel(
+            icon: Icons.person,
+          ),
+          title: Wrap(
+            children: List.generate(
+              track.artistInfo.length,
+              (index) {
+                return ArtistWrapItem(
+                  context: context,
+                  artist: track.artistInfo.elementAt(index),
+                  routePush: false,
+                  whenNavigate: whenNavigate,
+                );
+              },
+            ),
+          ),
+        ),
+        ListTile(
+          leading: const WidgetLabel(
+            // icon: LideaIcon.album,
+            icon: Icons.album,
+          ),
+          title: Text(track.album),
+          onTap: () {
+            whenNavigate().whenComplete(() {
+              core.navigate(
+                to: '/album-info',
+                args: track.albumInfo,
+                routePush: false,
+              );
+            });
+          },
+        ),
+      ],
     );
   }
 }

@@ -1,10 +1,18 @@
 part of 'main.dart';
 
 class TrackListItem extends StatelessWidget {
-  const TrackListItem({Key? key, required this.context, required this.track}) : super(key: key);
+  const TrackListItem({
+    Key? key,
+    required this.context,
+    required this.index,
+    required this.track,
+    this.reorderable = false,
+  }) : super(key: key);
 
   final BuildContext context;
+  final int index;
   final AudioMetaType track;
+  final bool reorderable;
 
   Core get core => context.read<Core>();
   Audio get audio => core.audio;
@@ -59,9 +67,7 @@ class TrackListItem extends StatelessWidget {
     final cache = state.cache;
     final cached = cache.caching == 1.0;
     return ListTile(
-      key: key,
       minVerticalPadding: 0,
-      // ),
       leading: SizedBox(
         child: DecoratedBox(
           decoration: BoxDecoration(
@@ -124,10 +130,22 @@ class TrackListItem extends StatelessWidget {
         track.artist,
         style: Theme.of(context).textTheme.bodySmall,
       ),
-      trailing: Text(
-        _bucket.duration(track.trackInfo.duration),
-        style: Theme.of(context).textTheme.labelSmall,
-      ),
+      // trailing: Text(
+      //   _bucket.duration(track.trackInfo.duration),
+      //   style: Theme.of(context).textTheme.labelSmall,
+      // ),
+      trailing: reorderable
+          ? ReorderableDragStartListener(
+              index: index,
+              child: const WidgetLabel(
+                icon: Icons.drag_handle_rounded,
+                // color: Theme.of(context).highlightColor,
+              ),
+            )
+          : Text(
+              _bucket.duration(track.trackInfo.duration),
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
       onTap: () {
         audio.addQueueItem(audio.generateMediaItem(track.trackInfo.id));
       },

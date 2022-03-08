@@ -92,7 +92,7 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
     }
   }
 
-  final List<String> itemList = List<String>.generate(20, (i) => "Item ${i + 1}");
+  List<String> get itemList => List<String>.generate(20, (i) => "Item ${i + 1}");
 }
 
 class _View extends _State with _Bar {
@@ -112,6 +112,39 @@ class _View extends _State with _Bar {
       controller: scrollController,
       slivers: <Widget>[
         bar(),
+        // WidgetListBuilder(
+        //   itemBuilder: (_, index) {
+        //     return listContainer(index, itemList.elementAt(index));
+        //   },
+        //   itemReorderable: (int oldIndex, int newIndex) {
+        //     if (oldIndex < newIndex) {
+        //       newIndex -= 1;
+        //     }
+        //     if (oldIndex == newIndex) return;
+        //     final String item = itemList.removeAt(oldIndex);
+        //     itemList.insert(newIndex, item);
+        //   },
+        //   itemCount: itemList.length,
+        // ),
+        // SliverToBoxAdapter(
+        //   child: WidgetListBuilder(
+        //     primary: false,
+        //     shrinkWrap: true,
+        //     itemBuilder: (_, index) {
+        //       return listContainer(index, itemList.elementAt(index));
+        //     },
+        //     itemReorderable: (int oldIndex, int newIndex) {
+        //       if (oldIndex < newIndex) {
+        //         newIndex -= 1;
+        //       }
+        //       if (oldIndex == newIndex) return;
+        //       final String item = itemList.removeAt(oldIndex);
+        //       itemList.insert(newIndex, item);
+        //     },
+        //     itemCount: itemList.length,
+        //   ),
+        // ),
+
         SliverReorderableList(
           key: reorderableKey,
           itemBuilder: (BuildContext _, int i) => listContainer(i, itemList.elementAt(i)),

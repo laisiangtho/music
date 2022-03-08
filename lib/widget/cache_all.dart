@@ -4,14 +4,14 @@ class CacheWidget extends StatelessWidget {
   final BuildContext context;
   final List<int> trackIds;
   final String name;
-  final int wait;
+  final int milliseconds;
 
   const CacheWidget({
     Key? key,
     required this.context,
     required this.trackIds,
     required this.name,
-    this.wait = 250,
+    this.milliseconds = 250,
   }) : super(key: key);
 
   Core get core => context.read<Core>();
@@ -25,7 +25,7 @@ class CacheWidget extends StatelessWidget {
       primary: true,
       show: true,
       child: FutureBuilder(
-        future: Future.delayed(Duration(milliseconds: wait), () => true),
+        future: Future.delayed(Duration(milliseconds: milliseconds), () => true),
         // future: Future.microtask(() => true),
         builder: (_, snap) {
           if (snap.hasData == false) return _holder();

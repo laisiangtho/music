@@ -138,7 +138,13 @@ class AudioBucketType {
   }
 
   Iterable<AudioTrackType> trackByIds(Iterable<int> ids) {
-    return track.where((e) => ids.contains(e.id));
+    return ids.map((e) {
+      final index = track.indexWhere((i) => i.id == e);
+      if (index >= 0) return track.elementAt(index);
+    }).where((e) {
+      return e != null;
+    }).cast();
+    // return track.where((e) => ids.contains(e.id));
   }
 
   // artist.elementAt(index);

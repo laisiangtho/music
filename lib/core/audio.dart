@@ -166,8 +166,8 @@ class Audio extends UnitAudio {
     return _bucket.meta(id);
   }
 
-  Iterable<AudioMetaType> metaById(List<int> ids) {
-    return _bucket.trackByIds(ids).map((e) => meta(e.id));
+  List<AudioMetaType> metaById(List<int> ids) {
+    return _bucket.trackByIds(ids).map((e) => meta(e.id)).toList();
   }
 
   Iterable<AudioMetaType> metaByUd(List<String> ids) {

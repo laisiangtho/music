@@ -33,6 +33,7 @@ mixin _Bar on _State {
                               ? Hero(
                                   tag: 'appbar-left',
                                   child: WidgetButton(
+                                    duration: const Duration(milliseconds: 150),
                                     onPressed: () => Navigator.of(context).pop(),
                                     child: WidgetLabel(
                                       icon: Icons.arrow_back_ios_new_rounded,

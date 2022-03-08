@@ -350,16 +350,16 @@ class _View extends _State with _Bar, _Refresh {
           ),
         ),
 
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-          child: const SliverToBoxAdapter(),
-        ),
+        // Selector<ViewScrollNotify, double>(
+        //   selector: (_, e) => e.bottomPadding,
+        //   builder: (context, bottomPadding, child) {
+        //     return SliverPadding(
+        //       padding: EdgeInsets.only(bottom: bottomPadding),
+        //       sliver: child,
+        //     );
+        //   },
+        //   child: const SliverToBoxAdapter(),
+        // ),
       ],
     );
   }

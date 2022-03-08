@@ -9,6 +9,8 @@ class TrackList extends StatefulWidget {
   final bool? primary;
   final bool shrinkWrap;
 
+  final void Function(int, int)? itemReorderable;
+
   const TrackList({
     Key? key,
     required this.tracks,
@@ -17,6 +19,7 @@ class TrackList extends StatefulWidget {
     // this.limit = 17,
     this.primary,
     this.shrinkWrap = false,
+    this.itemReorderable,
   }) : super(key: key);
 
   @override
@@ -25,6 +28,10 @@ class TrackList extends StatefulWidget {
 
 class _TrackListState extends State<TrackList> {
   late final Core core = context.read<Core>();
+  late final Preference preference = core.preference;
+
+  // bool get reorderable => itemReorderable != null;
+  late final reorderable = widget.itemReorderable != null;
 
   @override
   void initState() {
@@ -39,19 +46,30 @@ class _TrackListState extends State<TrackList> {
   @override
   Widget build(BuildContext context) {
     return WidgetListBuilder(
-      key: widget.key,
+      // key: widget.key,
       primary: widget.primary,
       shrinkWrap: widget.shrinkWrap,
       padding: widget.padding,
       physics: const NeverScrollableScrollPhysics(),
       duration: const Duration(milliseconds: 320),
-      itemSnap: const TrackListItemHolder(),
+      // itemSnap: const TrackListItemHolder(),
+      itemSnap: (context, index) {
+        return const TrackListItemHolder();
+      },
+      itemVoid: Text(
+        preference.text.noItem(preference.text.track(true)),
+        textAlign: TextAlign.center,
+      ),
       itemBuilder: (context, index) {
         return TrackListItem(
+          // key: ValueKey(index),
           context: context,
+          index: index,
           track: widget.tracks.elementAt(index),
+          reorderable: reorderable,
         );
       },
+      itemReorderable: widget.itemReorderable,
       itemCount: widget.tracks.length,
     );
   }
@@ -140,21 +158,27 @@ class _TrackFlatState extends State<TrackFlat> {
               ),
             ),
           Card(
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+            // margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: WidgetListBuilder(
               key: const Key('track-list'),
               primary: false,
               shrinkWrap: true,
-              padding: EdgeInsets.zero,
+              // padding: EdgeInsets.zero,
               duration: const Duration(milliseconds: 320),
               physics: const NeverScrollableScrollPhysics(),
-              itemSnap: const TrackListItemHolder(),
+              // itemSnap: const TrackListItemHolder(key: Key('$index')),
+              itemSnap: (context, index) {
+                return TrackListItemHolder(key: ValueKey(index));
+              },
               itemBuilder: (context, index) {
                 return TrackListItem(
+                  key: ValueKey(index),
                   context: context,
+                  index: index,
                   track: cache.meta(track.elementAt(index)),
                 );
               },
+
               itemCount: count,
             ),
           ),

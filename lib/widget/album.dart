@@ -44,7 +44,9 @@ class _AlbumListState extends State<AlbumList> {
         childAspectRatio: 0.55,
         mainAxisExtent: 240,
       ),
-      itemSnap: const AlbumListItemHolder(),
+      itemSnap: (BuildContext context, int index) {
+        return const AlbumListItemHolder();
+      },
       itemBuilder: (BuildContext context, int index) {
         return AlbumListItem(
           context: context,
@@ -111,7 +113,9 @@ class _AlbumBoardState extends State<AlbumBoard> {
         // childAspectRatio: 1.0,
       ),
       duration: const Duration(milliseconds: 320),
-      itemSnap: const AlbumPickItemHolder(),
+      itemSnap: (BuildContext context, int index) {
+        return const AlbumListItemHolder();
+      },
       itemBuilder: (BuildContext context, int index) {
         return AlbumPickItem(
           context: context,
@@ -224,7 +228,10 @@ class AlbumFlat extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.zero,
                   duration: const Duration(milliseconds: 320),
-                  itemSnap: const AlbumPickItemHolder(),
+                  // itemSnap: const AlbumPickItemHolder(),
+                  itemSnap: (context, index) {
+                    return const AlbumPickItemHolder();
+                  },
                   itemBuilder: (BuildContext context, int index) {
                     return AlbumPickItem(
                       context: context,

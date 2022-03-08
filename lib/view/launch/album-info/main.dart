@@ -161,15 +161,15 @@ class _View extends _State with _Bar {
           // key: UniqueKey(),
           tracks: albumTrack,
         ),
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-        ),
+        // Selector<ViewScrollNotify, double>(
+        //   selector: (_, e) => e.bottomPadding,
+        //   builder: (context, bottomPadding, child) {
+        //     return SliverPadding(
+        //       padding: EdgeInsets.only(bottom: bottomPadding),
+        //       sliver: child,
+        //     );
+        //   },
+        // ),
       ],
     );
   }

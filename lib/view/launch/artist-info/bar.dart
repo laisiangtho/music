@@ -58,6 +58,7 @@ mixin _Bar on _State {
                             ? Hero(
                                 tag: 'appbar-left-$canPop',
                                 child: WidgetButton(
+                                  duration: const Duration(milliseconds: 150),
                                   onPressed: () {
                                     arguments.navigator!.currentState!.maybePop();
                                   },

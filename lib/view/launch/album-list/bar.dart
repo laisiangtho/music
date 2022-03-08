@@ -33,6 +33,7 @@ mixin _Bar on _State {
                               ? Hero(
                                   tag: 'appbar-left',
                                   child: WidgetButton(
+                                    duration: const Duration(milliseconds: 150),
                                     onPressed: () => Navigator.of(context).pop(),
                                     child: WidgetLabel(
                                       icon: Icons.arrow_back_ios_new_rounded,
@@ -93,10 +94,11 @@ mixin _Bar on _State {
                     right: 0,
                     top: 0,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                       child: Hero(
                         tag: 'appbar-right',
                         child: WidgetButton(
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
                           child: WidgetLabel(
                             // icon: Icons.tune,
                             // icon: CupertinoIcons.slider_horizontal_3,

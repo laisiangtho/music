@@ -48,7 +48,10 @@ class _ArtistListState extends State<ArtistList> {
       shrinkWrap: widget.shrinkWrap,
       padding: widget.padding,
       duration: const Duration(milliseconds: 320),
-      itemSnap: const ArtistListItemHolder(),
+      // itemSnap: const ArtistListItemHolder(),
+      itemSnap: (context, index) {
+        return const ArtistListItemHolder();
+      },
       itemBuilder: (context, index) {
         return ArtistListItem(context: context, artist: artist.elementAt(index));
       },
@@ -173,11 +176,14 @@ class _ArtistWrapState extends State<ArtistWrap> {
               ),
             ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             child: Wrap(
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
-              textDirection: TextDirection.ltr,
+              // textDirection: TextDirection.ltr,
+              // alignment: WrapAlignment.start,
+              // crossAxisAlignment: WrapCrossAlignment.start,
+              // textDirection: TextDirection.ltr,
               children: List.generate(
                 count + 1,
                 (index) {
