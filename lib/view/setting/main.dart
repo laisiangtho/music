@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 // import 'package:lidea/intl.dart';
 
-import 'package:lidea/provider.dart';
+// import 'package:lidea/provider.dart';
 import 'package:lidea/view/main.dart';
 import 'package:lidea/icon.dart';
 
@@ -17,78 +17,25 @@ import 'package:lidea/view/demo/text_height.dart';
 import 'package:lidea/view/demo/text_translate.dart';
 import 'package:lidea/view/demo/text_size.dart';
 
-import '/core/main.dart';
+// import '/core/main.dart';
 import '/widget/main.dart';
 // import '/type/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 
 class Main extends StatefulWidget {
   const Main({Key? key, this.arguments}) : super(key: key);
   final Object? arguments;
-  // final GlobalKey<NavigatorState>? navigatorKey;
 
   static const route = '/settings';
-  // static const icon = Icons.settings;
   static const icon = LideaIcon.cog;
   static const name = 'Settings';
   static const description = 'Settings';
   static final uniqueKey = UniqueKey();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final Core core = context.read<Core>();
-  // late final SettingsController settings = context.read<SettingsController>();
-  // late final AppLocalizations translate = AppLocalizations.of(context)!;
-  late final Authentication authenticate = context.read<Authentication>();
-  late final scrollController = ScrollController();
-
-  // SettingsController get settings => context.read<SettingsController>();
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  // Authentication get authenticate => context.read<Authentication>();
-
-  Preference get preference => core.preference;
-
-  List<String> get themeName => [
-        preference.text.automatic,
-        preference.text.light,
-        preference.text.dark,
-      ];
-
-  @override
-  void initState() {
-    super.initState();
-
-    Future.microtask(() {
-      final abc = Localizations.localeOf(context).languageCode;
-      debugPrint('core.collection.locale: $abc');
-    });
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  void onClear() {
-    Future.microtask(() {});
-  }
-
-  void onSearch(String word) {}
-
-  void onDelete(String word) {
-    Future.delayed(Duration.zero, () {});
-  }
 }
 
 class _View extends _State with _Bar {

@@ -7,80 +7,74 @@ mixin _Bar on _State {
       floating: false,
       // reservedPadding: MediaQuery.of(context).padding.top,
       padding: MediaQuery.of(context).viewPadding,
-      heights: const [kBottomNavigationBarHeight, 50],
+      heights: const [kToolbarHeight, 70],
       overlapsBackgroundColor: Theme.of(context).primaryColor,
       overlapsBorderColor: Theme.of(context).shadowColor,
-      builder: (BuildContext context, ViewHeaderData org, ViewHeaderData snap) {
+      builder: (BuildContext context, ViewHeaderData org) {
+        _animationController.animateTo(org.shrinkOffsetDouble(20));
         return Stack(
           alignment: const Alignment(0, 0),
           children: [
-            // This make the return "appbar-left" Hero animation smooth
-            const Positioned(
-              left: 0,
-              top: 0,
-              child: Hero(
-                tag: 'appbar-left',
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 12),
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: SizedBox(),
-                    // child: WidgetButton(
-                    //   padding: EdgeInsets.zero,
-                    //   minSize: 30,
-                    //   onPressed: null,
-                    //   child: SizedBox(),
-                    // ),
-                  ),
-                ),
-              ),
-            ),
-
-            Align(
+            WidgetAppbarTitle(
               alignment: Alignment.lerp(
                 const Alignment(0, 0),
-                const Alignment(0, .7),
-                snap.shrink,
-              )!,
-              child: Hero(
-                tag: 'appbar-center',
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: Text(
-                    core.collection.env.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(fontSize: (30 * org.shrink).clamp(22.0, 30.0).toDouble()),
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                const Alignment(0, -.3),
+                org.snapShrink,
               ),
+              label: core.collection.env.name,
+              shrink: org.shrink,
             ),
-
             Positioned(
               right: 0,
               top: 0,
+              child: WidgetButton(
+                padding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
+                child: Tooltip(
+                  message: preference.text.option(true),
+                  child: Selector<Authentication, bool>(
+                    selector: (_, e) => e.hasUser,
+                    builder: userPhoto,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 300),
+                onPressed: () => core.navigate(to: '/user'),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              left: 0,
+              bottom: 10,
+              height: 40 * org.snapShrink,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                child: Hero(
-                  tag: 'appbar-right',
-                  child: WidgetButton(
-                    // padding: EdgeInsets.zero,
-                    // minSize: 30,
-                    child: Tooltip(
-                      message: preference.text.option(true),
-                      child: Selector<Authentication, bool>(
-                        selector: (_, e) => e.hasUser,
-                        builder: (BuildContext context, bool hasUser, Widget? child) {
-                          return userPhoto();
-                        },
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: GestureDetector(
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: MediaQuery(
+                      data: MediaQuery.of(context),
+                      child: FadeTransition(
+                        opacity: _animation,
+                        child: SizeTransition(
+                          sizeFactor: _animation,
+                          child: TextFormField(
+                            // initialValue: searchQuery,
+                            readOnly: true,
+                            enabled: false,
+                            decoration: InputDecoration(
+                              hintText: preference.text.aWordOrTwo,
+                              prefixIcon: const Icon(
+                                LideaIcon.find,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    onPressed: () => core.navigate(to: '/user'),
                   ),
+                  onTap: () {
+                    core.navigate(to: '/search');
+                    // args?.currentState!.pushNamed('/search');
+                  },
                 ),
               ),
             ),
@@ -90,7 +84,7 @@ mixin _Bar on _State {
     );
   }
 
-  Widget userPhoto() {
+  Widget userPhoto(BuildContext _, bool hasUser, Widget? child) {
     final user = authenticate.user;
     if (user != null) {
       if (user.photoURL != null) {

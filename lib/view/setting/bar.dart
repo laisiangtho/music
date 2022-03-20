@@ -32,9 +32,7 @@ mixin _Bar on _State {
             // child: const Icon(
             //   Icons.arrow_back_ios_new_rounded,
             // ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: hasArguments ? args?.currentState!.maybePop : null,
           ),
 
           actions: [

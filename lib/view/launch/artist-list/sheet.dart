@@ -389,7 +389,7 @@ class _SheetFilterState extends State<_SheetFilter> {
       overlapsBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
       // overlapsBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
       overlapsBorderColor: Theme.of(context).shadowColor.withOpacity(0.4),
-      builder: (BuildContext context, ViewHeaderData org, ViewHeaderData snap) {
+      builder: (BuildContext context, ViewHeaderData org) {
         // print('$kToolbarHeight $kBottomNavigationBarHeight');
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),

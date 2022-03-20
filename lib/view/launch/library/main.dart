@@ -16,114 +16,22 @@ import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 part 'detail.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key, this.navigatorKey, this.arguments}) : super(key: key);
+  const Main({Key? key, this.arguments}) : super(key: key);
 
-  final GlobalKey<NavigatorState>? navigatorKey;
   final Object? arguments;
 
   static const route = '/library';
-  // LideaIcon.layers;
-  // static const icon = Icons.library_music_rounded;
   static const icon = Icons.auto_awesome_rounded;
   static const name = 'Library';
   static const description = '...';
   static final uniqueKey = UniqueKey();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  final scrollController = ScrollController();
-
-  late final Core core = context.read<Core>();
-  // Preference get preference => core.preference;
-  late final Preference preference = core.preference;
-  late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  late final bool canPop = widget.arguments != null;
-
-  // late final AudioBucketType cache = core.collection.cacheBucket;
-  late final Box<LibraryType> box = core.collection.boxOfLibrary;
-
-  // late Box<LibraryType> library;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  // @override
-  // void setState(fn) {
-  //   if (mounted) super.setState(fn);
-  // }
-
-  LibraryType get likes {
-    return core.collection.valueOfLibraryLike;
-  }
-
-  LibraryType get queues {
-    return core.collection.valueOfLibraryQueue;
-  }
-
-  Iterable<LibraryType> get playlists {
-    return core.collection.listOfLibraryPlaylists;
-  }
-
-  void clearAll() {
-    box.clear();
-  }
-
-  void showDetail(int index) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: true,
-      builder: (BuildContext context) => _Detail(index: index),
-    );
-    // showModalBottomSheet(
-    //   context: context,
-    //   // builder: (BuildContext context) => TrackOption(
-    //   //   trackId: track.trackInfo.id,
-    //   // ),
-    //   builder: (BuildContext context) {
-    //     return AnnotatedRegion<SystemUiOverlayStyle>(
-    //       // value: SystemUiOverlayStyle.light.copyWith(
-    //       //   systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-    //       //   systemNavigationBarDividerColor: Theme.of(context).focusColor,
-    //       // ),
-    //       value: SystemUiOverlayStyle(
-    //         // systemNavigationBarColor: Theme.of(context).primaryColor,
-    //         systemNavigationBarDividerColor: Theme.of(context).focusColor,
-    //         // systemNavigationBarIconBrightness: Brightness.dark,
-    //       ),
-    //       child: TrackOption(
-    //         trackId: track.trackInfo.id,
-    //       ),
-    //     );
-    //   },
-    //   barrierColor: Theme.of(context).shadowColor.withOpacity(0.6),
-    //   // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    //   // backgroundColor: Theme.of(context).primaryColor,
-    //   isScrollControlled: true,
-    //   elevation: 10,
-    //   useRootNavigator: true,
-    // ).whenComplete(
-    //   () => Future.delayed(
-    //     const Duration(milliseconds: 300),
-    //     () => {},
-    //   ),
-    // );
-  }
 }
 
 class _View extends _State with _Bar {

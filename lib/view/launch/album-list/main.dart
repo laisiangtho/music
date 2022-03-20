@@ -15,16 +15,15 @@ import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 part 'sheet.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key, this.navigatorKey, this.arguments}) : super(key: key);
+  const Main({Key? key, this.arguments}) : super(key: key);
 
-  final GlobalKey<NavigatorState>? navigatorKey;
   final Object? arguments;
 
   static const route = '/album-list';
-  // static const icon = Icons.low_priority_outlined;
   static const icon = LideaIcon.album;
   static const name = 'Albums';
   static const description = '...';
@@ -34,51 +33,10 @@ class Main extends StatefulWidget {
   State<StatefulWidget> createState() => _View();
 }
 
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final scrollController = ScrollController();
-  late final Core core = context.read<Core>();
-
-  ViewNavigationArguments get arguments => widget.arguments as ViewNavigationArguments;
-  Preference get preference => core.preference;
-
-  @override
-  void initState() {
-    super.initState();
-    albumInit();
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  // @override
-  // void setState(fn) {
-  //   if (mounted) super.setState(fn);
-  // }
-  // void onClear() {
-  //   Future.microtask(() {});
-  // }
-  // void onSearch(String word) {}
-  // void onDelete(String word) {
-  //   Future.delayed(Duration.zero, () {});
-  // }
-
-  late final AudioBucketType cache = core.collection.cacheBucket;
-  late final FilterCommonType filter = core.albumFilter;
-  late Iterable<AudioAlbumType> album;
-
-  void albumInit() {
-    album = core.albumList();
-  }
-}
-
 class _View extends _State with _Bar {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: widget.key,
       body: ViewPage(
         // controller: scrollController,
         child: body(),

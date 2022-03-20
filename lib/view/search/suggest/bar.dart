@@ -5,6 +5,7 @@ mixin _Bar on _State {
     return SliverLayoutBuilder(
       builder: (BuildContext context, constraints) {
         final innerBoxIsScrolled = constraints.scrollOffset > 0;
+        // constraints.viewportMainAxisExtent.abs
         return ViewHeaderSliverSnap(
           pinned: true,
           floating: false,
@@ -17,34 +18,22 @@ mixin _Bar on _State {
           // overlapsForce:core.nodeFocus,
           overlapsForce: innerBoxIsScrolled,
           // borderRadius: Radius.elliptical(20, 5),
-          builder: (BuildContext context, ViewHeaderData org, ViewHeaderData snap) {
+          builder: (BuildContext context, ViewHeaderData org) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
-                  child: Hero(
-                    tag: 'searchbar-field',
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-                      child: _barForm(),
-                    ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    child: _barForm(),
                   ),
                 ),
-                Hero(
-                  tag: 'appbar-right',
-                  child: WidgetButton(
-                    // alignment: Alignment.center,
-                    padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                    // padding: EdgeInsets.zero,
-                    onPressed: onCancel,
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Text(
-                        preference.text.cancel,
-                        maxLines: 1,
-                        softWrap: false,
-                      ),
-                    ),
+                WidgetButton(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                  duration: const Duration(milliseconds: 500),
+                  onPressed: onCancel,
+                  child: WidgetLabel(
+                    label: preference.text.cancel,
                   ),
                 ),
               ],
@@ -64,7 +53,7 @@ mixin _Bar on _State {
       keyboardType: TextInputType.text,
       onChanged: onSuggest,
       onFieldSubmitted: onSearch,
-      // autofocus: true,
+      autofocus: false,
       // enabled: true,
       // enableInteractiveSelection: true,
       // enableSuggestions: true,
@@ -72,60 +61,12 @@ mixin _Bar on _State {
       // strutStyle: const StrutStyle(height: 1.3),
       decoration: InputDecoration(
         prefixIcon: const Icon(LideaIcon.find),
-        /*
         suffixIcon: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             FadeTransition(
               opacity: clearAnimation,
-              // axis: Axis.horizontal,
-              // axisAlignment: 1,
-              child: Semantics(
-                enabled: true,
-                label: translate.clear,
-                child: WidgetButton(
-                  onPressed: onClear,
-                  padding: const EdgeInsets.all(0),
-                  child: Icon(
-                    CupertinoIcons.xmark_circle_fill,
-                    color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
-                    size: 17,
-                    semanticLabel: "input",
-                  ),
-                ),
-              ),
-            ),
-            // SizeTransition(
-            //   sizeFactor: clearAnimation,
-            //   axis: Axis.horizontal,
-            //   // axisAlignment: 1,
-            //   child: Semantics(
-            //     enabled: true,
-            //     label: translate.clear,
-            //     child: WidgetButton(
-            //       onPressed: onClear,
-            //       padding: const EdgeInsets.all(0),
-            //       child: Icon(
-            //         CupertinoIcons.xmark_circle_fill,
-            //         color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
-            //         size: 17,
-            //         semanticLabel: "input",
-            //       ),
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
-        */
-        suffixIcon: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FadeTransition(
-              opacity: clearAnimation,
-              // axis: Axis.horizontal,
-              // axisAlignment: 1,
               child: Semantics(
                 enabled: true,
                 label: preference.text.clear,
@@ -135,7 +76,6 @@ mixin _Bar on _State {
                   child: Icon(
                     Icons.clear_rounded,
                     color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
-                    // size: 19,
                     semanticLabel: "input",
                   ),
                 ),

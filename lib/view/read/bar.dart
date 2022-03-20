@@ -13,105 +13,96 @@ mixin _Bar on _State {
       heights: [minHeight, kBottomNavigationBarHeight - minHeight],
       // overlapsBackgroundColor: Theme.of(context).primaryColor,
       overlapsBorderColor: Theme.of(context).shadowColor,
-      builder: (BuildContext context, ViewHeaderData org, ViewHeaderData snap) {
+      builder: (BuildContext context, ViewHeaderData org) {
         double width = MediaQuery.of(context).size.width / 2;
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Align(
               // alignment: const Alignment(-1, 0),
-              child: Hero(
-                tag: 'appbar-left-2',
-                child: WidgetButton(
-                  padding: EdgeInsets.zero,
-                  child: WidgetLabel(
-                    icon: Icons.bookmark_add,
-                    iconSize: (org.shrink * 23).clamp(18, 23).toDouble(),
-                    message: preference.text.back,
-                  ),
-                  onPressed: setBookMark,
+              child: WidgetButton(
+                padding: EdgeInsets.zero,
+                child: WidgetLabel(
+                  icon: Icons.bookmark_add,
+                  iconSize: (org.shrink * 23).clamp(18, 23).toDouble(),
+                  message: preference.text.back,
                 ),
+                onPressed: setBookMark,
               ),
             ),
             Expanded(
               flex: 1,
-              child: Hero(
-                tag: 'appbar-center-2',
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      child: AnimatedContainer(
-                        key: keyBookButton,
-                        duration: const Duration(milliseconds: 100),
-                        constraints: BoxConstraints(maxWidth: width, minWidth: 30.0),
-                        padding: EdgeInsets.symmetric(vertical: org.shrink * 12),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor.withOpacity(snap.shrink),
-                            borderRadius: const BorderRadius.horizontal(
-                              left: Radius.elliptical(20, 50),
-                            ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    child: AnimatedContainer(
+                      key: keyBookButton,
+                      duration: const Duration(milliseconds: 100),
+                      constraints: BoxConstraints(maxWidth: width, minWidth: 30.0),
+                      padding: EdgeInsets.symmetric(vertical: org.shrink * 12),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor.withOpacity(org.snapShrink),
+                          borderRadius: const BorderRadius.horizontal(
+                            left: Radius.elliptical(20, 50),
                           ),
-                          child: _barButton(
-                            label: preference.text.headline(true),
-                            padding: const EdgeInsets.symmetric(horizontal: 7),
-                            message: 'Book',
-                            shrink: org.shrink,
-                            onPressed: showBookList,
-                          ),
+                        ),
+                        child: _barButton(
+                          label: preference.text.headline(true),
+                          padding: const EdgeInsets.symmetric(horizontal: 7),
+                          message: 'Book',
+                          shrink: org.shrink,
+                          onPressed: showBookList,
                         ),
                       ),
                     ),
-                    Container(
-                      width: 1,
-                      height: 10,
-                      color: Theme.of(context).backgroundColor.withOpacity(org.stretch),
-                    ),
-                    Align(
-                      child: AnimatedContainer(
-                        key: keyChapterButton,
-                        duration: const Duration(milliseconds: 100),
-                        constraints: BoxConstraints(maxWidth: width, minWidth: 30.0),
-                        padding: EdgeInsets.symmetric(vertical: org.shrink * 12),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor.withOpacity(snap.shrink),
-                            borderRadius: const BorderRadius.horizontal(
-                              right: Radius.elliptical(20, 50),
-                            ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 10,
+                    color: Theme.of(context).backgroundColor.withOpacity(org.stretch),
+                  ),
+                  Align(
+                    child: AnimatedContainer(
+                      key: keyChapterButton,
+                      duration: const Duration(milliseconds: 100),
+                      constraints: BoxConstraints(maxWidth: width, minWidth: 30.0),
+                      padding: EdgeInsets.symmetric(vertical: org.shrink * 12),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor.withOpacity(org.snapShrink),
+                          borderRadius: const BorderRadius.horizontal(
+                            right: Radius.elliptical(20, 50),
                           ),
-                          child: _barButton(
-                            label: '150',
-                            message: 'Chapter',
-                            shrink: org.shrink,
-                            onPressed: showChapterList,
-                          ),
+                        ),
+                        child: _barButton(
+                          label: '150',
+                          message: 'Chapter',
+                          shrink: org.shrink,
+                          onPressed: showChapterList,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Align(
               // alignment: const Alignment(1, 0),
-              child: Hero(
-                tag: 'appbar-right-2',
-                child: AnimatedContainer(
-                  key: keyOptionButton,
-                  duration: const Duration(milliseconds: 0),
-                  constraints: BoxConstraints(maxWidth: width, minWidth: 30.0),
-                  padding: EdgeInsets.symmetric(vertical: snap.shrink * 12),
-                  child: WidgetButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: WidgetLabel(
-                      icon: LideaIcon.textSize,
-                      iconSize: (org.shrink * 23).clamp(18, 23).toDouble(),
-                      message: preference.text.signOut,
-                    ),
-                    onPressed: showOptionList,
+              child: AnimatedContainer(
+                key: keyOptionButton,
+                duration: const Duration(milliseconds: 0),
+                constraints: BoxConstraints(maxWidth: width, minWidth: 30.0),
+                padding: EdgeInsets.symmetric(vertical: org.snapShrink * 12),
+                child: WidgetButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: WidgetLabel(
+                    icon: LideaIcon.textSize,
+                    iconSize: (org.shrink * 23).clamp(18, 23).toDouble(),
+                    message: preference.text.signOut,
                   ),
+                  onPressed: showOptionList,
                 ),
               ),
             ),

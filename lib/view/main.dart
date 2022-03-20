@@ -102,50 +102,18 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
       _navPageViewAction(at);
     }
     final _vi = AppRoutes.homeNavigator;
-    final nav = _vi.currentState;
-    if (to != null && nav != null) {
-      final canPop = nav.canPop();
+    final _state = _vi.currentState;
+    if (to != null && _state != null) {
+      // final canPop = _state.canPop();
       // final canPop = Navigator.canPop(context);
-      final arguments = ViewNavigationArguments(
-        navigator: _vi,
-        args: args,
-        canPop: canPop,
-      );
+      final _arg = ViewNavigationArguments(key: _vi, args: args);
       if (routePush) {
-        nav.pushNamed(to, arguments: arguments);
-        // Navigator.of(context).pushNamed(to, arguments: arguments);
+        _state.pushNamed(to, arguments: _arg);
+        // Navigator.of(context).pushNamed(to, arguments: _arg);
       } else {
-        // nav.pushReplacementNamed(to, arguments: arguments);
-        nav.pushNamedAndRemoveUntil(
-          to,
-          ModalRoute.withName('/'),
-          arguments: arguments,
-        );
-        // Navigator.of(context).pushReplacementNamed(to, arguments: arguments);
-        // nav.pushNamedAndRemoveUntil(
-        //   to,
-        //   (route) => false,
-        //   arguments: arguments,
-        // );
+        // _state.pushReplacementNamed(to, arguments: _arg);
+        _state.pushNamedAndRemoveUntil(to, ModalRoute.withName('/'), arguments: _arg);
       }
-
-      /*
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        "/album-info",
-        ModalRoute.withName('/'),
-        arguments: arguments,
-      );
-
-      nav.pushNamedAndRemoveUntil(to, (route) => false, arguments: arguments,);
-      nav.pushNamedAndRemoveUntil(to, ModalRoute.withName('/'), arguments: arguments,);
-      */
-      // Navigator.pushNamedAndRemoveUntil(
-      //   context,
-      //   "/album-info",
-      //   ModalRoute.withName('/'),
-      //   arguments: arguments,
-      // );
 
       final screenName = core.collection.screenName(to);
       final screenClass = core.collection.screenClass(core.navigation.name);

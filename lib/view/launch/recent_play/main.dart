@@ -7,17 +7,15 @@ import 'package:lidea/hive.dart';
 import 'package:lidea/view/main.dart';
 import 'package:lidea/icon.dart';
 
-import '/core/main.dart';
+// import '/core/main.dart';
 import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 
 class Main extends StatefulWidget {
-  const Main({
-    Key? key,
-    this.arguments,
-  }) : super(key: key);
+  const Main({Key? key, this.arguments}) : super(key: key);
 
   final Object? arguments;
 
@@ -29,37 +27,6 @@ class Main extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final scrollController = ScrollController();
-  late final Core core = context.read<Core>();
-  late final Preference preference = core.preference;
-
-  late final Box<RecentPlayType> box = core.collection.boxOfRecentPlay;
-
-  late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  late final bool canPop = widget.arguments != null;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  // void onClear() {
-  //   box.clear();
-  // }
 }
 
 class _View extends _State with _Bar {

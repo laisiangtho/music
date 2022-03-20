@@ -17,12 +17,12 @@ import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 part 'sheet.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key, this.navigatorKey, this.arguments}) : super(key: key);
+  const Main({Key? key, this.arguments}) : super(key: key);
 
-  final GlobalKey<NavigatorState>? navigatorKey;
   final Object? arguments;
 
   static const route = '/artist-list';
@@ -30,57 +30,9 @@ class Main extends StatefulWidget {
   static const name = 'Artists';
   static const description = '...';
   static final uniqueKey = UniqueKey();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final scrollController = ScrollController();
-  late final Core core = context.read<Core>();
-
-  ViewNavigationArguments get arguments => widget.arguments as ViewNavigationArguments;
-  // AudioAlbumType get album => arguments.meta as AudioAlbumType;
-
-  // SettingsController get settings => context.read<SettingsController>();
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  // Authentication get authenticate => context.read<Authentication>();
-  Preference get preference => core.preference;
-
-  @override
-  void initState() {
-    super.initState();
-    artistInit();
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  // @override
-  // void setState(fn) {
-  //   if (mounted) super.setState(fn);
-  // }
-
-  // void onClear() {
-  //   Future.microtask(() {});
-  // }
-
-  // void onSearch(String word) {}
-
-  // void onDelete(String word) {
-  //   Future.delayed(Duration.zero, () {});
-  // }
-  late final AudioBucketType cache = core.collection.cacheBucket;
-  late final FilterCommonType filter = core.artistFilter;
-  late Iterable<AudioArtistType> artist;
-
-  void artistInit() {
-    artist = core.artistList();
-  }
 }
 
 class _View extends _State with _Bar {

@@ -10,12 +10,10 @@ import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 
 class Main extends StatefulWidget {
-  const Main({
-    Key? key,
-    this.arguments,
-  }) : super(key: key);
+  const Main({Key? key, this.arguments}) : super(key: key);
 
   final Object? arguments;
 
@@ -27,71 +25,6 @@ class Main extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  final scrollController = ScrollController();
-
-  late Core core;
-
-  late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  late final bool canPop = widget.arguments != null;
-
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  Preference get preference => core.preference;
-
-  @override
-  void initState() {
-    super.initState();
-    core = context.read<Core>();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  void onSearch(String ord) async {
-    /*
-    // core.navigate(to: '/search/result', routePush: true);
-    // core.navigate(to: '/search/result', routePush: true);
-    core.searchQuery = word;
-    // core.conclusionGenerate().whenComplete(() => core.navigate(to: '/search/result'));
-    // core.navigate(to: '/search/result');
-    // Future.delayed(const Duration(milliseconds: 200), () {
-    //   core.navigate(to: '/search-result');
-    // });
-    Future.microtask(() {
-      core.navigate(to: '/search-result');
-    });
-    */
-    core.searchQuery = ord;
-    core.suggestQuery = ord;
-    await core.conclusionGenerate();
-    Future.microtask(() {
-      core.navigate(to: '/search-result');
-    }).whenComplete(() async {
-      // await core.conclusionGenerate();
-    });
-  }
-
-  void onDelete(String ord) {
-    Future.delayed(Duration.zero, () {
-      core.collection.recentSearchDelete(ord);
-    }).whenComplete(core.notify);
-  }
-
-  void onClear() {
-    Future.microtask(() {
-      core.collection.boxOfRecentSearch.clear().whenComplete(core.notify);
-    });
-  }
 }
 
 // FlutterError (A dismissed Dismissible widget is still part of the tree.

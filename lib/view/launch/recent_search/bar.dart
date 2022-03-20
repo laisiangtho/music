@@ -7,120 +7,54 @@ mixin _Bar on _State {
       floating: false,
       // reservedPadding: MediaQuery.of(context).padding.top,
       padding: MediaQuery.of(context).viewPadding,
-      heights: const [kBottomNavigationBarHeight, 50],
+      heights: const [kToolbarHeight, 50],
       overlapsBackgroundColor: Theme.of(context).primaryColor,
       overlapsBorderColor: Theme.of(context).shadowColor,
-      builder: (BuildContext context, ViewHeaderData org, ViewHeaderData snap) {
+      builder: (BuildContext context, ViewHeaderData org) {
         return Stack(
           alignment: const Alignment(0, 0),
           children: [
-            TweenAnimationBuilder<double>(
-              tween: Tween<double>(begin: canPop ? 0 : 30, end: 0),
-              duration: const Duration(milliseconds: 300),
-              builder: (BuildContext context, double align, Widget? child) {
-                return Positioned(
-                  left: align,
-                  top: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
-                    child: canPop
-                        ? (align == 0)
-                            ? Hero(
-                                tag: 'appbar-left-$canPop',
-                                child: WidgetButton(
-                                  onPressed: () {
-                                    arguments.navigator!.currentState!.maybePop();
-                                  },
-                                  child: WidgetLabel(
-                                    icon: Icons.arrow_back_ios_new_rounded,
-                                    label: preference.text.back,
-                                    // label: AppLocalizations.of(context)!.back,
-                                  ),
-                                ),
-                              )
-                            : WidgetLabel(
-                                icon: Icons.arrow_back_ios_new_rounded,
-                                label: preference.text.back,
-                              )
-                        : const SizedBox(),
-                  ),
-                );
-              },
+            Positioned(
+              left: 0,
+              top: 0,
+              child: WidgetButton(
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                child: WidgetLabel(
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  label: preference.text.back,
+                ),
+                duration: const Duration(milliseconds: 300),
+                show: hasArguments,
+                onPressed: args?.currentState!.maybePop,
+              ),
             ),
-            Align(
+            WidgetAppbarTitle(
               alignment: Alignment.lerp(
                 const Alignment(0, 0),
                 const Alignment(0, .5),
-                snap.shrink,
-              )!,
-              child: Hero(
-                tag: 'appbar-center',
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: Text(
-                    preference.text.recentSearch(false),
-                    // 'Article',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(fontSize: (30 * org.shrink).clamp(22, 30).toDouble()),
-                    maxLines: 1,
-                    overflow: TextOverflow.fade,
-                  ),
-                ),
+                org.snapShrink,
               ),
+              label: preference.text.recentSearch(false),
+              shrink: org.shrink,
             ),
-            // Positioned(
-            //   right: 0,
-            //   top: 4,
-            //   child: WidgetButton(
-            //     padding: EdgeInsets.zero,
-            //     child: const Hero(
-            //       tag: 'appbar-right',
-            //       child: Material(
-            //         type: MaterialType.transparency,
-            //         child: WidgetLabel(
-            //           icon: LideaIcon.trash,
-            //           // icon: CupertinoIcons.search,
-            //           // icon: Icons.delete_sweep_rounded,
-            //         ),
-            //       ),
-            //     ),
-            //     onPressed: hasValue
-            //         ? () {
-            //             doConfirmWithDialog(
-            //               context: context,
-            //               message: 'Do you really want to delete all?',
-            //             ).then((bool? confirmation) {
-            //               if (confirmation != null && confirmation) onClear();
-            //             });
-            //           }
-            //         : null,
-            //   ),
-            // ),
             Positioned(
               right: 0,
               top: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
-                child: Hero(
-                  tag: 'appbar-right',
-                  child: WidgetButton(
-                    child: const WidgetLabel(
-                      icon: LideaIcon.trash,
-                    ),
-                    onPressed: hasValue
-                        ? () {
-                            doConfirmWithDialog(
-                              context: context,
-                              message: preference.text.confirmToDelete('all'),
-                            ).then((bool? confirmation) {
-                              if (confirmation != null && confirmation) onClear();
-                            });
-                          }
-                        : null,
-                  ),
+              child: WidgetButton(
+                padding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
+                child: const WidgetLabel(
+                  icon: LideaIcon.trash,
                 ),
+                duration: const Duration(milliseconds: 300),
+                enable: hasValue,
+                onPressed: () {
+                  doConfirmWithDialog(
+                    context: context,
+                    message: preference.text.confirmToDelete('all'),
+                  ).then((bool? confirmation) {
+                    if (confirmation != null && confirmation) onClear();
+                  });
+                },
               ),
             ),
           ],

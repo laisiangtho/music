@@ -13,59 +13,20 @@ import '/widget/main.dart';
 // import '/type/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 
 class Main extends StatefulWidget {
   const Main({Key? key, this.arguments}) : super(key: key);
   final Object? arguments;
-  // final GlobalKey<NavigatorState>? navigatorKey;
 
   static const route = '/user';
   static const icon = Icons.person;
   static const name = 'User';
   static const description = 'user';
   static final uniqueKey = UniqueKey();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final Core core = context.read<Core>();
-  // late final AppLocalizations translate = AppLocalizations.of(context)!;
-  late final Authentication authenticate = context.read<Authentication>();
-  late final scrollController = ScrollController();
-
-  Preference get preference => core.preference;
-
-  // SettingsController get settings => context.read<SettingsController>();
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  // Authentication get authenticate => context.read<Authentication>();
-
-  List<String> get themeName => [
-        preference.text.automatic,
-        preference.text.light,
-        preference.text.dark,
-      ];
-
-  late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  late final bool canPop = widget.arguments != null;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
 }
 
 class _View extends _State with _Bar {
@@ -73,8 +34,7 @@ class _View extends _State with _Bar {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ViewPage(
-        // key: widget.key,
-        // controller: scrollController,
+        // controller: _scrollController,
         child: Consumer<Authentication>(
           builder: (_, __, ___) => body(),
         ),
@@ -90,7 +50,7 @@ class _View extends _State with _Bar {
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
           sliver: FutureBuilder(
-            future: Future.delayed(const Duration(milliseconds: 400), () => true),
+            future: Future.microtask(() => true),
             builder: (_, snap) {
               if (snap.hasData) {
                 if (authenticate.hasUser) {
@@ -115,7 +75,7 @@ class _View extends _State with _Bar {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 15, 0, 25),
           sliver: FutureBuilder(
             future: Future.delayed(const Duration(milliseconds: 150), () => true),
             builder: (_, snap) {
@@ -126,15 +86,15 @@ class _View extends _State with _Bar {
             },
           ),
         ),
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-        ),
+        // Selector<ViewScrollNotify, double>(
+        //   selector: (_, e) => e.bottomPadding,
+        //   builder: (context, bottomPadding, child) {
+        //     return SliverPadding(
+        //       padding: EdgeInsets.only(bottom: bottomPadding),
+        //       sliver: child,
+        //     );
+        //   },
+        // ),
       ],
     );
   }

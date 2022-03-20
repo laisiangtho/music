@@ -8,76 +8,60 @@ mixin _Bar on _State {
         return ViewHeaderSliverSnap(
           pinned: true,
           floating: false,
-          // reservedPadding: MediaQuery.of(context).padding.top,
           padding: MediaQuery.of(context).viewPadding,
           heights: const [kBottomNavigationBarHeight],
           overlapsBackgroundColor: Theme.of(context).primaryColor,
           overlapsBorderColor: Theme.of(context).shadowColor,
           overlapsForce: innerBoxIsScrolled,
-          builder: (BuildContext context, ViewHeaderData org, ViewHeaderData snap) {
+          builder: (BuildContext context, ViewHeaderData org) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const Align(
-                //   child: Hero(
-                //     tag: 'appbar-left-0',
-                //     child: SizedBox(),
-                //   ),
-                // ),
-                // const Align(
-                //   child: Hero(
-                //     tag: 'appbar-title',
-                //     child: SizedBox(),
-                //   ),
-                // ),
                 Expanded(
-                  child: Hero(
-                    tag: 'searchbar-field',
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-                      // padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.5),
-                      child: GestureDetector(
-                        // child: Selector<Core, String>(
-                        //   selector: (BuildContext _, Core e) => e.searchQuery,
-                        //   builder: (BuildContext _, String initialValue, Widget? child) {
-                        //     return _barForm(initialValue);
-                        //   },
-                        // ),
-                        child: _barForm(),
-                        // child: const Text('tmp'),
-                        onTap: () {
-                          // core.navigate(to: '/search');
-                          // final word = await navigator.currentState!.pushNamed('/search');
-                          // final word = await navigator.currentState!.pushNamed('/suggest');
-                          // final word = await navigator.currentState!.pushNamed('/search-suggest');
-                          // onSearch(word as bool);
-                          navigator.currentState!
-                              .pushNamed('/search-suggest', arguments: arguments)
-                              .then((word) {
-                            onUpdate(word != null);
-                          });
-                        },
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    child: GestureDetector(
+                      child: _barForm(),
+                      onTap: () {
+                        // Navigator.of(context).pushNamed('/search-suggest').then((word) {
+                        //   onUpdate(word != null);
+                        // });
+                        args?.currentState!.pushNamed('/search-suggest').then((word) {
+                          onUpdate(word != null);
+                        });
+                        // debugPrint('??? $args $hasArguments');
+                        // Navigator.of(context)
+                        //     .pushNamed('/search-suggest', arguments: false)
+                        //     .then((word) {
+                        //   onUpdate(word != null);
+                        // });
+                      },
                     ),
                   ),
                 ),
-                Hero(
-                  tag: 'appbar-right',
-                  child: canPop
-                      ? WidgetButton(
-                          // alignment: Alignment.center,
-                          padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                          // padding: EdgeInsets.zero,
-                          child: const WidgetLabel(icon: CupertinoIcons.home),
-                          onPressed: () {
-                            // parent.navigator!.currentState!.maybePop();
-                            // Navigator.of(context).pop();
-                            // parent.navigator!.currentState!.pop();
-                            core.navigate(to: '/home');
-                          },
-                        )
-                      : const SizedBox(),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                //   child: args!.canPop
+                //       ? WidgetButton(
+                //           child: const WidgetLabel(icon: CupertinoIcons.home),
+                //           onPressed: () {
+                //             core.navigate(to: '/home', routePush: true);
+                //           },
+                //         )
+                //       : null,
+                // ),
+                WidgetButton(
+                  padding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
+                  child: const WidgetLabel(
+                    icon: CupertinoIcons.home,
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  show: args!.hasParam,
+                  onPressed: param?.currentState!.maybePop,
+                  // show: hasArguments,
+                  // onPressed: () {
+                  //   core.navigate(to: '/home', routePush: true);
+                  // },
                 ),
               ],
             );

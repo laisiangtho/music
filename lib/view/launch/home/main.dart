@@ -14,6 +14,7 @@ import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 part 'refresh.dart';
 
 class Main extends StatefulWidget {
@@ -25,84 +26,9 @@ class Main extends StatefulWidget {
   static const icon = LideaIcon.search;
   static const name = 'Home';
   static const description = '...';
-  // static final uniqueKey = UniqueKey();
-  // static final navigatorKey = GlobalKey<NavigatorState>();
-  // static late final scaffoldKey = GlobalKey<ScaffoldState>();
-  // static const scaffoldKey = Key('launch-adfeeppergt');
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final scrollController = ScrollController();
-  late final Core core = context.read<Core>();
-  late final Preference preference = core.preference;
-  // Preference get preference => core.preference;
-  late final Box<RecentPlayType> box = core.collection.boxOfRecentPlay;
-  late final langList = cache.langAvailable();
-
-  Authentication get authenticate => context.read<Authentication>();
-
-  AudioBucketType get cache => core.collection.cacheBucket;
-  // Iterable<AudioMetaType> get trackMeta => core.audio.metaById([3384,3876,77,5,7,8]);
-  // Iterable<int> get trackMeta => [3384,3876,77,5,7,8];
-  Iterable<int> get trackMeta => cache.track.take(7).map((e) => e.id);
-  Iterable<AudioCategoryLang> get language => cache.langAvailable();
-  // Iterable<AudioArtistType> artistPopularByLang(int id) => cache.artistPopularByLang(id);
-  Iterable<int> artistPopularByLang(int id) => cache.artistPopularByLang(id);
-  Iterable<AudioAlbumType> get albumPopular => cache.album.take(17);
-
-  // bool _showModal = false;
-  // final _scaffoldKey = GlobalKey<ScaffoldState>();
-  // late PersistentBottomSheetController? _bottomSheetController;
-
-  @override
-  void initState() {
-    super.initState();
-    // Future.microtask((){});
-  }
-
-  @override
-  void dispose() {
-    // scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  void onClear() {
-    Future.microtask(() {});
-  }
-
-  String get searchQuery => core.searchQuery;
-  set searchQuery(String ord) {
-    core.searchQuery = ord;
-  }
-
-  String get suggestQuery => core.suggestQuery;
-  set suggestQuery(String ord) {
-    core.suggestQuery = ord.replaceAll(RegExp(' +'), ' ').trim();
-  }
-
-  void onSearch(String ord) {
-    suggestQuery = ord;
-    searchQuery = suggestQuery;
-
-    Future.microtask(() {
-      core.conclusionGenerate();
-    });
-    core.navigate(to: '/search-result');
-  }
-
-  // void onDelete(String word) {
-  //   Future.delayed(Duration.zero, () {});
-  // }
-
-  bool get canPop => Navigator.of(context).canPop();
 }
 
 class _View extends _State with _Bar, _Refresh {
@@ -120,80 +46,11 @@ class _View extends _State with _Bar, _Refresh {
 
   Widget body() {
     return CustomScrollView(
-      primary: true,
-      // controller: scrollController,
+      // primary: true,
+      controller: scrollController,
       slivers: <Widget>[
         bar(),
         refresh(),
-
-        // SliverToBoxAdapter(
-        //   child: SizedBox(
-        //     height: kBottomNavigationBarHeight,
-        //     child: Padding(
-        //       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
-        //       child: Hero(
-        //         tag: 'searchHero',
-        //         child: GestureDetector(
-        //           child: Material(
-        //             type: MaterialType.transparency,
-        //             child: MediaQuery(
-        //               data: MediaQuery.of(context),
-        //               child: TextFormField(
-        //                 readOnly: true,
-        //                 enabled: false,
-        //                 decoration: InputDecoration(
-        //                   hintText: preference.text.aWordOrTwo,
-        //                   prefixIcon: const Icon(LideaIcon.find, size: 20),
-        //                   fillColor:
-        //                       Theme.of(context).inputDecorationTheme.fillColor!.withOpacity(0.4),
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //           onTap: () {
-        //             core.navigate(to: '/search');
-        //           },
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-          sliver: SliverToBoxAdapter(
-            child: SizedBox(
-              height: kBottomNavigationBarHeight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 7),
-                child: Hero(
-                  tag: 'searchHero',
-                  child: GestureDetector(
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: MediaQuery(
-                        data: MediaQuery.of(context),
-                        child: TextFormField(
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(
-                            hintText: preference.text.aWordOrTwo,
-                            prefixIcon: const Icon(LideaIcon.find),
-                            hintStyle: const TextStyle(height: 1.3),
-                            fillColor:
-                                Theme.of(context).inputDecorationTheme.fillColor!.withOpacity(0.4),
-                          ),
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      core.navigate(to: '/search');
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
 
         SliverPadding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -240,7 +97,7 @@ class _View extends _State with _Bar, _Refresh {
             (BuildContext _, int index) {
               final lag = langList.elementAt(index);
               // lag.id
-              final tmp = cache.artist.where((e) {
+              final tmp = cacheBucket.artist.where((e) {
                 return e.lang.contains(lag.id) && e.id > 2;
               }).map((e) {
                 return e.id;
@@ -303,9 +160,9 @@ class _View extends _State with _Bar, _Refresh {
                         },
                       ),
                       WidgetButton(
-                        child: const WidgetLabel(
+                        child: WidgetLabel(
                           icon: LideaIcon.layers,
-                          label: 'Recent play',
+                          label: preference.text.recentPlay(false),
                         ),
                         onPressed: () {
                           core.navigate(to: '/recent-play');
@@ -321,9 +178,9 @@ class _View extends _State with _Bar, _Refresh {
                         },
                       ),
                       WidgetButton(
-                        child: const WidgetLabel(
-                          icon: LideaIcon.layers,
-                          label: 'Settings',
+                        child: WidgetLabel(
+                          icon: LideaIcon.cog,
+                          label: preference.text.setting(true),
                         ),
                         onPressed: () {
                           core.navigate(to: '/settings');

@@ -15,9 +15,10 @@ import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key, this.arguments}) : super(key: key);
+  const Main({Key? key, required this.arguments}) : super(key: key);
 
   final Object? arguments;
 
@@ -25,85 +26,9 @@ class Main extends StatefulWidget {
   static const icon = LideaIcon.search;
   static const name = 'Result';
   static const description = '...';
-  // static final uniqueKey = UniqueKey();
-  // static final navigatorKey = GlobalKey<NavigatorState>();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final Core core = context.read<Core>();
-  late final AudioBucketType cache = core.collection.cacheBucket;
-
-  late final scrollController = ScrollController();
-  late final TextEditingController textController = TextEditingController();
-  late final Future<void> initiator = core.conclusionGenerate(init: true);
-  late final Preference preference = core.preference;
-
-  ViewNavigationArguments get arguments => widget.arguments as ViewNavigationArguments;
-  GlobalKey<NavigatorState> get navigator => arguments.navigator!;
-  ViewNavigationArguments get parent => arguments.args as ViewNavigationArguments;
-  bool get canPop => arguments.args != null;
-  // bool get canPop => arguments.canPop;
-  // bool get canPop => navigator.currentState!.canPop();
-  // bool get canPop => Navigator.of(context).canPop();
-
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  // Preference get preference => core.preference;
-
-  @override
-  void initState() {
-    super.initState();
-    onQuery();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController.dispose();
-    textController.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  void onUpdate(bool status) {
-    if (status) {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        if (scrollController.hasClients && scrollController.position.hasContentDimensions) {
-          scrollController.animateTo(
-            scrollController.position.minScrollExtent,
-            curve: Curves.fastOutSlowIn,
-            duration: const Duration(milliseconds: 500),
-          );
-        }
-      });
-      onQuery();
-    }
-  }
-
-  void onQuery() async {
-    Future.microtask(() {
-      textController.text = core.searchQuery;
-    });
-  }
-
-  void onSearch(String ord) async {
-    core.searchQuery = ord;
-    core.suggestQuery = ord;
-    await core.conclusionGenerate();
-    onQuery();
-    onUpdate(core.searchQuery.isNotEmpty);
-  }
-
-  // void onSwitchFavorite() {
-  //   core.collection.favoriteSwitch(core.searchQuery);
-  //   core.notify();
-  // }
 }
 
 class _View extends _State with _Bar {
@@ -174,16 +99,16 @@ class _View extends _State with _Bar {
         //   ),
         //   prototypeItem: const Text('prototypeItem'),
         // ),
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-          child: const SliverToBoxAdapter(),
-        ),
+        // Selector<ViewScrollNotify, double>(
+        //   selector: (_, e) => e.bottomPadding,
+        //   builder: (context, bottomPadding, child) {
+        //     return SliverPadding(
+        //       padding: EdgeInsets.only(bottom: bottomPadding),
+        //       sliver: child,
+        //     );
+        //   },
+        //   child: const SliverToBoxAdapter(),
+        // ),
       ],
     );
   }
@@ -255,20 +180,6 @@ class _View extends _State with _Bar {
   }
 
   Widget _trackContainer(OfRawType raw) {
-    // return Column(
-    //   children: [
-    //     ListTile(
-    //       leading: const Icon(LideaIcon.track, semanticLabel: 'Track'),
-    //       title: Text(raw.term),
-    //       trailing: Text(raw.count.toString()),
-    //       onTap: () => true,
-    //     ),
-    //     const Text('...'),
-    //   ],
-    // );
-    // return const SliverToBoxAdapter(
-    //   child: Text('Track'),
-    // );
     return TrackFlat(
       primary: false,
       tracks: raw.kid,
@@ -279,21 +190,6 @@ class _View extends _State with _Bar {
   }
 
   Widget _artistContainer(OfRawType raw) {
-    // return Column(
-    //   children: [
-    //     ListTile(
-    //       leading: const Icon(LideaIcon.artist, semanticLabel: 'Artist'),
-    //       title: Text(raw.term),
-    //       trailing: Text(raw.count.toString()),
-    //       onTap: () => true,
-    //     ),
-    //     const Text('...'),
-    //   ],
-    // );
-    // return const SliverToBoxAdapter(
-    //   child: Text('artist'),
-    // );
-    //
     return ArtistWrap(
       primary: false,
       artists: raw.kid,
@@ -303,165 +199,11 @@ class _View extends _State with _Bar {
   }
 
   Widget _albumContainer(OfRawType raw) {
-    // return Column(
-    //   children: [
-    //     ListTile(
-    //       leading: const Icon(LideaIcon.album, semanticLabel: 'Album'),
-    //       title: Text(raw.term),
-    //       trailing: Text(raw.count.toString()),
-    //       onTap: () => true,
-    //     ),
-    //     const Text('...'),
-    //   ],
-    // );
-    // artistAlbumId.map((e) => cache.albumById(e));
-    // return const SliverToBoxAdapter(
-    //   child: Text('album'),
-    // );
     return AlbumBoard(
       primary: false,
       shrinkWrap: true,
-      albums: raw.uid.map((e) => cache.albumById(e)),
+      albums: raw.uid.map((e) => cacheBucket.albumById(e)),
       controller: scrollController,
     );
   }
 }
-
-// class SliverSingle extends SingleChildRenderObjectWidget {
-//   const SliverSingle({Key? key, Widget? child}) : super(key: key, child: child);
-//   @override
-//   RenderObject createRenderObject(BuildContext context) {
-//     return RenderSliverSingle();
-//   }
-// }
-
-// class RenderSliverSingle extends RenderSliverSingleBoxAdapter {
-//   RenderSliverSingle({RenderBox? child}) : super(child: child);
-
-//   @override
-//   void performLayout() {
-//     if (child == null) {
-//       geometry = SliverGeometry.zero;
-//       return;
-//     }
-//     final SliverConstraints constraints = this.constraints;
-//     child!.layout(constraints.asBoxConstraints(), parentUsesSize: true);
-//     final double childExtent;
-//     switch (constraints.axis) {
-//       case Axis.horizontal:
-//         childExtent = child!.size.width;
-//         break;
-//       case Axis.vertical:
-//         childExtent = child!.size.height;
-//         break;
-//     }
-//     // assert(childExtent != null);
-//     final double paintedChildSize = calculatePaintOffset(constraints, from: 0.0, to: childExtent);
-//     final double cacheExtent = calculateCacheOffset(constraints, from: 0.0, to: childExtent);
-
-//     assert(paintedChildSize.isFinite);
-//     assert(paintedChildSize >= 0.0);
-//     geometry = SliverGeometry(
-//       scrollExtent: childExtent,
-//       paintExtent: paintedChildSize,
-//       cacheExtent: cacheExtent,
-//       maxPaintExtent: childExtent,
-//       hitTestExtent: paintedChildSize,
-//       hasVisualOverflow:
-//           childExtent > constraints.remainingPaintExtent || constraints.scrollOffset > 0.0,
-//     );
-//     setChildParentData(child!, constraints, geometry!);
-//   }
-// }
-
-// // MultiChildRenderObjectWidget
-// // SingleChildRenderObjectWidget
-// class SliverMulti extends MultiChildRenderObjectWidget {
-//   // SliverMulti({Key? key, required List<Widget> children}) : super(key: key, children: children);
-//   // SliverMulti({Key? key, required List<Widget> children}) : super(key: key, children: children);
-//   SliverMulti({Key? key, List<Widget>? children}) : super(key: key, children: children!);
-//   @override
-//   RenderObject createRenderObject(BuildContext context) {
-//     return RenderSliverMulti();
-//   }
-// }
-
-// class RenderSliverMulti extends RenderSliverMultiBoxAdaptor {
-//   // RenderSliverMulti({RenderSliverBoxChildManager? children}) : super(childManager: children!);
-//   RenderSliverMulti({required RenderSliverBoxChildManager children})
-//       : super(childManager: children);
-
-//   @override
-//   void performLayout() {
-//     if (firstChild == null) {
-//       geometry = SliverGeometry.zero;
-//       return;
-//     }
-//     final SliverConstraints constraints = this.constraints;
-//     firstChild!.layout(constraints.asBoxConstraints(), parentUsesSize: true);
-//     // final double childExtent;
-//     // switch (constraints.axis) {
-//     //   case Axis.horizontal:
-//     //     childExtent = firstChild!.size.width;
-//     //     break;
-//     //   case Axis.vertical:
-//     //     childExtent = firstChild!.size.height;
-//     //     break;
-//     // }
-//     // assert(childExtent != null);
-//     // final double paintedChildSize = calculatePaintOffset(constraints, from: 0.0, to: childExtent);
-//     // final double cacheExtent = calculateCacheOffset(constraints, from: 0.0, to: childExtent);
-
-//     // final correction = _layoutChildSequence(
-//     //   child: firstChild,
-//     //   scrollOffset: constraints.scrollOffset,
-//     //   overlap: constraints.overlap,
-//     //   remainingPaintExtent: constraints.remainingPaintExtent,
-//     //   mainAxisExtent: constraints.viewportMainAxisExtent,
-//     //   crossAxisExtent: constraints.crossAxisExtent,
-//     //   growthDirection: GrowthDirection.forward,
-//     //   advance: childAfter,
-//     //   remainingCacheExtent: constraints.remainingCacheExtent,
-//     //   cacheOrigin: constraints.cacheOrigin,
-//     // );
-
-//     // geometry = SliverGeometry(
-//     //   scrollExtent: childExtent,
-//     //   paintExtent: paintedChildSize,
-//     //   cacheExtent: cacheExtent,
-//     //   maxPaintExtent: childExtent,
-//     //   hitTestExtent: paintedChildSize,
-//     //   hasVisualOverflow:
-//     //       childExtent > constraints.remainingPaintExtent || constraints.scrollOffset > 0.0,
-//     // );
-//     // if (correction != null) {
-//     //   geometry = SliverGeometry(scrollOffsetCorrection: correction);
-//     //   return;
-//     // }
-//     geometry = const SliverGeometry();
-//   }
-// }
-// class SliverTesting extends RenderSliverMultiBoxAdaptor {
-//   SliverTesting({required RenderSliverBoxChildManager childManager})
-//       : super(childManager: childManager);
-
-//   @override
-//   void performLayout() {
-//     // TODO: implement performLayout
-//   }
-// }
-
-// class RenderMultiSliver extends RenderSliver {
-//   RenderMultiSliver({
-//     required bool containing,
-//   });
-
-//   @override
-//   void performLayout() {
-//     // TODO: implement performLayout
-//     if (firstChild == null) {
-//       geometry = SliverGeometry.zero;
-//       return;
-//     }
-//   }
-// }

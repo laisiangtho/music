@@ -17,6 +17,7 @@ import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 
 class Main extends StatefulWidget {
   const Main({Key? key, this.arguments}) : super(key: key);
@@ -24,54 +25,13 @@ class Main extends StatefulWidget {
   final Object? arguments;
 
   static const route = '/store';
-  // static const icon = Icons.assistant;
   static const icon = Icons.shopping_bag;
   static const name = 'Store';
   static const description = '...';
   static final uniqueKey = UniqueKey();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  final scrollController = ScrollController();
-
-  // late Core core;
-  late final Core core = context.read<Core>();
-  late final store = core.store;
-
-  // ViewNavigationArguments get arguments => widget.arguments as ViewNavigationArguments;
-  late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  late final bool canPop = widget.arguments != null;
-  // AudioAlbumType get album => arguments.meta as AudioAlbumType;
-
-  // SettingsController get settings => context.read<SettingsController>();
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  Preference get preference => core.preference;
-  // Authentication get authenticate => context.read<Authentication>();
-
-  @override
-  void initState() {
-    store.init();
-    super.initState();
-    // core = context.read<Core>();
-  }
-
-  @override
-  void dispose() {
-    store.dispose();
-    super.dispose();
-    scrollController.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  void onSort() {}
 }
 
 class _View extends _State with _Bar {

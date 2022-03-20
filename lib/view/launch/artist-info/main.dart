@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
 import 'package:lidea/intl.dart' as intl;
-import 'package:lidea/provider.dart';
+// import 'package:lidea/provider.dart';
 // import 'package:lidea/intl.dart';
 // import 'package:lidea/sliver.dart';
 import 'package:lidea/view/main.dart';
 import 'package:lidea/icon.dart';
 
-import '/core/main.dart';
+// import '/core/main.dart';
 import '/type/main.dart';
 import '/widget/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key, this.navigatorKey, this.arguments}) : super(key: key);
+  const Main({Key? key, this.arguments}) : super(key: key);
 
-  final GlobalKey<NavigatorState>? navigatorKey;
   final Object? arguments;
 
   static const route = '/artist-info';
@@ -28,125 +28,9 @@ class Main extends StatefulWidget {
   static const name = 'Artist';
   static const description = '...';
   static final uniqueKey = UniqueKey();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  final scrollController = ScrollController();
-
-  late final Core core = context.read<Core>();
-
-  late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  late final bool canPop = widget.arguments != null;
-  // late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  // late final bool canPop = widget.arguments != null;
-  // ViewNavigationArguments get arguments => widget.arguments as ViewNavigationArguments;
-  // AudioAlbumType get album => arguments.meta as AudioAlbumType;
-
-  // SettingsController get settings => context.read<SettingsController>();
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  // Authentication get authenticate => context.read<Authentication>();
-  Preference get preference => core.preference;
-
-  late final AudioArtistType artist = arguments.args as AudioArtistType;
-  late final int artistId = artist.id;
-
-  late final AudioBucketType cache = core.collection.cacheBucket;
-  late final Audio audio = core.audio;
-
-  late Iterable<AudioTrackType> track;
-  late List<String> artistAlbumId;
-  late Iterable<AudioAlbumType> artistAlbum;
-  late List<int> artistRecommendedId;
-
-  @override
-  void initState() {
-    super.initState();
-
-    track = cache.track.where((e) => e.artists.contains(artistId));
-
-    artistAlbumId = track.map((e) => e.uid).toSet().toList();
-
-    artistAlbum = artistAlbumId.map((e) => cache.albumById(e));
-
-    artistRecommendedId = track
-        .where((e) => e.artists.length > 1)
-        .map((e) => e.artists)
-        .expand((e) => e)
-        .toSet()
-        .toList(); //..removeWhere((e) => e == artistId);
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  // void onClear() {
-  //   Future.microtask(() {});
-  // }
-
-  // void onSearch(String word) {}
-
-  // void onDelete(String word) {
-  //   Future.delayed(Duration.zero, () {});
-  // }
-  int get artistPlaysCount => artist.plays;
-  String get artistDuration => cache.duration(artist.duration);
-  String get artistTrackCount => artist.track.toString();
-  String get artistAlbumCount => artist.album.toString();
-
-  // Iterable<AudioTrackType> get track => cache.track.where((e) => e.artists.contains(artistId));
-
-  // Iterable<AudioMetaType> get artistTrack => track.map((e) => cache.meta(e.id)).take(10);
-  // Iterable<AudioMetaType> get artistTrack => track.map((e) => cache.meta(e.id));
-  List<int> get artistTrackIds => track.map((e) => e.id).toList();
-
-  // List<String> get artistAlbumId => track.map((e) => e.uid).toSet().toList();
-
-  // Iterable<AudioAlbumType> get artistAlbum => artistAlbumId.map(
-  //   (e) => cache.albumById(e)
-  // );
-
-  // List<int> get artistRecommendedId => track.where(
-  //   (e) => e.artists.length > 1
-  // ).map((e) => e.artists).expand((e) => e).toSet().toList();//..removeWhere((e) => e == artistId);
-
-  // Iterable<AudioArtistType> get artistRecommended => artistRecommendedId.where((e) => e != artistId).map(
-  //   (e) => cache.artistById(e)
-  // );
-  Iterable<int> get artistRecommended => artistRecommendedId.where((e) => e != artistId);
-
-  // Iterable<AudioArtistType> get artistRelated => cache.trackByUid(artistAlbumId).map(
-  //   (e) => e.artists
-  // ).map((e) => e).expand((e) => e).toSet().where(
-  //   (e) => !artistRecommendedId.contains(e)
-  // ).map(
-  //   (e) => cache.artistById(e)
-  // );
-  Iterable<int> get artistRelated => cache
-      .trackByUid(artistAlbumId)
-      .map((e) => e.artists)
-      .expand((e) => e)
-      .toSet()
-      .where((e) => !artistRecommendedId.contains(e));
-
-  List<String> get artistYear =>
-      artistAlbum.map((e) => e.year.where((x) => x != '')).expand((e) => e).toSet().toList()
-        ..sort((a, b) => a.compareTo(b));
-
-  void _playAll() {
-    audio.queuefromTrack(track.map((e) => e.id).toList(), group: true);
-  }
 }
 
 class _View extends _State with _Bar {

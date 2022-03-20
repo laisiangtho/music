@@ -12,6 +12,7 @@ import '/widget/main.dart';
 // import '/type/main.dart';
 
 part 'bar.dart';
+part 'state.dart';
 part 'optionlist.dart';
 part 'booklist.dart';
 part 'chapterlist.dart';
@@ -19,101 +20,15 @@ part 'chapterlist.dart';
 class Main extends StatefulWidget {
   const Main({Key? key, this.arguments}) : super(key: key);
   final Object? arguments;
-  // final GlobalKey<NavigatorState>? navigatorKey;
 
   static const route = '/read';
   static const icon = LideaIcon.bookOpen;
   static const name = 'Read';
   static const description = 'Read';
   static final uniqueKey = UniqueKey();
-  // static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<StatefulWidget> createState() => _View();
-}
-
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
-  late final Core core = context.read<Core>();
-  // late final SettingsController settings = context.read<SettingsController>();
-  // late final AppLocalizations translate = AppLocalizations.of(context)!;
-  late final Authentication authenticate = context.read<Authentication>();
-  late final scrollController = ScrollController();
-
-  // final keySheet = GlobalKey();
-  final keyBookButton = GlobalKey();
-  final keyChapterButton = GlobalKey();
-  final keyOptionButton = GlobalKey();
-
-  late final ViewNavigationArguments arguments = widget.arguments as ViewNavigationArguments;
-  late final bool canPop = widget.arguments != null;
-
-  // SettingsController get settings => context.read<SettingsController>();
-  // AppLocalizations get translate => AppLocalizations.of(context)!;
-  // Authentication get authenticate => context.read<Authentication>();
-  Preference get preference => core.preference;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
-
-  void setFontSize(bool increase) {
-    double size = core.collection.fontSize;
-    if (increase) {
-      size++;
-    } else {
-      size--;
-    }
-    setState(() {
-      core.collection.fontSize = size.clamp(10.0, 40.0);
-    });
-  }
-
-  void setBookMark() {
-    scrollToIndex(5);
-  }
-
-  void scrollToPosition(double? pos) {
-    pos ??= scrollController.position.minScrollExtent;
-    scrollController.animateTo(pos,
-        duration: const Duration(milliseconds: 700), curve: Curves.ease);
-  }
-
-  Future scrollToIndex(int id, {bool isId = false}) async {
-    double scrollTo = 0.0;
-    if (id > 0) {
-      final offsetList = tmpverse.where(
-          // (e) => tmpverse.indexOf(e) < index
-          (e) => tmpverse.indexOf(e) < id).map<double>((e) {
-        final key = e.keys.first;
-        if (key.currentContext != null) {
-          final render = key.currentContext!.findRenderObject() as RenderBox;
-          return render.size.height;
-        }
-        return 0.0;
-      });
-      if (offsetList.isNotEmpty) {
-        scrollTo = offsetList.reduce((a, b) => a + b) + scrollTo;
-      }
-    }
-
-    scrollToPosition(scrollTo);
-  }
-
-  late final List<Map<GlobalKey, String>> tmpverse = List.generate(10, (index) {
-    return {GlobalKey(): '? $index'};
-  });
 }
 
 class _View extends _State with _Bar {
