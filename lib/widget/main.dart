@@ -25,8 +25,8 @@ import 'package:lidea/provider.dart';
 
 import '/core/main.dart';
 import '/type/main.dart';
-// import '/widget/main.dart';
 
+part 'state.dart';
 part 'common.dart';
 part 'album.dart';
 part 'album_item.dart';
@@ -48,8 +48,3 @@ part 'cache_all.dart';
 //   most,
 //   search,
 // }
-// export 'widget/content.dart';
-// export 'widget/block/track.dart';
-// export 'widget/block/album.dart';
-// export 'widget/block/artist.dart';
-// export 'widget/block/attribute.dart';

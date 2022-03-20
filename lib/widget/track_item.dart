@@ -75,7 +75,7 @@ class TrackListItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(2.0),
+            padding: const EdgeInsets.all(0.0),
             child: Stack(
               alignment: Alignment.center,
               clipBehavior: Clip.antiAlias,
@@ -84,19 +84,17 @@ class TrackListItem extends StatelessWidget {
                 if (cached)
                   Positioned(
                     bottom: 0,
-                    right: 1,
+                    right: 2,
                     child: Padding(
                       padding: const EdgeInsets.all(1.0),
                       child: Icon(
                         Icons.cloud_done,
-                        size: 12,
+                        size: 15,
                         color: Theme.of(context).hintColor,
                       ),
                     ),
                   ),
                 Positioned(
-                  // bottom: 0,
-                  // left: 2,
                   child: SizedBox.square(
                     dimension: 30,
                     child: CircularProgressIndicator(
@@ -114,6 +112,7 @@ class TrackListItem extends StatelessWidget {
                         : queued
                             ? Icons.play_arrow_rounded
                             : Icons.playlist_add_rounded,
+                    size: 32,
                   ),
                 ),
               ],

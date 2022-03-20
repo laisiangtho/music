@@ -163,6 +163,7 @@ class ArtistWrapItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return WidgetButton(
       key: key,
+      duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(right: 2, bottom: 1, top: 1),
       child: WidgetLabel(
         // alignment: Alignment.centerLeft,
