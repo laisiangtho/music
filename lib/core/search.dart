@@ -96,7 +96,6 @@ class Search {
   }
 
   void conclusion() {
-    // debugPrint('${collection.cacheSuggestion.query}, $suggestQuery');
     cacheConclusion = ConclusionType(
       query: searchQuery,
       raw: [],
