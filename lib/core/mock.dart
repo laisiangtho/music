@@ -212,29 +212,11 @@ mixin _Mock on _Abstract {
   /// ```
   /// typeof [ConclusionType]
   Future<void> conclusionGenerate({bool init = false}) async {
-    /*
-    int randomNumber = Mock.randomNumber(100);
-    String randomString = Mock.randomString();
-
-    if (collection.cacheConclusion.query != collection.searchQuery) {
-      collection.cacheConclusion = ConclusionType(
-        query: collection.searchQuery,
-        raw: List.generate(randomNumber, (_) => OfRawType(term: '$randomString $suggestQuery')),
-      );
-      collection.recentSearchUpdate(collection.searchQuery);
-      if (!init) {
-        notify();
-      }
-    }
-    // collection.recentSearchUpdate(word);
-    // collection.searchQuery = word;
-    analytics.search(collection.searchQuery);
-    */
-
     if (collection.cacheConclusion.query != collection.searchQuery) {
       search.conclusion();
       collection.recentSearchUpdate(collection.searchQuery);
       if (!init) {
+        analytics.search(collection.searchQuery);
         notify();
       }
     }
