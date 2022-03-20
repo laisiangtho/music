@@ -42,7 +42,7 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
 
   late AudioPositionType? positionData;
 
-  // TODO: duration needed to test on iOS
+  // TODO: duration need to be tested on iOS devices
   Duration get _duration {
     Duration _stmDur = positionData?.duration ?? Duration.zero;
     Duration _stmPos = _position;
