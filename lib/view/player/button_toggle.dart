@@ -119,18 +119,14 @@ class _PlayerButtonToggleState extends State<PlayerButtonToggle> {
           onPressed: () {
             if (playing) {
               audio.pause();
-              // debugPrint('??? to pause');
             } else if (audio.queue.value.isEmpty) {
               audio.queuefromRandom();
-              // debugPrint('??? get random');
             } else {
               audio.play();
-              // debugPrint('??? to play');
             }
           },
           // onLongPress: () {
           //   audio.stop();
-          //   // debugPrint('??? longpress to stop');
           // },
         );
       },
