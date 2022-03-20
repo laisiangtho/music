@@ -58,17 +58,16 @@ class AppRoutes {
   //   // );
   // }
 
-  // static GlobalKey<NavigatorState> homeNavigator = GlobalKey<NavigatorState>();
   static GlobalKey<NavigatorState> homeNavigator = launch.Main.navigator;
   static GlobalKey<ScaffoldState> scaffold = GlobalKey<ScaffoldState>();
 
   static String homeInitial({String? name}) => name ?? launch.Main.route;
 
-  static Widget _homePage(RouteSettings route) {
-    switch (route.name) {
+  static Widget _homePage(RouteSettings routeSettings) {
+    switch (routeSettings.name) {
       case search_page.Main.route:
         return search_page.Main(
-          arguments: route.arguments,
+          arguments: routeSettings.arguments,
           defaultRouteName: search_suggest.Main.route,
         );
       // case search_page.Main.route:
@@ -77,12 +76,12 @@ class AppRoutes {
       //   return search_suggest.Main(arguments: route.arguments);
       case search_suggest.Main.route:
         return search_page.Main(
-          arguments: route.arguments,
+          arguments: routeSettings.arguments,
           defaultRouteName: search_suggest.Main.route,
         );
       case search_result.Main.route:
         return search_page.Main(
-          arguments: route.arguments,
+          arguments: routeSettings.arguments,
           defaultRouteName: search_result.Main.route,
         );
       // case search_result.Main.route:
@@ -94,46 +93,46 @@ class AppRoutes {
       //   return search_suggest.Main(arguments: route.arguments);
 
       case user.Main.route:
-        return user.Main(arguments: route.arguments);
+        return user.Main(arguments: routeSettings.arguments);
       case setting.Main.route:
-        return setting.Main(arguments: route.arguments);
+        return setting.Main(arguments: routeSettings.arguments);
       case reader.Main.route:
-        return reader.Main(arguments: route.arguments);
+        return reader.Main(arguments: routeSettings.arguments);
       case note.Main.route:
-        return note.Main(arguments: route.arguments);
+        return note.Main(arguments: routeSettings.arguments);
       case favorite_word.Main.route:
-        return favorite_word.Main(arguments: route.arguments);
+        return favorite_word.Main(arguments: routeSettings.arguments);
       case music_library.Main.route:
-        return music_library.Main(arguments: route.arguments);
+        return music_library.Main(arguments: routeSettings.arguments);
       case store.Main.route:
-        return store.Main(arguments: route.arguments);
+        return store.Main(arguments: routeSettings.arguments);
       case recent_search.Main.route:
-        return recent_search.Main(arguments: route.arguments);
+        return recent_search.Main(arguments: routeSettings.arguments);
       case recent_play.Main.route:
-        return recent_play.Main(arguments: route.arguments);
+        return recent_play.Main(arguments: routeSettings.arguments);
 
       case blog.Main.route:
-        return blog.Main(arguments: route.arguments);
+        return blog.Main(arguments: routeSettings.arguments);
       case article.Main.route:
-        return article.Main(arguments: route.arguments);
+        return article.Main(arguments: routeSettings.arguments);
       case reorderable.Main.route:
-        return reorderable.Main(arguments: route.arguments);
+        return reorderable.Main(arguments: routeSettings.arguments);
       case dismissible.Main.route:
-        return dismissible.Main(arguments: route.arguments);
+        return dismissible.Main(arguments: routeSettings.arguments);
 
       case album_list.Main.route:
-        return album_list.Main(arguments: route.arguments);
+        return album_list.Main(arguments: routeSettings.arguments);
       case album_info.Main.route:
-        return album_info.Main(arguments: route.arguments);
+        return album_info.Main(arguments: routeSettings.arguments);
       case artist_list.Main.route:
-        return artist_list.Main(arguments: route.arguments);
+        return artist_list.Main(arguments: routeSettings.arguments);
       case artist_info.Main.route:
-        return artist_info.Main(arguments: route.arguments);
+        return artist_info.Main(arguments: routeSettings.arguments);
 
       case home.Main.route:
       default:
-        // throw Exception('Invalid route: ${route.name}');
-        return home.Main(arguments: route.arguments);
+        // throw Exception('Invalid route: ${routeSettings.name}');
+        return home.Main(arguments: routeSettings.arguments);
     }
   }
 
@@ -147,14 +146,14 @@ class AppRoutes {
   //   );
   // }
 
-  static Route<dynamic>? homeBuilder(RouteSettings route) {
+  static Route<dynamic>? homeBuilder(RouteSettings routeSettings) {
     return PageRouteBuilder(
-      settings: route,
+      settings: routeSettings,
       pageBuilder: (BuildContext _, Animation<double> _a, Animation<double> _b) {
-        return _homePage(route);
+        return _homePage(routeSettings);
       },
-      transitionDuration: const Duration(milliseconds: 400),
-      reverseTransitionDuration: const Duration(milliseconds: 400),
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (_, animation, _b, child) => FadeTransition(
         opacity: animation,
         child: child,
@@ -163,20 +162,13 @@ class AppRoutes {
     );
   }
 
-  // static GlobalKey<NavigatorState> searchNavigator = search_page.Main.navigator;
-  // static GlobalKey<NavigatorState> searchNavigator => GlobalKey<NavigatorState>();
-
   static String searchInitial({String? name}) => name ?? search_result.Main.route;
 
-  static Route<dynamic>? searchBuilder(RouteSettings route, Object? args) {
-    // final arguments = ViewNavigationArguments(
-    //   navigator: searchNavigator,
-    //   args: args,
-    // );
+  static Route<dynamic>? searchBuilder(RouteSettings routeSettings, Object? args) {
     return PageRouteBuilder(
-      settings: route,
+      settings: routeSettings,
       pageBuilder: (BuildContext _, Animation<double> _a, Animation<double> _b) {
-        switch (route.name) {
+        switch (routeSettings.name) {
           case search_suggest.Main.route:
             return search_suggest.Main(arguments: args);
           case search_result.Main.route:
@@ -184,8 +176,8 @@ class AppRoutes {
             return search_result.Main(arguments: args);
         }
       },
-      transitionDuration: const Duration(milliseconds: 400),
-      reverseTransitionDuration: const Duration(milliseconds: 400),
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (_, animation, __, child) => FadeTransition(
         opacity: animation,
         child: child,
@@ -230,6 +222,12 @@ class AppPageNavigation {
         name: recent_play.Main.name,
         description: 'Recent Play',
       ),
+      const ViewNavigationModel(
+        key: 4,
+        icon: search_page.Main.icon,
+        name: search_page.Main.name,
+        description: 'Search',
+      ),
     ];
   }
 
@@ -250,7 +248,11 @@ class AppPageNavigation {
       key: store.Main.uniqueKey,
       child: const store.Main(),
     ),
-    // WidgetKeepAlive(
+    ViewKeepAlive(
+      key: search_page.Main.uniqueKey,
+      child: const search_page.Main(),
+    ),
+    // ViewKeepAlive(
     //   key: setting.Main.uniqueKey,
     //   child: const setting.Main(),
     // ),
