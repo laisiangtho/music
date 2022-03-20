@@ -5,26 +5,12 @@ import '/core/main.dart';
 
 import 'main.dart' as root;
 
-// import 'launch/main.dart' as launch;
-// import 'blog/main.dart' as blog;
-// import 'article/main.dart' as article;
-// import '../search/main.dart' as search;
-// import '../user/main.dart' as user;
-// import '../read/main.dart' as read;
-// import 'reorderable/main.dart' as reorderable;
-// import 'dismissible/main.dart' as dismissible;
-// import 'recent_search/main.dart' as recent_search;
-
 import 'launch/main.dart' as launch;
 import 'launch/home/main.dart' as home;
-import 'launch/blog/main.dart' as blog;
-import 'launch/article/main.dart' as article;
-import 'launch/reorderable/main.dart' as reorderable;
-import 'launch/dismissible/main.dart' as dismissible;
+
 import 'launch/recent_search/main.dart' as recent_search;
 import 'launch/recent_play/main.dart' as recent_play;
-import 'launch/note/main.dart' as note;
-import 'launch/favorite_word/main.dart' as favorite_word;
+
 import 'launch/library/main.dart' as music_library;
 import 'launch/store/main.dart' as store;
 
@@ -33,7 +19,7 @@ import 'search/result/main.dart' as search_result;
 import 'search/suggest/main.dart' as search_suggest;
 
 import 'user/main.dart' as user;
-import 'read/main.dart' as reader;
+// import 'read/main.dart' as reader;
 import 'setting/main.dart' as setting;
 
 import 'launch/album-list/main.dart' as album_list;
@@ -96,12 +82,7 @@ class AppRoutes {
         return user.Main(arguments: routeSettings.arguments);
       case setting.Main.route:
         return setting.Main(arguments: routeSettings.arguments);
-      case reader.Main.route:
-        return reader.Main(arguments: routeSettings.arguments);
-      case note.Main.route:
-        return note.Main(arguments: routeSettings.arguments);
-      case favorite_word.Main.route:
-        return favorite_word.Main(arguments: routeSettings.arguments);
+
       case music_library.Main.route:
         return music_library.Main(arguments: routeSettings.arguments);
       case store.Main.route:
@@ -110,15 +91,6 @@ class AppRoutes {
         return recent_search.Main(arguments: routeSettings.arguments);
       case recent_play.Main.route:
         return recent_play.Main(arguments: routeSettings.arguments);
-
-      case blog.Main.route:
-        return blog.Main(arguments: routeSettings.arguments);
-      case article.Main.route:
-        return article.Main(arguments: routeSettings.arguments);
-      case reorderable.Main.route:
-        return reorderable.Main(arguments: routeSettings.arguments);
-      case dismissible.Main.route:
-        return dismissible.Main(arguments: routeSettings.arguments);
 
       case album_list.Main.route:
         return album_list.Main(arguments: routeSettings.arguments);
