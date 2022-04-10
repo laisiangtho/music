@@ -1,4 +1,6 @@
-part of "main.dart";
+part of data.type;
+
+class BoxOfRecentPlay<E> extends BoxOfAbstract<RecentPlayType> {}
 
 @HiveType(typeId: 6)
 class RecentPlayType extends HiveObject {

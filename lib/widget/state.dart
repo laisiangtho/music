@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 // with SingleTickerProviderStateMixin
 // with TickerProviderStateMixin

@@ -12,7 +12,7 @@ abstract class _State extends WidgetState with TickerProviderStateMixin {
     curve: Curves.easeIn,
   );
 
-  late final Box<RecentPlayType> box = collection.boxOfRecentPlay;
+  late final Box<RecentPlayType> box = collection.boxOfRecentPlay.box;
   late final langList = cacheBucket.langAvailable();
 
   // Iterable<AudioMetaType> get trackMeta => core.audio.metaById([3384,3876,77,5,7,8]);

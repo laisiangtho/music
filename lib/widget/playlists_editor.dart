@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 class PlayListsEditor extends StatefulWidget {
   const PlayListsEditor({
@@ -15,7 +15,7 @@ class PlayListsEditor extends StatefulWidget {
 class _PlayListsEditorState extends State<PlayListsEditor> {
   late final Core core = context.read<Core>();
   late final Preference preference = core.preference;
-  late final Box<LibraryType> box = core.collection.boxOfLibrary;
+  late final Box<LibraryType> box = core.collection.boxOfLibrary.box;
 
   late LibraryType item;
 

@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of data.type;
 
 class AudioBucketType {
   final List<AudioAlbumType> album;
@@ -14,7 +14,6 @@ class AudioBucketType {
   });
 
   factory AudioBucketType.fromJSON(Map<String, dynamic> o) {
-    debugPrint('AudioBucketType');
     return AudioBucketType(
       album: o["album"].map<AudioAlbumType>((e) => AudioAlbumType.fromJSON(e)).toList(),
       // track: (o["album"] as List).map(

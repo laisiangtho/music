@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/rendering.dart';
-// import 'package:flutter/gestures.dart';
-// import 'package:flutter/services.dart';
 
 import 'package:lidea/intl.dart' as intl;
 // import 'package:lidea/provider.dart';
@@ -37,71 +33,78 @@ class _View extends _State with _Bar {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: widget.key,
       body: ViewPage(
-        // controller: scrollController,
-        child: body(),
+        controller: scrollController,
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: sliverWidgets(),
+        ),
       ),
     );
   }
 
-  CustomScrollView body() {
-    // Wrap();
-    return CustomScrollView(
-      controller: scrollController,
-      slivers: <Widget>[
-        bar(),
+  List<Widget> sliverWidgets() {
+    return [
+      ViewHeaderSliverSnap(
+        pinned: true,
+        floating: false,
+        // reservedPadding: MediaQuery.of(context).padding.top,
+        padding: MediaQuery.of(context).viewPadding,
+        heights: const [kToolbarHeight, 50],
+        overlapsBackgroundColor: Theme.of(context).primaryColor,
+        overlapsBorderColor: Theme.of(context).shadowColor,
+        builder: bar,
+      ),
 
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-          sliver: FutureBuilder(
-            future: Future.delayed(const Duration(milliseconds: 150), () => true),
-            builder: (_, snap) {
-              if (snap.hasData) {
-                return workingContainer();
-              }
-              return const SliverToBoxAdapter();
-            },
-          ),
+      SliverPadding(
+        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+        sliver: FutureBuilder(
+          future: Future.delayed(const Duration(milliseconds: 150), () => true),
+          builder: (_, snap) {
+            if (snap.hasData) {
+              return workingContainer();
+            }
+            return const SliverToBoxAdapter();
+          },
         ),
+      ),
 
-        ArtistWrap(
-          artists: artistRecommended,
-          label: 'Recommeded',
-          routePush: false,
-          limit: 7,
-        ),
+      ArtistWrap(
+        artists: artistRecommended,
+        label: 'Recommeded',
+        routePush: false,
+        limit: 7,
+      ),
 
-        TrackFlat(
-          tracks: artistTrackIds,
-          label: 'Tracks (?)',
-          showMore: '* / ?',
-          limit: 3,
-        ),
+      TrackFlat(
+        tracks: artistTrackIds,
+        label: 'Tracks (?)',
+        showMore: '* / ?',
+        limit: 3,
+      ),
 
-        ArtistWrap(
-          artists: artistRelated,
-          label: 'Related',
-          routePush: false,
-          limit: 5,
-        ),
-        // // ArtistWrap(artists: [3,9,8,12,60], heading: 'Related', limit: 5,),
+      ArtistWrap(
+        artists: artistRelated,
+        label: 'Related',
+        routePush: false,
+        limit: 5,
+      ),
+      // // ArtistWrap(artists: [3,9,8,12,60], heading: 'Related', limit: 5,),
 
-        AlbumBoard(
-          albums: artistAlbum,
-          controller: scrollController,
-        ),
-        // Selector<ViewScrollNotify, double>(
-        //   selector: (_, e) => e.bottomPadding,
-        //   builder: (context, bottomPadding, child) {
-        //     return SliverPadding(
-        //       padding: EdgeInsets.only(bottom: bottomPadding),
-        //       sliver: child,
-        //     );
-        //   },
-        // ),
-      ],
-    );
+      AlbumBoard(
+        albums: artistAlbum,
+        controller: scrollController,
+      ),
+      // Selector<ViewScrollNotify, double>(
+      //   selector: (_, e) => e.bottomPadding,
+      //   builder: (context, bottomPadding, child) {
+      //     return SliverPadding(
+      //       padding: EdgeInsets.only(bottom: bottomPadding),
+      //       sliver: child,
+      //     );
+      //   },
+      // ),
+    ];
   }
 
   Widget workingContainer() {

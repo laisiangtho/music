@@ -1,10 +1,9 @@
 // NOTE: Flutter: material
+// import 'package:fleth/type/main.dart';
 import 'package:flutter/material.dart';
 // NOTE: SystemUiOverlayStyle
 import 'package:flutter/services.dart';
-// NOTE: Locale delegation
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 // NOTE: Privider: state management
 import 'package:lidea/provider.dart';
 // NOTE: Scroll
@@ -16,6 +15,7 @@ import '/coloration.dart';
 import '/view/routes.dart';
 
 // const bool isProduction = bool.fromEnvironment('dart.vm.product');
+final core = Core();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,17 +25,14 @@ void main() async {
   //   InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
   // }
 
-  final core = Core();
   await core.ensureInitialized();
   // authentication.stateObserver(core.userObserver);
 
-  runApp(Zaideih(core: core));
+  runApp(const Zaideih());
 }
 
 class Zaideih extends StatelessWidget {
-  final Core core;
-
-  const Zaideih({Key? key, required this.core}) : super(key: key);
+  const Zaideih({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,22 +70,10 @@ class Zaideih extends StatelessWidget {
           showSemanticsDebugger: false,
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'lidea',
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          locale: core.preference.locale,
           // locale: Localizations.localeOf(context),
-          supportedLocales: const [
-            // English
-            Locale('en', 'GB'),
-            // Norwegian
-            Locale('no', 'NO'),
-            // Myanmar
-            Locale('my', ''),
-          ],
+          locale: core.preference.locale,
+          localizationsDelegates: core.preference.localeDelegates,
+          supportedLocales: core.preference.localeSupports,
           darkTheme: Coloration.dark(context),
           theme: Coloration.light(context),
           themeMode: core.preference.themeMode,
@@ -96,12 +81,15 @@ class Zaideih extends StatelessWidget {
           initialRoute: AppRoutes.rootInitial,
           routes: AppRoutes.rootMap,
           navigatorObservers: [
+            // NavigationObserver(
+            //   Provider.of<NavigationNotify>(
+            //     context,
+            //     listen: false,
+            //   ),
+            // ),
             NavigationObserver(
-                // Provider.of<NavigationNotify>(
-                //   context,
-                //   listen: false,
-                // ),
-                core.navigation),
+              core.navigation,
+            ),
           ],
           builder: (BuildContext context, Widget? view) {
             return AnnotatedRegion<SystemUiOverlayStyle>(

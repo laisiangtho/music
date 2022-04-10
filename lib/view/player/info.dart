@@ -12,7 +12,7 @@ class _PlayerInfoState extends State<PlayerInfo> {
   late final Audio audio = core.audio;
   late final Preference preference = core.preference;
 
-  late final Box<LibraryType> box = core.collection.boxOfLibrary;
+  late final Box<LibraryType> box = core.collection.boxOfLibrary.box;
   // LibraryType get likes => core.collection.valueOfLibraryLike;
   // bool get hasLike => likes.list.contains(track!.trackInfo.id);
 

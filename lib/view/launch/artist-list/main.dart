@@ -1,10 +1,4 @@
-// ignore_for_file: prefer_is_empty
-
 import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/rendering.dart';
-// import 'package:flutter/gestures.dart';
-// import 'package:flutter/services.dart';
 
 import 'package:lidea/provider.dart';
 import 'package:lidea/extension.dart';
@@ -39,32 +33,43 @@ class _View extends _State with _Bar {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: widget.key,
       body: ViewPage(
         // controller: scrollController,
-        child: body(),
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: sliverWidgets(),
+        ),
       ),
     );
   }
 
-  CustomScrollView body() {
-    return CustomScrollView(
-      // primary: true,
-      controller: scrollController,
-      slivers: <Widget>[
-        bar(),
-        ArtistList(artists: artist, controller: scrollController),
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-          child: const SliverToBoxAdapter(),
-        ),
-      ],
-    );
+  List<Widget> sliverWidgets() {
+    return [
+      ViewHeaderSliverSnap(
+        pinned: true,
+        floating: true,
+        // reservedPadding: MediaQuery.of(context).padding.top,
+        padding: MediaQuery.of(context).viewPadding,
+        heights: const [kToolbarHeight, 40],
+        // overlapsBackgroundColor:Theme.of(context).primaryColor.withOpacity(0.8),
+        overlapsBackgroundColor: Theme.of(context).primaryColor,
+        overlapsBorderColor: Theme.of(context).shadowColor,
+        builder: bar,
+      ),
+      ArtistList(
+        artists: artist,
+        controller: scrollController,
+      ),
+      // Selector<ViewScrollNotify, double>(
+      //   selector: (_, e) => e.bottomPadding,
+      //   builder: (context, bottomPadding, child) {
+      //     return SliverPadding(
+      //       padding: EdgeInsets.only(bottom: bottomPadding),
+      //       sliver: child,
+      //     );
+      //   },
+      //   child: const SliverToBoxAdapter(),
+      // ),
+    ];
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:lidea/provider.dart';
+// import 'package:lidea/provider.dart';
 import 'package:lidea/hive.dart';
 import 'package:lidea/view/main.dart';
 import 'package:lidea/icon.dart';
@@ -34,61 +33,57 @@ class _View extends _State with _Bar {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ViewPage(
-        // key: const ValueKey<String>('recent-play'),
-        // controller: scrollController,
         child: ValueListenableBuilder(
           valueListenable: box.listenable(),
-          builder: (context, Box<RecentPlayType> o, child) {
-            return body(o.values.toList());
-          },
+          builder: middleware,
         ),
       ),
     );
   }
 
-  CustomScrollView body(List<RecentPlayType> items) {
-    items.sort((a, b) => b.date!.compareTo(a.date!));
-
+  Widget middleware(BuildContext context, Box<RecentPlayType> o, Widget? child) {
     return CustomScrollView(
       controller: scrollController,
-      slivers: <Widget>[
-        bar(items.isNotEmpty),
-        if (items.isEmpty)
-          const SliverFillRemaining(
-            hasScrollBody: false,
-            child: Center(
-              child: Text('...'),
-            ),
-          )
-        else
-          TrackList(
-            key: const ValueKey<String>('tracklist-recent-play'),
-            tracks: core.audio.metaById(items.map((e) => e.id).toList()),
-          ),
-        // SliverList(
-        //   delegate: SliverChildBuilderDelegate(
-        //     (BuildContext context, int index) {
-        //       final item = items.elementAt(index);
-        //       return ListTile(
-        //         leading: Text('${item.plays}'),
-        //         title: Text('${item.date}'),
-        //         trailing: Text('${item.id}'),
-        //       );
-        //     },
-        //     childCount: items.length,
-        //   ),
-        // ),
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-          child: const SliverToBoxAdapter(),
-        ),
-      ],
+      slivers: sliverWidgets(o.values.toList()),
     );
+  }
+
+  List<Widget> sliverWidgets(List<RecentPlayType> items) {
+    items.sort((a, b) => b.date!.compareTo(a.date!));
+    return [
+      ViewHeaderSliverSnap(
+        pinned: true,
+        floating: false,
+        // reservedPadding: MediaQuery.of(context).padding.top,
+        padding: MediaQuery.of(context).viewPadding,
+        heights: const [kToolbarHeight, 50],
+        overlapsBackgroundColor: Theme.of(context).primaryColor,
+        overlapsBorderColor: Theme.of(context).shadowColor,
+        builder: bar,
+      ),
+      if (items.isEmpty)
+        const SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(
+            child: Text('...'),
+          ),
+        )
+      else
+        TrackList(
+          key: const ValueKey<String>('tracklist-recent-play'),
+          tracks: core.audio.metaById(items.map((e) => e.id).toList()),
+        ),
+
+      // Selector<ViewScrollNotify, double>(
+      //   selector: (_, e) => e.bottomPadding,
+      //   builder: (context, bottomPadding, child) {
+      //     return SliverPadding(
+      //       padding: EdgeInsets.only(bottom: bottomPadding),
+      //       sliver: child,
+      //     );
+      //   },
+      //   child: const SliverToBoxAdapter(),
+      // ),
+    ];
   }
 }

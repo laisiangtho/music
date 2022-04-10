@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 class CacheWidget extends StatelessWidget {
   final BuildContext context;

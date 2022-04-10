@@ -110,7 +110,7 @@ class _SheetFilterState extends State<_SheetFilter> {
       maxChildSize: 0.9,
       builder: (context, scrollController) => CustomScrollView(
         controller: scrollController,
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        scrollBehavior: const ViewScrollBehavior(),
         slivers: <Widget>[
           bar(),
           SliverPadding(
@@ -395,16 +395,11 @@ class _SheetFilterState extends State<_SheetFilter> {
     return ViewHeaderSliverSnap(
       pinned: true,
       floating: true,
-      // reservedPadding: MediaQuery.of(context).padding.top,
       padding: MediaQuery.of(context).viewPadding,
-      heights: const [kBottomNavigationBarHeight],
-      // heights: const [kToolbarHeight],
-      // backgroundColor: Theme.of(context).primaryColor,
+      heights: const [kToolbarHeight],
       overlapsBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
-      // overlapsBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
       overlapsBorderColor: Theme.of(context).shadowColor.withOpacity(0.4),
       builder: (BuildContext context, ViewHeaderData org) {
-        // print('$kToolbarHeight $kBottomNavigationBarHeight');
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(

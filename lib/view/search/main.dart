@@ -50,12 +50,14 @@ class _State extends State<Main> {
           restorationScopeId: 'search',
           // observers: [obs],
           onGenerateRoute: (RouteSettings routeSettings) {
-            final args = ViewNavigationArguments(
-              key: _key,
-              args: widget.arguments,
-              canPop: routeSettings.arguments == null,
+            return AppRoutes.searchBuilder(
+              routeSettings,
+              ViewNavigationArguments(
+                key: _key,
+                args: widget.arguments,
+                canPop: routeSettings.arguments == null,
+              ),
             );
-            return AppRoutes.searchBuilder(routeSettings, args);
           },
         ),
       ),

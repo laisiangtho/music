@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of data.core;
 
 /// check
 mixin _Mock on _Abstract {
@@ -212,11 +212,11 @@ mixin _Mock on _Abstract {
   /// ```
   /// typeof [ConclusionType]
   Future<void> conclusionGenerate({bool init = false}) async {
-    if (collection.cacheConclusion.query != collection.searchQuery) {
+    if (collection.cacheConclusion.query != searchQuery) {
       search.conclusion();
-      collection.recentSearchUpdate(collection.searchQuery);
+      collection.boxOfRecentSearch.update(searchQuery);
       if (!init) {
-        analytics.search(collection.searchQuery);
+        analytics.search(searchQuery);
         notify();
       }
     }

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
-import 'package:lidea/icon.dart';
-// import 'package:flutter/rendering.dart';
-// import 'package:flutter/gestures.dart';
-// import 'package:flutter/services.dart';
 
 import 'package:lidea/provider.dart';
 import 'package:lidea/extension.dart';
 import 'package:lidea/view/main.dart';
+import 'package:lidea/icon.dart';
 // import 'package:lidea/icon.dart';
 
 import '/core/main.dart';
@@ -39,31 +35,41 @@ class _View extends _State with _Bar {
     return Scaffold(
       body: ViewPage(
         // controller: scrollController,
-        child: body(),
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: sliverWidgets(),
+        ),
       ),
     );
   }
 
-  CustomScrollView body() {
-    return CustomScrollView(
-      controller: scrollController,
-      slivers: <Widget>[
-        bar(),
-        AlbumList(
-          albums: album,
-          controller: scrollController,
-        ),
-        Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.bottomPadding,
-          builder: (context, bottomPadding, child) {
-            return SliverPadding(
-              padding: EdgeInsets.only(bottom: bottomPadding),
-              sliver: child,
-            );
-          },
-          child: const SliverToBoxAdapter(),
-        ),
-      ],
-    );
+  List<Widget> sliverWidgets() {
+    return [
+      ViewHeaderSliverSnap(
+        pinned: true,
+        floating: true,
+        // reservedPadding: MediaQuery.of(context).padding.top,
+        padding: MediaQuery.of(context).viewPadding,
+        heights: const [kToolbarHeight, 40],
+        // overlapsBackgroundColor:Theme.of(context).primaryColor.withOpacity(0.8),
+        overlapsBackgroundColor: Theme.of(context).primaryColor,
+        overlapsBorderColor: Theme.of(context).shadowColor,
+        builder: bar,
+      ),
+      AlbumList(
+        albums: album,
+        controller: scrollController,
+      ),
+      // Selector<ViewScrollNotify, double>(
+      //   selector: (_, e) => e.bottomPadding,
+      //   builder: (context, bottomPadding, child) {
+      //     return SliverPadding(
+      //       padding: EdgeInsets.only(bottom: bottomPadding),
+      //       sliver: child,
+      //     );
+      //   },
+      //   child: const SliverToBoxAdapter(),
+      // ),
+    ];
   }
 }

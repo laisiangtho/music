@@ -1,4 +1,6 @@
-part of "main.dart";
+part of data.type;
+
+class BoxOfLibrary<E> extends BoxOfAbstract<LibraryType> {}
 
 /// Like, Favorite, PlayList, Queue, Recent
 ///

@@ -1,18 +1,17 @@
-export "package:lidea/type/main.dart";
+library data.type;
 
-import 'package:flutter/cupertino.dart';
+// NOTE: Core API manager
+export "package:lidea/main.dart";
+import "package:lidea/main.dart";
+
 import "package:lidea/hive.dart";
-import "package:lidea/cluster/docket.dart";
-// import "package:lidea/unit/notify.dart";
-import "package:lidea/type/main.dart";
 
 part "collection.dart";
-part 'favorite_word.dart';
 
 part "audio.dart";
-part 'filter.dart';
-part 'library.dart';
-part 'recent_play.dart';
+part 'box/filter.dart';
+part 'box/library.dart';
+part 'box/recent_play.dart';
 
 /// tmp
 // class UserDataType {

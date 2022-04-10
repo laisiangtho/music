@@ -14,13 +14,8 @@ abstract class _State extends WidgetState<Main> with TickerProviderStateMixin {
     parent: clearController,
     curve: Curves.fastOutSlowIn,
   );
-  // late final Animation<double> clearAnimation = Tween(
-  //   begin: 0.0,
-  //   end: 1.0,
-  // ).animate(clearController);
-  // late final Animation clearAnimations = ColorTween(
-  //   begin: Colors.red, end: Colors.green
-  // ).animate(clearController);
+
+  final List<IconData> typeIcons = [LideaIcon.track, LideaIcon.artist, LideaIcon.album];
 
   @override
   void initState() {
@@ -137,5 +132,5 @@ abstract class _State extends WidgetState<Main> with TickerProviderStateMixin {
     });
   }
 
-  bool onDelete(String ord) => collection.recentSearchDelete(ord);
+  bool onDelete(String ord) => collection.boxOfRecentSearch.delete(ord);
 }

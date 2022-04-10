@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 class ArtistListItem extends StatelessWidget {
   final BuildContext context;
@@ -168,11 +168,11 @@ class ArtistWrapItem extends StatelessWidget {
       child: WidgetLabel(
         // alignment: Alignment.centerLeft,
         label: artist.name,
-        message: '(*) (??)'
-            .replaceFirst('(*)', artist.name)
-            .replaceFirst('??', artist.aka)
-            .replaceFirst(' ()', ''),
       ),
+      message: '(*) (??)'
+          .replaceFirst('(*)', artist.name)
+          .replaceFirst('??', artist.aka)
+          .replaceFirst(' ()', ''),
       // color: Theme.of(context).shadowColor,
       // borderRadius: const BorderRadius.all(Radius.circular(100.0)),
       // padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 13),

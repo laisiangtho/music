@@ -1,12 +1,14 @@
+library ui.widget;
+
 export 'package:lidea/widget/main.dart';
 
 import 'dart:async';
-import 'dart:io';
+
 import 'dart:math';
 
 // import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+
 // import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
@@ -14,20 +16,16 @@ import 'package:flutter/services.dart';
 import 'package:lidea/intl.dart' as intl;
 import 'package:lidea/icon.dart';
 import 'package:lidea/hive.dart';
-import 'package:lidea/widget/main.dart';
-
-// import 'package:lidea/view/main.dart';
-
 import 'package:lidea/provider.dart';
-// import 'package:music/core.dart';
-// import 'package:music/icon.dart';
-// import 'package:music/model.dart';
+
+import 'package:lidea/widget/main.dart';
+import 'package:lidea/view/main.dart';
 
 import '/core/main.dart';
 import '/type/main.dart';
 
 part 'state.dart';
-part 'common.dart';
+part 'pull_to_refresh.dart';
 part 'album.dart';
 part 'album_item.dart';
 part 'artist.dart';
@@ -40,6 +38,11 @@ part 'track_option.dart';
 part 'playlists_editor.dart';
 part 'cache_all.dart';
 
+part 'draggable_model_track.dart';
+part 'draggable_model_library.dart';
+
+//
+
 // enum Status {
 //   none,
 //   artist,
@@ -48,3 +51,5 @@ part 'cache_all.dart';
 //   most,
 //   search,
 // }
+
+// WidgetListBuilder WidgetLayoutSet WidgetBoardCommon

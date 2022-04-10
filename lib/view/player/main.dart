@@ -2,11 +2,7 @@
 // import 'dart:math';
 // import 'dart:ui';
 
-// import 'package:flutter/gestures.dart';
-// import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
 
 import 'package:lidea/provider.dart';
 import 'package:lidea/hive.dart';
@@ -90,22 +86,16 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   // NOTE: update when scroll notify
   double sizeValueInitial = 0.0;
-  late final sizeValueMin = (scrollNotify.kHeightMax + _bPadding) / _dHeight;
-  // double get sizeValueMin => (scrollNotify.kHeightMax / _dHeight);
+  late final sizeValueMin = (scrollNotify.kHeight + _bPadding) / _dHeight;
   final double sizeValueMid = 0.5;
-  // late final double sizeValueMax = (_dHeight - scrollNotify.kHeightMax + _tPadding) / _dHeight;
   late final double sizeValueMax = (_dHeight - _kHeight) / _dHeight;
-  // final double sizeValueMax = 0.91;
-  // final double sizeValueMax = 1.0;
 
   bool get isSizeDefault => sizeValueInitial <= sizeValueMin;
   bool get isSizeShrink => sizeValueInitial < sizeValueMid;
-  // double get offset => (sizeValueInitial - sizeValueMin).toDouble();
-  // bool get showNavigation => offset <= 0.0;
 
-  bool _scrollableNotification(DraggableScrollableNotification notification) {
+  bool _draggableNotification(DraggableScrollableNotification notification) {
     sizeValueInitial = notification.extent;
-    scrollNotify.bottomPadding = sizeValueInitial * _dHeight;
+    // scrollNotify.bottomPadding = sizeValueInitial * _dHeight;
 
     if (sizeValueInitial == sizeValueMax) {
       if (screenController.isCompleted) {
@@ -115,7 +105,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
       screenController.forward();
     }
 
-    onSwitchNavigationButton();
+    switchControllerWatch();
 
     return true;
   }
@@ -135,10 +125,10 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
       }
     });
 
-    // onSwitchNavigationButton();
+    // switchControllerWatch();
   }
 
-  void onSwitchNavigationButton() {
+  void switchControllerWatch() {
     if (isSizeDefault) {
       switchController.reverse();
     } else if (switchController.isDismissed) {
@@ -196,15 +186,16 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: snapback
     return DraggableScrollableActuator(
       key: const ValueKey(88698),
       child: NotificationListener<DraggableScrollableNotification>(
-        onNotification: _scrollableNotification,
+        onNotification: _draggableNotification,
         child: Selector<ViewScrollNotify, double>(
-          selector: (_, e) => e.heightFactor,
-          builder: (context, heightFactor, child) {
+          selector: (_, e) => e.factor,
+          builder: (context, factor, child) {
             if (isSizeDefault) {
-              sizeValueInitial = sizeValueMin * heightFactor;
+              sizeValueInitial = sizeValueMin * factor;
             }
 
             return DraggableScrollableSheet(
@@ -234,27 +225,15 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
     return CustomScrollView(
       key: const ValueKey<String>('csvbs'),
       controller: controller,
-      // physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       scrollBehavior: const ViewScrollBehavior(),
-      // primary: false,
-      // shrinkWrap: true,
       slivers: <Widget>[
         ViewHeaderSliverSnap(
           pinned: true,
           floating: false,
-          // reservedPadding: 20,
-          // reservedPadding: MediaQuery.of(context).padding.bottom,
-          // heights: const [kBottomNavigationBarHeight],
-          // padding: MediaQuery.of(context).viewPadding,
-          // padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          heights: const [kBottomNavigationBarHeight],
+          heights: const [kToolbarHeight],
           backgroundColor: Theme.of(context).primaryColor,
-
           overlapsBorderColor: Theme.of(context).shadowColor,
-          builder: (BuildContext context, ViewHeaderData org) {
-            return navControl();
-            // return playerControl();
-          },
+          builder: navControl,
         ),
 
         const SliverPadding(
@@ -314,7 +293,7 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
     );
   }
 
-  Widget navControl() {
+  Widget navControl(BuildContext context, ViewHeaderData org) {
     return Consumer<NavigationNotify>(
       builder: (context, route, child) {
         return Row(
@@ -351,11 +330,11 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                   builder: (context, snapshot) {
                     final state = snapshot.data ?? AudioQueueStateType.empty;
                     return WidgetButton(
-                      child: WidgetLabel(
+                      child: const WidgetLabel(
                         icon: Icons.skip_previous,
                         iconSize: 40,
-                        message: preference.text.previousTo(preference.text.track(false)),
                       ),
+                      message: preference.text.previousTo(preference.text.track(false)),
                       onPressed: state.hasPrevious ? audio.skipToPrevious : null,
                     );
                   },
@@ -383,11 +362,11 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                   builder: (context, snapshot) {
                     final state = snapshot.data ?? AudioQueueStateType.empty;
                     return WidgetButton(
-                      child: WidgetLabel(
+                      child: const WidgetLabel(
                         icon: Icons.skip_next,
                         iconSize: 40,
-                        message: preference.text.nextTo(preference.text.track(false)),
                       ),
+                      message: preference.text.nextTo(preference.text.track(false)),
                       onPressed: state.hasNext ? audio.skipToNext : null,
                     );
                   },
@@ -433,8 +412,8 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
         return WidgetButton(
           child: WidgetLabel(
             icon: wi.icon,
-            message: wi.description!,
           ),
+          message: wi.description!,
           onPressed: buttonAction(wi, wi.action == null && wi.key == index),
         );
       },

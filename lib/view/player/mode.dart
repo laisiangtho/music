@@ -69,8 +69,8 @@ class _PlayerModeState extends State<PlayerMode> {
                 iconColor:
                     index == 1 ? Theme.of(context).highlightColor : Theme.of(context).hintColor,
                 label: "Repeat",
-                message: strMode.elementAt(index),
               ),
+              message: strMode.elementAt(index),
               onPressed: () {
                 audio.setRepeatMode(
                     cycleModes[(cycleModes.indexOf(repeatMode) + 1) % cycleModes.length]);

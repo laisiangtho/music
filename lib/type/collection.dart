@@ -1,99 +1,45 @@
-part of "main.dart";
+part of data.type;
 
 class Collection extends ClusterDocket {
   // audioBucket jsonBucket dataBucket
   late AudioBucketType cacheBucket;
-  late Box<FavoriteWordType> boxOfFavoriteWord;
-  late Box<FilterCommonType> boxOfFilterCommon;
-  late Box<LibraryType> boxOfLibrary;
-  late Box<RecentPlayType> boxOfRecentPlay;
+
+  late final boxOfFilterCommon = BoxOfFilterCommon<FilterCommonType>();
+  late final boxOfLibrary = BoxOfLibrary<LibraryType>();
+  late final boxOfRecentPlay = BoxOfRecentPlay<RecentPlayType>();
 
   SuggestionType<OfRawType> cacheSuggestion = const SuggestionType();
   ConclusionType<OfRawType> cacheConclusion = const ConclusionType();
 
   // retrieve the instance through the app
   Collection.internal();
+  // Collection.internal() : super.internal();
 
   @override
   Future<void> ensureInitialized() async {
     await super.ensureInitialized();
-    Hive.registerAdapter(FavoriteWordAdapter());
-    Hive.registerAdapter(FilterCommonAdapter());
-    Hive.registerAdapter(LibraryAdapter());
-    Hive.registerAdapter(RecentPlayAdapter());
+
+    boxOfFilterCommon.registerAdapter(FilterCommonAdapter());
+    boxOfLibrary.registerAdapter(LibraryAdapter());
+    boxOfRecentPlay.registerAdapter(RecentPlayAdapter());
   }
 
   @override
   Future<void> prepareInitialized() async {
     await super.prepareInitialized();
-    boxOfFavoriteWord = await Hive.openBox<FavoriteWordType>('favorite');
-    boxOfFilterCommon = await Hive.openBox<FilterCommonType>('filter');
-    boxOfLibrary = await Hive.openBox<LibraryType>('library');
-    boxOfRecentPlay = await Hive.openBox<RecentPlayType>('recentplay');
 
-    if (boxOfFilterCommon.get('artist') == null) {
-      boxOfFilterCommon.put('artist', FilterCommonType(date: DateTime.now()));
+    await boxOfFilterCommon.open('filter');
+    await boxOfLibrary.open('library');
+    await boxOfRecentPlay.open('recentplay');
+
+    if (boxOfFilterCommon.box.get('artist') == null) {
+      boxOfFilterCommon.box.put('artist', FilterCommonType(date: DateTime.now()));
     }
-    if (boxOfFilterCommon.get('album') == null) {
-      boxOfFilterCommon.put('album', FilterCommonType(date: DateTime.now()));
+    if (boxOfFilterCommon.box.get('album') == null) {
+      boxOfFilterCommon.box.put('album', FilterCommonType(date: DateTime.now()));
     }
 
     // core.collection.boxOfLibrary.listenable()
-  }
-
-  // NOTE: Favorite
-  /// get all favorite favoriteEntries
-  Iterable<MapEntry<dynamic, FavoriteWordType>> get favorites {
-    return boxOfFavoriteWord.toMap().entries;
-  }
-
-  /// favorite is EXIST by word
-  MapEntry<dynamic, FavoriteWordType> favoriteExist(String ord) {
-    return favorites.firstWhere(
-      (e) => stringCompare(e.value.word, ord),
-      orElse: () => MapEntry(null, FavoriteWordType(word: ord)),
-    );
-  }
-
-  /// favorite UPDATE on exist, if not INSERT
-  bool favoriteUpdate(String ord) {
-    if (ord.isNotEmpty) {
-      final ob = favoriteExist(ord);
-      ob.value.date = DateTime.now();
-      if (ob.key == null) {
-        boxOfFavoriteWord.add(ob.value);
-      } else {
-        boxOfFavoriteWord.put(ob.key, ob.value);
-      }
-      // print('recentSearchUpdate ${ob.value.hit}');
-      return true;
-    }
-    return false;
-  }
-
-  /// favorite DELETE by word
-  bool favoriteDelete(String ord) {
-    if (ord.isNotEmpty) {
-      final ob = favoriteExist(ord);
-      if (ob.key != null) {
-        boxOfFavoriteWord.delete(ob.key);
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /// favorite DELETE on exist, if not INSERT
-  bool favoriteSwitch(String ord) {
-    // if (ord.isNotEmpty) {
-    //   final ob = favoriteExist(ord);
-    //   if (ob.key != null) {
-    //     favoriteDelete(ord);
-    //   } else {
-    //     return favoriteUpdate(ord);
-    //   }
-    // }
-    return false;
   }
 
   /// recent-play UPDATE on exist, if not INSERT
@@ -109,7 +55,7 @@ class Collection extends ClusterDocket {
     //   // print('recentSearchUpdate ${ob.value.hit}');
     //   return true;
     // }
-    final ob = boxOfRecentPlay.toMap().entries.firstWhere((e) {
+    final ob = boxOfRecentPlay.entries.firstWhere((e) {
       return e.value.id == id;
     }, orElse: () {
       return MapEntry(null, RecentPlayType(id: id));
@@ -123,11 +69,11 @@ class Collection extends ClusterDocket {
     ob.value.date = DateTime.now();
     // debugPrint('ob.value.date to: ${ob.value.date}');
     if (ob.key == null) {
-      boxOfRecentPlay.add(ob.value);
+      boxOfRecentPlay.box.add(ob.value);
       // debugPrint('ob.value. updating');
       return true;
     } else {
-      boxOfRecentPlay.put(ob.key, ob.value);
+      boxOfRecentPlay.box.put(ob.key, ob.value);
       // debugPrint('ob.value. updating');
     }
     return false;
@@ -162,7 +108,7 @@ class Collection extends ClusterDocket {
         return e.type == 1;
       },
       orElse: () {
-        boxOfLibrary.add(_defaultValueLike);
+        boxOfLibrary.box.add(_defaultValueLike);
         return _defaultValueLike;
       },
     );
@@ -174,7 +120,7 @@ class Collection extends ClusterDocket {
         return e.type == 0;
       },
       orElse: () {
-        boxOfLibrary.add(_defaultValueQueue);
+        boxOfLibrary.box.add(_defaultValueQueue);
         return boxOfLibrary.values.firstWhere((e) {
           return e.type == 0;
         });

@@ -39,13 +39,22 @@ abstract class _State extends WidgetState {
 
   void onDelete(String ord) {
     Future.delayed(Duration.zero, () {
-      collection.recentSearchDelete(ord);
+      collection.boxOfRecentSearch.delete(ord);
     }).whenComplete(core.notify);
   }
 
-  void onClear() {
-    Future.microtask(() {
-      collection.boxOfRecentSearch.clear().whenComplete(core.notify);
+  void onDeleteAllConfirmWithDialog() {
+    doConfirmWithDialog(
+      context: context,
+      // message: 'Do you really want to delete all?',
+      message: preference.text.confirmToDelete('all'),
+    ).then((bool? confirmation) {
+      // if (confirmation != null && confirmation) onClearAll();
+      if (confirmation != null && confirmation) {
+        Future.microtask(() {
+          collection.boxOfRecentSearch.box.clear().whenComplete(core.notify);
+        });
+      }
     });
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:lidea/provider.dart';
 import 'package:lidea/view/main.dart';
@@ -27,46 +26,56 @@ class Main extends StatefulWidget {
   State<StatefulWidget> createState() => _View();
 }
 
-// FlutterError (A dismissed Dismissible widget is still part of the tree.
-// Make sure to implement the onDismissed handler and to immediately remove the Dismissible widget from the application once that handler has fired.
 class _View extends _State with _Bar {
   @override
   Widget build(BuildContext context) {
-    return ViewPage(
-      // controller: scrollController,
-      child: Selector<Core, List<MapEntry<dynamic, RecentSearchType>>>(
-        selector: (_, e) => e.collection.recentSearches.toList(),
-        builder: (BuildContext _, List<MapEntry<dynamic, RecentSearchType>> items, Widget? __) {
-          return body(items);
-        },
+    return Scaffold(
+      body: ViewPage(
+        child: Selector<Core, List<MapEntry<dynamic, RecentSearchType>>>(
+          selector: (_, e) => e.collection.boxOfRecentSearch.entries.toList(),
+          builder: middleware,
+        ),
       ),
     );
   }
 
-  CustomScrollView body(List<MapEntry<dynamic, RecentSearchType>> items) {
-    items.sort((a, b) => b.value.date!.compareTo(a.value.date!));
+  Widget middleware(BuildContext _, List<MapEntry<dynamic, RecentSearchType>> o, Widget? __) {
     return CustomScrollView(
       controller: scrollController,
-      slivers: <Widget>[
-        bar(items.isNotEmpty),
-        if (items.isEmpty)
-          const SliverFillRemaining(
-            hasScrollBody: false,
-            child: Center(
-              child: Text('...'),
-            ),
-          )
-        else
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return listContainer(index, items.elementAt(index));
-              },
-              childCount: items.length,
-            ),
-          ),
-      ],
+      slivers: sliverWidgets(o),
     );
+  }
+
+  List<Widget> sliverWidgets(List<MapEntry<dynamic, RecentSearchType>> items) {
+    items.sort((a, b) => b.value.date!.compareTo(a.value.date!));
+    return [
+      ViewHeaderSliverSnap(
+        pinned: true,
+        floating: false,
+        // reservedPadding: MediaQuery.of(context).padding.top,
+        padding: MediaQuery.of(context).viewPadding,
+        heights: const [kToolbarHeight, 50],
+        overlapsBackgroundColor: Theme.of(context).primaryColor,
+        overlapsBorderColor: Theme.of(context).shadowColor,
+        builder: bar,
+      ),
+      if (items.isEmpty)
+        const SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(
+            child: Text('...'),
+          ),
+        )
+      else
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return listContainer(index, items.elementAt(index));
+            },
+            childCount: items.length,
+          ),
+        ),
+    ];
   }
 
   Widget listContainer(int index, MapEntry<dynamic, RecentSearchType> item) {
@@ -93,11 +102,7 @@ class _View extends _State with _Bar {
         return false;
       },
       // Show a red background as the item is swiped away.
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        child: const Icon(CupertinoIcons.delete_simple),
-      ),
+      background: _listDismissibleBackground(),
       child: Container(
         // shape: RoundedRectangleBorder(
         //   borderRadius: BorderRadius.circular(0),
@@ -145,6 +150,20 @@ class _View extends _State with _Bar {
                 )
               : const SizedBox(),
           onTap: () => onSearch(word),
+        ),
+      ),
+    );
+  }
+
+  Widget _listDismissibleBackground() {
+    return Container(
+      color: Theme.of(context).disabledColor,
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Text(
+          preference.text.delete,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
     );

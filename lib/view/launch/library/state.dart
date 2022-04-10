@@ -2,7 +2,7 @@ part of 'main.dart';
 
 abstract class _State extends WidgetState {
   late final args = argumentsAs<ViewNavigationArguments>();
-  late final Box<LibraryType> box = collection.boxOfLibrary;
+  late final Box<LibraryType> box = collection.boxOfLibrary.box;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ abstract class _State extends WidgetState {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      builder: (BuildContext context) => _Detail(index: index),
+      builder: (BuildContext context) => WidgetDraggableLibraryModel(index: index),
     );
     // showModalBottomSheet(
     //   context: context,
@@ -70,5 +70,12 @@ abstract class _State extends WidgetState {
     //     () => {},
     //   ),
     // );
+  }
+
+  void showEditor() {
+    doConfirmWithWidget(
+      context: context,
+      child: const PlayListsEditor(),
+    );
   }
 }

@@ -1,5 +1,5 @@
-part of 'main.dart';
-
+// part of 'main.dart';
+/*
 class _Detail extends StatefulWidget {
   const _Detail({Key? key, required this.index}) : super(key: key);
 
@@ -20,7 +20,7 @@ class _DetailState extends State<_Detail> {
   // final AudioMetaType track;
   // Audio get audio => core.audio;
   // late final AudioBucketType cache = core.collection.cacheBucket;
-  late final Box<LibraryType> box = core.collection.boxOfLibrary;
+  late final Box<LibraryType> box = core.collection.boxOfLibrary.box;
 
   LibraryType get library => box.values.firstWhere((e) => e.key == widget.index);
   Iterable<AudioMetaType> get trackMeta => audio.metaById(library.list);
@@ -55,7 +55,7 @@ class _DetailState extends State<_Detail> {
   CustomScrollView scrollView(ScrollController scrollController) {
     return CustomScrollView(
       controller: scrollController,
-      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      scrollBehavior: const ViewScrollBehavior(),
       slivers: <Widget>[
         SliverLayoutBuilder(
           builder: (BuildContext context, constraints) {
@@ -84,12 +84,12 @@ class _DetailState extends State<_Detail> {
               actions: [
                 WidgetButton(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  child: WidgetLabel(
+                  child: const WidgetLabel(
                     // icon: Icons.edit_rounded,
                     icon: LideaIcon.tools,
                     iconSize: 21,
-                    message: preference.text.renameTo(preference.text.playlist(false)),
                   ),
+                  message: preference.text.renameTo(preference.text.playlist(false)),
                   onPressed: () {
                     doConfirmWithWidget(
                       context: context,
@@ -275,3 +275,5 @@ class _DetailState extends State<_Detail> {
     );
   }
 }
+
+*/

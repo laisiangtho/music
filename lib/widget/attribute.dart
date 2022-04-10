@@ -1,11 +1,4 @@
-part of 'main.dart';
-
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-
-// import 'package:music/core.dart';
-// import 'package:music/icon.dart';
-// import 'package:music/model.dart';
+part of ui.widget;
 
 // each page
 class ButtonWithLabelAttribute extends StatelessWidget {

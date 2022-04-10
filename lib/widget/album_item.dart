@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 const genreColorList = [
   Color(0xFFd9dadb),
@@ -327,7 +327,8 @@ class AlbumPickItem extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 125,
+                // height: 125,
+                height: 143,
                 alignment: Alignment.topCenter,
                 child: buttonArt(),
               ),
@@ -371,7 +372,7 @@ class AlbumPickItem extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(-0.9, 1.35),
+            alignment: const Alignment(-0.9, 0.95),
             child: Text(
               duration,
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
@@ -380,7 +381,8 @@ class AlbumPickItem extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(0.9, 1.35),
+            // alignment: const Alignment(0.9, 1.35),
+            alignment: const Alignment(0.9, 0.95),
             child: Text(
               '#$track',
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
@@ -397,11 +399,11 @@ class AlbumPickItem extends StatelessWidget {
   Widget buttonTitle() {
     return WidgetButton(
       child: WidgetLabel(
-        message: name,
         label: name,
         labelStyle: Theme.of(context).textTheme.labelLarge,
         labelPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
       ),
+      message: name,
       onPressed: navigate,
     );
   }

@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 class TrackListItem extends StatelessWidget {
   const TrackListItem({
@@ -31,19 +31,28 @@ class TrackListItem extends StatelessWidget {
           value: SystemUiOverlayStyle(
             systemNavigationBarDividerColor: Theme.of(context).focusColor,
           ),
-          child: TrackOption(
+          child: WidgetDraggableTrackModal(
             trackId: track.trackInfo.id,
           ),
         );
       },
-      barrierColor: Theme.of(context).shadowColor.withOpacity(0.6),
+      // barrierColor: Theme.of(context).shadowColor.withOpacity(0.6),
       isScrollControlled: true,
-      elevation: 10,
       useRootNavigator: true,
+      // elevation: 10,
     ).whenComplete(
       () => Future.delayed(
         const Duration(milliseconds: 300),
-        () => {},
+        () {
+          // const SystemUiOverlayStyle(
+          //   systemNavigationBarDividerColor: Colors.transparent,
+          // );
+          SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              systemNavigationBarDividerColor: Theme.of(context).primaryColor,
+            ),
+          );
+        },
       ),
     );
   }
@@ -127,6 +136,8 @@ class TrackListItem extends StatelessWidget {
       ),
       subtitle: Text(
         track.artist,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: Theme.of(context).textTheme.bodySmall,
       ),
       // trailing: Text(

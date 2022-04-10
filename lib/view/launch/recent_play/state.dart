@@ -3,7 +3,7 @@ part of 'main.dart';
 abstract class _State extends WidgetState {
   late final args = argumentsAs<ViewNavigationArguments>();
 
-  late final Box<RecentPlayType> box = collection.boxOfRecentPlay;
+  late final Box<RecentPlayType> box = collection.boxOfRecentPlay.box;
 
   @override
   void initState() {

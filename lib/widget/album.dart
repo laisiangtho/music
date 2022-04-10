@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 // NOTE: view -> album-list
 class AlbumList extends StatefulWidget {
@@ -63,7 +63,7 @@ class AlbumBoard extends StatefulWidget {
   final Iterable<AudioAlbumType> albums;
   final ScrollController? controller;
   final int limit;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   final bool? primary;
   final bool shrinkWrap;
@@ -73,7 +73,7 @@ class AlbumBoard extends StatefulWidget {
     required this.albums,
     this.controller,
     this.limit = 10,
-    this.padding = const EdgeInsets.symmetric(vertical: 8, horizontal: 7),
+    this.padding,
     this.primary,
     this.shrinkWrap = false,
   }) : super(key: key);
@@ -153,97 +153,44 @@ class AlbumFlat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // if (total == 0) return const SizedBox();
-
-    // return Padding(
-    //   padding: padding,
-    //   child: FutureBuilder(
-    //     // future: Future.delayed(Duration(milliseconds: widget.milliseconds), ()=>true),
-    //     future: Future.microtask(() => true),
-    //     builder: (_, snap) {
-    //       if (snap.hasData == false) return const SizedBox();
-    //       return Column(
-    //         children: [
-    //           if (label != null)
-    //             BlockHeader(
-    //               label: label!.replaceFirst('?', total.toString()),
-    //               more: more,
-    //               onPressed: () => core.navigate(to: '/album-list'),
-    //             ),
-    //           SizedBox(
-    //             height: 170,
-    //             child: WidgetListBuilder(
-    //               primary: false,
-    //               shrinkWrap: true,
-    //               scrollDirection: Axis.horizontal,
-    //               padding: EdgeInsets.zero,
-    //               duration: const Duration(milliseconds: 320),
-    //               itemSnap: const AlbumPickItemHolder(),
-    //               itemBuilder: (BuildContext context, int index) {
-    //                 return AlbumPickItem(
-    //                   context: context,
-    //                   album: album.elementAt(index),
-    //                 );
-    //               },
-    //               itemCount: total,
-    //             ),
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //   ),
-    // );
-    return WidgetChildBuilder(
+    return WidgetBlockSection(
       primary: primary,
       padding: padding,
       show: total > 0,
-      child: FutureBuilder(
-        // future: Future.delayed(Duration(milliseconds: widget.milliseconds), ()=>true),
-        future: Future.microtask(() => true),
-        builder: (_, snap) {
-          if (snap.hasData == false) return const SizedBox();
-          return Column(
-            children: [
-              if (label != null)
-                // WidgetBlockHeader(
-                //   label: label!.replaceFirst('?', total.toString()),
-                //   more: more,
-                //   onPressed: () => core.navigate(to: '/album-list'),
-                // ),
-                WidgetBlockTile(
-                  title: WidgetLabel(
-                    alignment: Alignment.centerLeft,
-                    label: label!.replaceFirst('?', total.toString()),
-                  ),
-                  trailing: WidgetButton(
-                    child: more,
-                    onPressed: () => core.navigate(to: '/album-list'),
-                  ),
-                ),
-              SizedBox(
-                height: 200,
-                child: WidgetListBuilder(
-                  primary: false,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.zero,
-                  duration: const Duration(milliseconds: 320),
-                  // itemSnap: const AlbumPickItemHolder(),
-                  itemSnap: (context, index) {
-                    return const AlbumPickItemHolder();
-                  },
-                  itemBuilder: (BuildContext context, int index) {
-                    return AlbumPickItem(
-                      context: context,
-                      album: album.elementAt(index),
-                    );
-                  },
-                  itemCount: total,
-                ),
-              ),
-            ],
-          );
-        },
+      headerLeading: const WidgetLabel(
+        icon: LideaIcon.album,
+      ),
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: label!.replaceFirst('?', total.toString()),
+      ),
+      headerTrailing: WidgetButton(
+        child: more,
+        onPressed: () => core.navigate(to: '/album-list'),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: SizedBox(
+          height: 200,
+          child: WidgetListBuilder(
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.zero,
+            duration: const Duration(milliseconds: 320),
+            // itemSnap: const AlbumPickItemHolder(),
+            itemSnap: (context, index) {
+              return const AlbumPickItemHolder();
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return AlbumPickItem(
+                context: context,
+                album: album.elementAt(index),
+              );
+            },
+            itemCount: total,
+          ),
+        ),
       ),
     );
   }

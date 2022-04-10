@@ -1,4 +1,6 @@
-part of "main.dart";
+part of data.type;
+
+class BoxOfFilterCommon<E> extends BoxOfAbstract<FilterCommonType> {}
 
 // var artist = FilterCommonType(date: DateTime.now())..character = ['Lisa'];
 

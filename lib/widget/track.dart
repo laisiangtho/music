@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 class TrackList extends StatefulWidget {
   final Iterable<AudioMetaType> tracks;
@@ -18,7 +18,7 @@ class TrackList extends StatefulWidget {
     // this.controller,
     // this.limit = 17,
     this.primary,
-    this.shrinkWrap = false,
+    this.shrinkWrap = true,
     this.itemReorderable,
   }) : super(key: key);
 
@@ -46,7 +46,6 @@ class _TrackListState extends State<TrackList> {
   @override
   Widget build(BuildContext context) {
     return WidgetListBuilder(
-      // key: widget.key,
       primary: widget.primary,
       shrinkWrap: widget.shrinkWrap,
       padding: widget.padding,
@@ -81,9 +80,10 @@ class TrackFlat extends StatefulWidget {
   final ScrollController? controller;
   final int limit;
   final String? label;
+  // '* / ?'
   final String? showMore;
   final int milliseconds;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final bool? primary;
 
   const TrackFlat({
@@ -94,7 +94,7 @@ class TrackFlat extends StatefulWidget {
     this.label,
     this.showMore,
     this.milliseconds = 0,
-    this.padding = const EdgeInsets.symmetric(vertical: 8),
+    this.padding,
     this.primary,
   }) : super(key: key);
 
@@ -144,53 +144,57 @@ class _TrackFlatState extends State<TrackFlat> {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetChildBuilder(
+    return WidgetBlockSection(
       primary: widget.primary,
       padding: widget.padding,
       show: count > 0,
-      child: Column(
-        children: [
-          if (widget.label != null)
-            WidgetBlockTile(
-              title: WidgetLabel(
-                alignment: Alignment.centerLeft,
-                label: widget.label!.replaceFirst('?', total.toString()),
-              ),
-            ),
-          Card(
-            // margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            child: WidgetListBuilder(
-              key: const Key('track-list'),
-              primary: false,
-              shrinkWrap: true,
-              // padding: EdgeInsets.zero,
-              duration: const Duration(milliseconds: 320),
-              physics: const NeverScrollableScrollPhysics(),
-              // itemSnap: const TrackListItemHolder(key: Key('$index')),
-              itemSnap: (context, index) {
-                return TrackListItemHolder(key: ValueKey(index));
-              },
-              itemBuilder: (context, index) {
-                return TrackListItem(
-                  key: ValueKey(index),
-                  context: context,
-                  index: index,
-                  track: cache.meta(track.elementAt(index)),
-                );
-              },
+      headerLeading: const WidgetLabel(
+        icon: LideaIcon.track,
+      ),
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: widget.label!.replaceFirst('?', total.toString()),
+      ),
+      child: Card(
+        // margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+        child: WidgetListBuilder(
+          // key: const Key('track-list'),
+          primary: false,
+          // padding: EdgeInsets.zero,
+          duration: const Duration(milliseconds: 320),
+          physics: const NeverScrollableScrollPhysics(),
+          // itemSnap: const TrackListItemHolder(key: Key('$index')),
+          itemSnap: (context, index) {
+            return TrackListItemHolder(key: ValueKey(index));
+          },
+          itemBuilder: (context, index) {
+            return TrackListItem(
+              key: ValueKey(index),
+              context: context,
+              index: index,
+              track: cache.meta(track.elementAt(index)),
+            );
+          },
 
-              itemCount: count,
-            ),
-          ),
-          if (widget.showMore != null)
-            WidgetBlockMore(
-              more: widget.showMore!,
-              total: total,
-              count: count,
+          itemCount: count,
+        ),
+      ),
+      // widget.showMore != null && _hasMore
+      footerTrailing: (widget.showMore != null && _hasMore)
+          ? WidgetButton(
+              borderRadius: const BorderRadius.all(Radius.circular(100)),
+              // elevation: 1,
+              color: Theme.of(context).shadowColor.withOpacity(0.5),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: WidgetLabel(
+                // alignment: Alignment.centerRight,
+                label: widget.showMore!
+                    .replaceFirst('*', count.toString())
+                    .replaceFirst('?', total.toString()),
+              ),
               onPressed: _hasMore ? loadMore : null,
             )
-        ],
-      ),
+          : null,
     );
   }
 }

@@ -9,14 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:music/main.dart';
-import 'package:music/core/main.dart';
 
-void main() async{
-  final core = Core();
+void main() async {
   await core.ensureInitialized();
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(Zaideih(core: core));
+    await tester.pumpWidget(const Zaideih());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

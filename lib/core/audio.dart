@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of data.core;
 
 class Audio extends UnitAudio {
   final Collection cluster;

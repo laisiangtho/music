@@ -1,9 +1,9 @@
 part of 'main.dart';
 
 abstract class _State extends WidgetState {
-  late final args = argumentsAs<ViewNavigationArguments>()!;
+  late final args = argumentsAs<ViewNavigationArguments>();
 
-  late final AudioArtistType artist = args.param<AudioArtistType>()!;
+  late final AudioArtistType artist = args!.param<AudioArtistType>()!;
   late final int artistId = artist.id;
 
   late final Iterable<AudioTrackType> track =

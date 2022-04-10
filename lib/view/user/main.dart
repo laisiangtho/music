@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/rendering.dart';
 
 import 'package:lidea/provider.dart';
 import 'package:lidea/view/main.dart';
@@ -34,69 +32,80 @@ class _View extends _State with _Bar {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ViewPage(
-        // controller: _scrollController,
+        controller: scrollController,
         child: Consumer<Authentication>(
-          builder: (_, __, ___) => body(),
+          builder: middleware,
         ),
       ),
     );
   }
 
-  CustomScrollView body() {
+  Widget middleware(BuildContext context, Authentication o, Widget? child) {
     return CustomScrollView(
       controller: scrollController,
-      slivers: <Widget>[
-        bar(),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-          sliver: FutureBuilder(
-            future: Future.microtask(() => true),
-            builder: (_, snap) {
-              if (snap.hasData) {
-                if (authenticate.hasUser) {
-                  return profileContainer();
-                }
-                return signInContainer();
-              }
-              return const SliverToBoxAdapter();
-            },
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-          sliver: FutureBuilder(
-            future: Future.delayed(const Duration(milliseconds: 250), () => true),
-            builder: (_, snap) {
-              if (snap.hasData) {
-                return themeContainer();
-              }
-              return const SliverToBoxAdapter();
-            },
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 25),
-          sliver: FutureBuilder(
-            future: Future.delayed(const Duration(milliseconds: 150), () => true),
-            builder: (_, snap) {
-              if (snap.hasData) {
-                return localeContainer();
-              }
-              return const SliverToBoxAdapter();
-            },
-          ),
-        ),
-        // Selector<ViewScrollNotify, double>(
-        //   selector: (_, e) => e.bottomPadding,
-        //   builder: (context, bottomPadding, child) {
-        //     return SliverPadding(
-        //       padding: EdgeInsets.only(bottom: bottomPadding),
-        //       sliver: child,
-        //     );
-        //   },
-        // ),
-      ],
+      slivers: sliverWidgets(),
     );
+  }
+
+  List<Widget> sliverWidgets() {
+    return [
+      ViewHeaderSliverSnap(
+        pinned: true,
+        floating: false,
+        padding: MediaQuery.of(context).viewPadding,
+        heights: const [kToolbarHeight, 100],
+        overlapsBackgroundColor: Theme.of(context).primaryColor,
+        overlapsBorderColor: Theme.of(context).shadowColor,
+        builder: bar,
+      ),
+
+      if (authenticate.hasUser)
+        WidgetBlockSection(
+          headerTitle: WidgetLabel(
+            alignment: Alignment.center,
+            label: authenticate.user?.displayName,
+          ),
+          child: profileContainer(),
+        )
+      else
+        WidgetBlockSection(
+          headerTitle: WidgetLabel(
+            alignment: Alignment.center,
+            label: preference.text.wouldYouLiketoSignIn,
+          ),
+          child: signInContainer(),
+        ),
+
+      WidgetBlockSection(
+        headerTitle: WidgetLabel(
+          alignment: Alignment.centerLeft,
+          label: preference.text.themeMode,
+        ),
+        child: Card(
+          child: themeContainer(),
+        ),
+      ),
+
+      WidgetBlockSection(
+        headerTitle: WidgetLabel(
+          alignment: Alignment.centerLeft,
+          label: preference.text.locale,
+        ),
+        child: Card(
+          child: localeContainer(),
+        ),
+      ),
+
+      // Selector<ViewScrollNotify, double>(
+      //   selector: (_, e) => e.bottomPadding,
+      //   builder: (context, bottomPadding, child) {
+      //     return SliverPadding(
+      //       padding: EdgeInsets.only(bottom: bottomPadding),
+      //       sliver: child,
+      //     );
+      //   },
+      // ),
+    ];
   }
 
   Widget profile() {
@@ -165,6 +174,7 @@ class _View extends _State with _Bar {
       ),
       child: WidgetLabel(
         icon: icon,
+        iconColor: Theme.of(context).highlightColor,
         iconSize: 20,
         label: label,
         labelStyle: Theme.of(context).textTheme.labelLarge,
@@ -174,214 +184,114 @@ class _View extends _State with _Bar {
   }
 
   Widget signInContainer() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        <Widget>[
-          WidgetBlockTile(
-            title: WidgetLabel(
-              // alignment: Alignment.centerLeft,
-              label: preference.text.wouldYouLiketoSignIn,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: signInList(),
-            ),
-            // child: Wrap(
-            //   alignment: WrapAlignment.center,
-            //   spacing: 10,
-            //   runSpacing: 10,
-            //   children: signInList(),
-            // ),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-          //   child: WidgetLabel(
-          //     label: preference.text.bySigningIn,
-          //   ),
-          // ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: signInList(),
       ),
     );
   }
 
   Widget profileContainer() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        <Widget>[
-          WidgetBlockTile(
-            title: WidgetLabel(
-              label: authenticate.user!.displayName!,
-              labelStyle: Theme.of(context).textTheme.titleLarge,
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
+      child: Column(
+        children: [
+          WidgetLabel(
+            label: authenticate.user!.email!,
+            // label: 'khensolomon@gmail.com',
+            labelStyle: Theme.of(context).textTheme.labelSmall,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-            child: Column(
-              children: [
-                WidgetLabel(
-                  label: authenticate.user!.email!,
-                  // label: 'khensolomon@gmail.com',
-                  labelStyle: Theme.of(context).textTheme.labelSmall,
-                ),
-                // Text(
-                //   authenticate.id,
-                //   textAlign: TextAlign.center,
-                // ),
-              ],
-            ),
-          ),
+          // Text(
+          //   authenticate.id,
+          //   textAlign: TextAlign.center,
+          // ),
         ],
       ),
     );
   }
 
   Widget themeContainer() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-          //   child: WidgetLabel(
-          //     alignment: Alignment.centerLeft,
-          //     // icon: Icons.lightbulb,
-          //     label: preference.text.themeMode,
-          //   ),
-          // ),
-          WidgetBlockTile(
-            title: WidgetLabel(
-              alignment: Alignment.centerLeft,
-              label: preference.text.themeMode,
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            child: Selector<Preference, ThemeMode>(
-              selector: (_, e) => e.themeMode,
-              builder: (BuildContext context, ThemeMode theme, Widget? child) {
-                return ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: ThemeMode.values.length,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  itemBuilder: (_, index) {
-                    ThemeMode mode = ThemeMode.values[index];
-                    bool active = theme == mode;
-                    return WidgetButton(
-                      child: WidgetLabel(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                        alignment: Alignment.centerLeft,
-                        icon: Icons.check_rounded,
-                        iconColor: active ? null : Theme.of(context).focusColor,
-                        label: themeName[index],
-                        labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                        labelStyle: Theme.of(context).textTheme.bodyLarge,
-                        softWrap: true,
-                        maxLines: 3,
-                      ),
-                      onPressed: () {
-                        if (!active) {
-                          preference.updateThemeMode(mode);
-                        }
-                      },
-                    );
-                    // return ListTile(
-                    //   contentPadding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    //   // contentPadding: EdgeInsets.zero,
-                    //   minVerticalPadding: 0.0,
-                    //   leading: const Icon(Icons.check_rounded),
-                    //   title: Text(themeName[index]),
-                    //   // style: ListTileStyle.drawer,
-                    //   onTap: () {
-                    //     preference.updateThemeMode(mode);
-                    //   },
-                    // );
-                  },
-                  separatorBuilder: (_, index) {
-                    return Divider(
-                      // thickness: 0,
-                      height: 1,
-                      color: Theme.of(context).shadowColor,
-                    );
-                    // return const SizedBox();
-                  },
-                );
+    return Selector<Preference, ThemeMode>(
+      selector: (_, e) => e.themeMode,
+      builder: (BuildContext context, ThemeMode theme, Widget? child) {
+        return ListView.separated(
+          shrinkWrap: true,
+          primary: false,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: ThemeMode.values.length,
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          itemBuilder: (_, index) {
+            ThemeMode mode = ThemeMode.values[index];
+            bool active = theme == mode;
+            return WidgetButton(
+              child: WidgetLabel(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                alignment: Alignment.centerLeft,
+                icon: Icons.check_rounded,
+                iconColor: active ? null : Theme.of(context).focusColor,
+                label: themeName[index],
+                labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                labelStyle: Theme.of(context).textTheme.bodyLarge,
+                softWrap: true,
+                maxLines: 3,
+              ),
+              onPressed: () {
+                if (!active) {
+                  preference.updateThemeMode(mode);
+                }
               },
-            ),
-          )
-        ],
-      ),
+            );
+          },
+          separatorBuilder: (_, index) {
+            return const Divider();
+          },
+        );
+      },
     );
   }
 
   Widget localeContainer() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-          //   child: WidgetLabel(
-          //     alignment: Alignment.centerLeft,
-          //     label: preference.text.locale,
-          //   ),
-          // ),
-          WidgetBlockTile(
-            title: WidgetLabel(
-              alignment: Alignment.centerLeft,
-              label: preference.text.locale,
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            child: Selector<Preference, ThemeMode>(
-              selector: (_, e) => e.themeMode,
-              builder: (BuildContext context, ThemeMode theme, Widget? child) {
-                return ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: preference.supportedLocales.length,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  itemBuilder: (_, index) {
-                    final locale = preference.supportedLocales[index];
+    return Selector<Preference, ThemeMode>(
+      selector: (_, e) => e.themeMode,
+      builder: (BuildContext context, ThemeMode theme, Widget? child) {
+        return ListView.separated(
+          shrinkWrap: true,
+          primary: false,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: preference.supportedLocales.length,
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          itemBuilder: (_, index) {
+            final locale = preference.supportedLocales[index];
 
-                    Locale localeCurrent = Localizations.localeOf(context);
-                    // final String localeName = Intl.canonicalizedLocale(lang.languageCode);
-                    final String localeName = Locale(locale.languageCode).nativeName;
-                    final bool active = localeCurrent.languageCode == locale.languageCode;
+            Locale localeCurrent = Localizations.localeOf(context);
+            // final String localeName = Intl.canonicalizedLocale(lang.languageCode);
+            final String localeName = Locale(locale.languageCode).nativeName;
+            final bool active = localeCurrent.languageCode == locale.languageCode;
 
-                    return WidgetButton(
-                      child: WidgetLabel(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                        alignment: Alignment.centerLeft,
-                        icon: Icons.check_rounded,
-                        iconColor: active ? null : Theme.of(context).focusColor,
-                        label: localeName,
-                        labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                        labelStyle: Theme.of(context).textTheme.bodyLarge,
-                        softWrap: true,
-                        maxLines: 3,
-                      ),
-                      onPressed: () {
-                        preference.updateLocale(locale);
-                      },
-                    );
-                  },
-                  separatorBuilder: (_, index) {
-                    return Divider(
-                      height: 1,
-                      color: Theme.of(context).shadowColor,
-                    );
-                  },
-                );
+            return WidgetButton(
+              child: WidgetLabel(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                alignment: Alignment.centerLeft,
+                icon: Icons.check_rounded,
+                iconColor: active ? null : Theme.of(context).focusColor,
+                label: localeName,
+                labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                labelStyle: Theme.of(context).textTheme.bodyLarge,
+                softWrap: true,
+                maxLines: 3,
+              ),
+              onPressed: () {
+                preference.updateLocale(locale);
               },
-            ),
-          )
-        ],
-      ),
+            );
+          },
+          separatorBuilder: (_, index) {
+            return const Divider();
+          },
+        );
+      },
     );
   }
 }

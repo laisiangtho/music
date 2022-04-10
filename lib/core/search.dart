@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of data.core;
 
 class Search {
   final Collection collection;
@@ -10,13 +10,13 @@ class Search {
   // late String suggestQuery = collection.suggestQuery;
 
   AudioBucketType get cache => collection.cacheBucket;
-  String get suggestQuery => collection.suggestQuery;
+  String get suggestQuery => collection.suggestQuery.asString;
   SuggestionType<OfRawType> get cacheSuggestion => collection.cacheSuggestion;
   set cacheSuggestion(SuggestionType<OfRawType> o) {
     collection.cacheSuggestion = o;
   }
 
-  String get searchQuery => collection.searchQuery;
+  String get searchQuery => collection.searchQuery.asString;
   ConclusionType<OfRawType> get cacheConclusion => collection.cacheConclusion;
   set cacheConclusion(ConclusionType<OfRawType> o) {
     collection.cacheConclusion = o;
@@ -74,6 +74,7 @@ class Search {
       cacheSuggestion.raw.add(OfRawType(
         term: preference.text.track(matchTrack.length > 1),
         count: matchTrack.length,
+        type: 0,
         uid: matchTrack.map((e) => e.title).take(limit).toList(),
       ));
     }
@@ -82,6 +83,7 @@ class Search {
       cacheSuggestion.raw.add(OfRawType(
         term: preference.text.artist(matchArtist.length > 1),
         count: matchArtist.length,
+        type: 1,
         uid: matchArtist.map((e) => e.name).take(7).toList(),
       ));
     }
@@ -90,6 +92,7 @@ class Search {
       cacheSuggestion.raw.add(OfRawType(
         term: preference.text.album(matchAlbum.length > 1),
         count: matchAlbum.length,
+        type: 2,
         uid: matchAlbum.map((e) => e.name).take(3).toList(),
       ));
     }

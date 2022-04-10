@@ -1,4 +1,4 @@
-part of 'main.dart';
+part of ui.widget;
 
 // NOTE: view -> artist-list
 class ArtistList extends StatefulWidget {
@@ -87,7 +87,7 @@ class ArtistWrap extends StatefulWidget {
   final String? label;
   final int limit;
   final bool routePush;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final bool? primary;
 
   const ArtistWrap({
@@ -97,7 +97,7 @@ class ArtistWrap extends StatefulWidget {
     this.label,
     this.limit = 17,
     this.routePush = true,
-    this.padding = const EdgeInsets.symmetric(vertical: 8),
+    this.padding,
     this.primary,
   }) : super(key: key);
 
@@ -162,62 +162,54 @@ class _ArtistWrapState extends State<ArtistWrap> {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetChildBuilder(
+    return WidgetBlockSection(
       primary: widget.primary,
       padding: widget.padding,
       show: count > 0,
-      child: Column(
-        children: [
-          if (widget.label != null)
-            WidgetBlockTile(
-              title: WidgetLabel(
-                // alignment: Alignment.centerLeft,
-                label: widget.label!.replaceFirst('?', total.toString()),
+      headerTitle: (widget.label != null)
+          ? WidgetLabel(
+              alignment: Alignment.center,
+              label: widget.label!.replaceFirst('?', total.toString()),
+            )
+          : null,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        // textDirection: TextDirection.ltr,
+        // alignment: WrapAlignment.start,
+        // crossAxisAlignment: WrapCrossAlignment.start,
+        // textDirection: TextDirection.ltr,
+        children: List.generate(
+          count + 1,
+          (index) {
+            final inRange = index == count;
+            if (inRange) {
+              if (_hasMore) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+                  child: ArtistWrapMore(
+                    more: 'more * of ?',
+                    total: total,
+                    count: count,
+                    onPressed: _hasMore ? loadMore : null,
+                  ),
+                );
+              }
+              return const SizedBox();
+            }
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+              child: ArtistWrapItem(
+                context: context,
+                routePush: widget.routePush,
+                // artist: artist.elementAt(index),
+                artist: cache.artistById(
+                  artist.elementAt(index),
+                ),
               ),
-            ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              // textDirection: TextDirection.ltr,
-              // alignment: WrapAlignment.start,
-              // crossAxisAlignment: WrapCrossAlignment.start,
-              // textDirection: TextDirection.ltr,
-              children: List.generate(
-                count + 1,
-                (index) {
-                  final inRange = index == count;
-                  if (inRange) {
-                    if (_hasMore) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-                        child: ArtistWrapMore(
-                          more: 'more * of ?',
-                          total: total,
-                          count: count,
-                          onPressed: _hasMore ? loadMore : null,
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-                    child: ArtistWrapItem(
-                      context: context,
-                      routePush: widget.routePush,
-                      // artist: artist.elementAt(index),
-                      artist: cache.artistById(
-                        artist.elementAt(index),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

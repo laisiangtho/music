@@ -6,6 +6,8 @@ abstract class _State extends WidgetState<Main> {
 
   late final Future<void> initiator = core.conclusionGenerate(init: true);
 
+  final List<IconData> typeIcons = [LideaIcon.track, LideaIcon.artist, LideaIcon.album];
+
   @override
   void initState() {
     arguments ??= widget.arguments;
@@ -28,9 +30,15 @@ abstract class _State extends WidgetState<Main> {
     }
   }
 
-  void onQuery() async {
+  void onQuery() {
     Future.microtask(() {
       textController.text = searchQuery;
+    });
+  }
+
+  void onSuggest() {
+    args?.currentState!.pushNamed('/search-suggest', arguments: false).then((word) {
+      onUpdate(word != null);
     });
   }
 
@@ -41,7 +49,7 @@ abstract class _State extends WidgetState<Main> {
   // }
 
   // void onSwitchFavorite() {
-  //   core.collection.favoriteSwitch(core.searchQuery);
+  //   collection.favoriteSwitch(core.searchQuery);
   //   core.notify();
   // }
 }

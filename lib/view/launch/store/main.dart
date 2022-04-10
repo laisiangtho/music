@@ -1,10 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-// import 'package:flutter/rendering.dart';
-// import 'package:flutter/gestures.dart';
-// import 'package:flutter/services.dart';
 
 // import 'package:lidea/hive.dart';
 import 'package:lidea/provider.dart';
@@ -38,22 +34,29 @@ class _View extends _State with _Bar {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: widget.key,
       body: ViewPage(
-        // controller: scrollController,
-        child: body(),
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: sliverWidgets(),
+        ),
       ),
     );
   }
 
-  CustomScrollView body() {
-    return CustomScrollView(
-      controller: scrollController,
-      slivers: <Widget>[
-        bar(),
-        cartWidget(),
-      ],
-    );
+  List<Widget> sliverWidgets() {
+    return [
+      ViewHeaderSliverSnap(
+        pinned: true,
+        floating: false,
+        // reservedPadding: MediaQuery.of(context).padding.top,
+        padding: MediaQuery.of(context).viewPadding,
+        heights: const [kToolbarHeight, 50],
+        overlapsBackgroundColor: Theme.of(context).primaryColor,
+        overlapsBorderColor: Theme.of(context).shadowColor,
+        builder: bar,
+      ),
+      cartWidget(),
+    ];
   }
 
   Widget cartWidget() {
@@ -117,10 +120,10 @@ class _View extends _State with _Bar {
     } else if (store.isAvailable) {
       // NOTE: Purchase is ready, Purchase is available
       msgWidget = Text(
-        core.collection.language('ready-to-contribute'),
+        collection.language('ready-to-contribute'),
         style: const TextStyle(fontSize: 20),
       );
-      msgIcon = const Icon(CupertinoIcons.checkmark_shield, size: 50);
+      msgIcon = const Icon(Icons.local_police_outlined, size: 50);
     } else {
       // NOTE: Connected to store, but purchase is not ready yet
       msgWidget = const Text('Purchase unavailable');
@@ -137,7 +140,7 @@ class _View extends _State with _Bar {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
             child: Text(
-              core.collection.language('any-contribute-make'),
+              collection.language('any-contribute-make'),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 18),
             ),
@@ -224,8 +227,8 @@ class _View extends _State with _Bar {
     //   title = ev.title;
     //   description = ev.description;
     // }
-    final title = core.collection.language('${item.id}-title');
-    final description = core.collection.language('${item.id}-description');
+    final title = collection.language('${item.id}-title');
+    final description = collection.language('${item.id}-description');
 
     final hasPurchased = store.purchasedCheck(item.id);
 
@@ -240,7 +243,7 @@ class _View extends _State with _Bar {
               // contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               leading: hasPurchased
                   ? Icon(
-                      CupertinoIcons.checkmark_seal_fill,
+                      Icons.verified_rounded,
                       color: Theme.of(context).highlightColor,
                       size: 35,
                     )
@@ -273,7 +276,7 @@ class _View extends _State with _Bar {
                                 strokeWidth: 2,
                               )
                             : Icon(
-                                CupertinoIcons.cart_badge_plus,
+                                Icons.add_shopping_cart_rounded,
                                 color: Theme.of(context).primaryColor,
                                 // size: 50,
                               ),
@@ -320,17 +323,17 @@ class _View extends _State with _Bar {
       return const Text('not Available: star');
     }
 
-    return Selector<Core, Iterable<PurchaseType>>(
-      selector: (BuildContext _, Core core) => core.collection.boxOfPurchase.values
-          .toList()
-          .where((e) => e.consumable == true && !store.listOfNotFoundId.contains(e.productId)),
-      builder: (BuildContext _, Iterable<PurchaseType> data, Widget? child) {
+    return Selector<Core, Iterable<PurchasesType>>(
+      selector: (BuildContext _, Core core) => collection.boxOfPurchases.valuesWhere((e) {
+        return e.consumable == true && !store.listOfNotFoundId.contains(e.productId);
+      }),
+      builder: (BuildContext _, Iterable<PurchasesType> data, Widget? child) {
         return Card(
           child: Wrap(
             // _kOfConsumable.data
             children: data
                 .map(
-                  (PurchaseType e) => IconButton(
+                  (PurchasesType e) => IconButton(
                     icon: const Icon(Icons.star),
                     iconSize: 35,
                     color: Theme.of(context).primaryColorDark,
@@ -364,17 +367,17 @@ class _View extends _State with _Bar {
   //     return const Text('not Available box');
   //   }
 
-  //   return Selector<Core, Iterable<PurchaseType>>(
-  //     selector: (BuildContext _, Core core) => core.collection.boxOfPurchase.values
+  //   return Selector<Core, Iterable<PurchasesType>>(
+  //     selector: (BuildContext _, Core core) => collection.boxOfPurchase.values
   //         .toList()
   //         .where((e) => e.consumable == false && !store.listOfNotFoundId.contains(e.productId)),
-  //     builder: (BuildContext _, Iterable<PurchaseType> data, Widget? child) {
+  //     builder: (BuildContext _, Iterable<PurchasesType> data, Widget? child) {
   //       return Card(
   //         child: Wrap(
   //           // _kOfPurchase.data
   //           children: data
   //               .map(
-  //                 (PurchaseType e) => ListTile(
+  //                 (PurchasesType e) => ListTile(
   //                   title: Text(e.productId),
   //                   // subtitle: Text(e.value.type +': press to consume it'),
   //                   onTap: () {
