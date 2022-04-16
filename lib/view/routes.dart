@@ -194,12 +194,18 @@ class AppPageNavigation {
         name: recent_play.Main.name,
         description: 'Recent Play',
       ),
-      const ViewNavigationModel(
-        key: 4,
-        icon: search_page.Main.icon,
-        name: search_page.Main.name,
-        description: 'Search',
-      ),
+      // const ViewNavigationModel(
+      //   key: 4,
+      //   icon: search_page.Main.icon,
+      //   name: search_page.Main.name,
+      //   description: 'Search',
+      // ),
+      // ViewNavigationModel(
+      //   key: 4,
+      //   icon: Icons.expand_more,
+      //   name: 'Toggle',
+      //   description: preference.text.parallel,
+      // ),
     ];
   }
 
@@ -220,10 +226,10 @@ class AppPageNavigation {
       key: store.Main.uniqueKey,
       child: const store.Main(),
     ),
-    ViewKeepAlive(
-      key: search_page.Main.uniqueKey,
-      child: const search_page.Main(),
-    ),
+    // ViewKeepAlive(
+    //   key: search_page.Main.uniqueKey,
+    //   child: const search_page.Main(),
+    // ),
     // ViewKeepAlive(
     //   key: setting.Main.uniqueKey,
     //   child: const setting.Main(),
