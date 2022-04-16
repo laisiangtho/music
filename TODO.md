@@ -9,3 +9,5 @@ version: 1.0.0+6
   - [ ] User feedback
   - [ ] tag suggestion
   - [ ] User data sync & restore
+  - [ ] pyaw-shwin-chin-naing-ngan track-14
+  - [ ] disable null, zero duration
