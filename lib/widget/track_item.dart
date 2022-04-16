@@ -77,11 +77,12 @@ class TrackListItem extends StatelessWidget {
     final cached = cache.caching == 1.0;
     return ListTile(
       minVerticalPadding: 0,
-      leading: SizedBox(
+      leading: SizedBox.square(
+        dimension: 55,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: queued ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Padding(
             padding: const EdgeInsets.all(0.0),
@@ -171,15 +172,12 @@ class TrackListItemHolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       minVerticalPadding: 0,
-      leading: DecoratedBox(
-        decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Icon(
-            Icons.playlist_add_rounded,
+      leading: SizedBox.square(
+        dimension: 55,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
           ),
         ),
       ),

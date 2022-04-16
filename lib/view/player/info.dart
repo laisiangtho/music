@@ -22,11 +22,13 @@ class _PlayerInfoState extends State<PlayerInfo> {
   }
 
   Future whenNavigate() {
-    return draggableController.animateTo(
-      0.0,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.ease,
-    );
+    // TODO: shared draggableController
+    // return draggableController.animateTo(
+    //   0.0,
+    //   duration: const Duration(milliseconds: 200),
+    //   curve: Curves.ease,
+    // );
+    return Future.microtask(() => true);
   }
 
   @override
@@ -94,7 +96,7 @@ class _PlayerInfoState extends State<PlayerInfo> {
             children: List.generate(
               track.artistInfo.length,
               (index) {
-                return ArtistWrapItem(
+                return ArtistBlockItem(
                   context: context,
                   artist: track.artistInfo.elementAt(index),
                   routePush: false,

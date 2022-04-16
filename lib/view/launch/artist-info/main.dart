@@ -69,31 +69,46 @@ class _View extends _State with _Bar {
         ),
       ),
 
-      ArtistWrap(
+      ArtistBlock(
         artists: artistRecommended,
-        label: 'Recommeded',
+        headerTitle: WidgetLabel(
+          // alignment: Alignment.center,
+          label: preference.text.recommended,
+        ),
         routePush: false,
         limit: 7,
       ),
 
-      TrackFlat(
+      TrackBlock(
         tracks: artistTrackIds,
-        label: 'Tracks (?)',
-        showMore: '* / ?',
+        // label: 'Tracks (?)',
+        headerTitle: WidgetLabel(
+          alignment: Alignment.centerLeft,
+          label: preference.text.track(artistTrackIds.length > 1),
+        ),
+
         limit: 3,
       ),
 
-      ArtistWrap(
+      ArtistBlock(
         artists: artistRelated,
-        label: 'Related',
+        headerTitle: WidgetLabel(
+          alignment: Alignment.center,
+          label: preference.text.related,
+        ),
         routePush: false,
         limit: 5,
       ),
-      // // ArtistWrap(artists: [3,9,8,12,60], heading: 'Related', limit: 5,),
+      // // ArtistBlock(artists: [3,9,8,12,60], heading: 'Related', limit: 5,),
 
       AlbumBoard(
         albums: artistAlbum,
         controller: scrollController,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+        headerTitle: WidgetLabel(
+          alignment: Alignment.centerLeft,
+          label: preference.text.album(artistAlbum.length > 1),
+        ),
       ),
       // Selector<ViewScrollNotify, double>(
       //   selector: (_, e) => e.bottomPadding,

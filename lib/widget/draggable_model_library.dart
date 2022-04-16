@@ -95,7 +95,7 @@ class _WidgetDraggableLibraryState extends ViewDraggableSheetState<WidgetDraggab
                 size: 50,
               ),
               title: Text(
-                preference.text.play(false),
+                preference.text.playMusic(false),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               trailing: Text(library.list.length.toString()),

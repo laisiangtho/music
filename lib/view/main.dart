@@ -113,4 +113,8 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
       core.analytics.screen(screenName, screenClass);
     }
   }
+
+  double get bottomPadding {
+    return context.read<ViewScrollNotify>().bottomPadding;
+  }
 }

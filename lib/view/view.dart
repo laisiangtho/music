@@ -35,17 +35,36 @@ class AppView extends _State with _BottomNavigator {
           itemBuilder: (BuildContext context, int index) => _pageView[index],
           itemCount: _pageView.length,
         ),
+        // child: Padding(
+        //   padding: EdgeInsets.only(bottom: bottomPadding),
+        //   child: PageView.builder(
+        //     controller: _pageController,
+        //     // onPageChanged: _pageChanged,
+        //     pageSnapping: false,
+        //     // allowImplicitScrolling: true,
+        //     physics: const NeverScrollableScrollPhysics(),
+        //     itemBuilder: (BuildContext context, int index) => _pageView[index],
+        //     itemCount: _pageView.length,
+        //   ),
+        // ),
+        // child: Selector<ViewScrollNotify, double>(
+        //   selector: (_, e) => e.bottomPadding,
+        //   builder: (context, bottomPadding, child) {
+        //     return Padding(
+        //       padding: EdgeInsets.only(bottom: bottomPadding),
+        //       child: PageView.builder(
+        //         controller: _pageController,
+        //         // onPageChanged: _pageChanged,
+        //         pageSnapping: false,
+        //         // allowImplicitScrolling: true,
+        //         physics: const NeverScrollableScrollPhysics(),
+        //         itemBuilder: (BuildContext context, int index) => _pageView[index],
+        //         itemCount: _pageView.length,
+        //       ),
+        //     );
+        //   },
+        // ),
       ),
-      // body: PageView.builder(
-      //   controller: _pageController,
-      //   // onPageChanged: _pageChanged,
-      //   pageSnapping: false,
-      //   // allowImplicitScrolling: true,
-      //   physics: const NeverScrollableScrollPhysics(),
-      //   itemBuilder: (BuildContext context, int index) => _pageView[index],
-      //   itemCount: _pageView.length,
-      // ),
-
       extendBody: true,
       // extendBodyBehindAppBar: true,
       bottomNavigationBar: bottomNavigator(),

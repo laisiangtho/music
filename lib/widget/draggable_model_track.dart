@@ -107,7 +107,7 @@ class _WidgetDraggableTrackState extends ViewDraggableSheetState<WidgetDraggable
                 children: List.generate(
                   track.artistInfo.length,
                   (index) {
-                    return ArtistWrapItem(
+                    return ArtistBlockItem(
                       context: context,
                       artist: track.artistInfo.elementAt(index),
                       routePush: false,

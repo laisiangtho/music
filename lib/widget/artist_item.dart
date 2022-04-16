@@ -20,16 +20,19 @@ class ArtistListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       minVerticalPadding: 0,
-      leading: DecoratedBox(
-        decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(7.0),
-          child: Icon(
-            LideaIcon.artist,
-            size: 25,
+      leading: SizedBox.square(
+        dimension: 55,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(15),
+            child: Icon(
+              LideaIcon.artist,
+              size: 25,
+            ),
           ),
         ),
       ),
@@ -47,52 +50,65 @@ class ArtistListItem extends StatelessWidget {
       ),
       subtitle: Row(
         children: [
-          // Icon(LideaIcon.listen),
-          // Icon(LideaIcon.time),
-          // Icon(LideaIcon.music),
-          // Icon(LideaIcon.album),
           badage(context, LideaIcon.time, cache.duration(meta.duration)),
-          badage(context, LideaIcon.music, meta.track.toString()),
-          badage(context, LideaIcon.album, meta.album.toString())
+          badage(context, LideaIcon.music, intl.NumberFormat.compact().format(meta.track)),
+          const Divider(indent: 5),
+          badage(context, LideaIcon.album, intl.NumberFormat.compact().format(meta.album)),
         ],
       ),
       trailing: Text(
         intl.NumberFormat.compact().format(plays),
-        // strutStyle: const StrutStyle(height: 1.5),
         style: Theme.of(context).textTheme.labelSmall,
       ),
       onTap: () => core.navigate(to: '/artist-info', args: meta, routePush: false),
     );
   }
 
-  Widget badage(
-    BuildContext context,
-    IconData icon,
-    String label,
-  ) {
-    return WidgetLabel(
+  Widget badage(BuildContext context, IconData icon, String label) {
+    // return SizedBox(
+    //   width: 60,
+    //   child: Text(
+    //     label,
+    //     style:
+    //         Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).dividerColor),
+    //     softWrap: false,
+    //     overflow: TextOverflow.fade,
+    //   ),
+    // );
+    // return SizedBox(
+    //   width: 50,
+    //   child: Wrap(
+    //     // mainAxisSize: MainAxisSize.max,
+    //     // clipBehavior: Clip.hardEdge,
+    //     children: [
+    //       Icon(
+    //         icon,
+    //         color: Theme.of(context).focusColor,
+    //         size: 18,
+    //       ),
+    //       Text(
+    //         label,
+    //         style: Theme.of(context)
+    //             .textTheme
+    //             .bodySmall!
+    //             .copyWith(color: Theme.of(context).dividerColor),
+    //         softWrap: false,
+    //         overflow: TextOverflow.fade,
+    //       )
+    //     ],
+    //   ),
+    // );
+    return WidgetMark(
       icon: icon,
       iconColor: Theme.of(context).focusColor,
       iconSize: 15,
       label: label,
-      labelStyle: Theme.of(context).textTheme.bodySmall,
+      labelStyle: Theme.of(context)
+          .textTheme
+          .bodySmall!
+          .copyWith(color: Theme.of(context).primaryColorDark),
+      constraints: const BoxConstraints(maxHeight: 22, minHeight: 22),
     );
-    // return Row(
-    //   children: [
-    //     Icon(
-    //       icon,
-    //       size: 15,
-    //     ),
-    //     Padding(
-    //       padding: const EdgeInsets.symmetric(horizontal: 3),
-    //       child: Text(
-    //         label,
-    //         // strutStyle: const StrutStyle(height: 1.2),
-    //         style: Theme.of(context).textTheme.bodySmall,
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }
 
@@ -139,7 +155,7 @@ class ArtistListItemHolder extends StatelessWidget {
   }
 }
 
-class ArtistWrapItem extends StatelessWidget {
+class ArtistBlockItem extends StatelessWidget {
   final BuildContext context;
   final AudioArtistType artist;
   final bool routePush;
@@ -147,7 +163,7 @@ class ArtistWrapItem extends StatelessWidget {
   // final FutureOr<T> Function<T>()? whenNavigate;
   final FutureOr Function()? whenNavigate;
 
-  const ArtistWrapItem({
+  const ArtistBlockItem({
     Key? key,
     required this.context,
     required this.artist,
@@ -162,7 +178,6 @@ class ArtistWrapItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetButton(
-      key: key,
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(right: 2, bottom: 1, top: 1),
       child: WidgetLabel(
@@ -178,7 +193,7 @@ class ArtistWrapItem extends StatelessWidget {
       // padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 13),
       // color: Theme.of(context).shadowColor,
       // borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: Theme.of(context).shadowColor,
         borderRadius: const BorderRadius.all(Radius.circular(15.0)),
@@ -212,8 +227,8 @@ class ArtistWrapItem extends StatelessWidget {
   }
 }
 
-class ArtistWrapMore extends StatelessWidget {
-  const ArtistWrapMore({
+class ArtistBlockMore extends StatelessWidget {
+  const ArtistBlockMore({
     Key? key,
     this.onPressed,
     this.more = '* / ?',

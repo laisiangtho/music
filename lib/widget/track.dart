@@ -74,36 +74,41 @@ class _TrackListState extends State<TrackList> {
   }
 }
 
-class TrackFlat extends StatefulWidget {
+class TrackBlock extends StatefulWidget {
   // final Iterable<AudioMetaType> tracks;
   final Iterable<int> tracks;
   final ScrollController? controller;
   final int limit;
-  final String? label;
+  // final String? label;
+  final Widget? headerTitle;
+  final Widget? headerTrailing;
   // '* / ?'
-  final String? showMore;
+  final bool showMoreIf;
   final int milliseconds;
   final EdgeInsetsGeometry? padding;
   final bool? primary;
 
-  const TrackFlat({
+  const TrackBlock({
     Key? key,
     required this.tracks,
     this.controller,
     this.limit = 17,
-    this.label,
-    this.showMore,
+    // this.label,
+    this.headerTitle,
+    this.headerTrailing,
+    this.showMoreIf = true,
     this.milliseconds = 0,
     this.padding,
     this.primary,
   }) : super(key: key);
 
   @override
-  _TrackFlatState createState() => _TrackFlatState();
+  _TrackBlockState createState() => _TrackBlockState();
 }
 
-class _TrackFlatState extends State<TrackFlat> {
+class _TrackBlockState extends State<TrackBlock> {
   late final Core core = context.read<Core>();
+  late final Preference preference = core.preference;
   AudioBucketType get cache => core.collection.cacheBucket;
 
   int _page = 0;
@@ -148,25 +153,24 @@ class _TrackFlatState extends State<TrackFlat> {
       primary: widget.primary,
       padding: widget.padding,
       show: count > 0,
-      headerLeading: const WidgetLabel(
-        icon: LideaIcon.track,
-      ),
-      headerTitle: WidgetLabel(
-        alignment: Alignment.centerLeft,
-        label: widget.label!.replaceFirst('?', total.toString()),
-      ),
+      headerLeading: (widget.headerTitle != null)
+          ? const WidgetLabel(
+              icon: LideaIcon.track,
+              iconSize: 22,
+            )
+          : null,
+
+      headerTitle: widget.headerTitle,
+      headerTrailing: widget.headerTrailing,
       child: Card(
-        // margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
         child: WidgetListBuilder(
-          // key: const Key('track-list'),
           primary: false,
-          // padding: EdgeInsets.zero,
-          duration: const Duration(milliseconds: 320),
-          physics: const NeverScrollableScrollPhysics(),
-          // itemSnap: const TrackListItemHolder(key: Key('$index')),
-          itemSnap: (context, index) {
-            return TrackListItemHolder(key: ValueKey(index));
-          },
+          duration: Duration(milliseconds: widget.milliseconds),
+          itemSnap: (widget.milliseconds > 0)
+              ? (context, index) {
+                  return TrackListItemHolder(key: ValueKey(index));
+                }
+              : null,
           itemBuilder: (context, index) {
             return TrackListItem(
               key: ValueKey(index),
@@ -175,22 +179,22 @@ class _TrackFlatState extends State<TrackFlat> {
               track: cache.meta(track.elementAt(index)),
             );
           },
-
           itemCount: count,
         ),
       ),
       // widget.showMore != null && _hasMore
-      footerTrailing: (widget.showMore != null && _hasMore)
+      footerTrailing: (widget.showMoreIf && _hasMore)
           ? WidgetButton(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
               // elevation: 1,
               color: Theme.of(context).shadowColor.withOpacity(0.5),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: WidgetLabel(
-                // alignment: Alignment.centerRight,
-                label: widget.showMore!
-                    .replaceFirst('*', count.toString())
-                    .replaceFirst('?', total.toString()),
+                label: preference.text.moreOfTotal(count, total),
+                // label: preference.text.moreOfTotal(
+                //   UtilNumber.simple(context, count),
+                //   UtilNumber.simple(context, total),
+                // ),
               ),
               onPressed: _hasMore ? loadMore : null,
             )

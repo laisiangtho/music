@@ -62,6 +62,10 @@ class _AlbumListState extends State<AlbumList> {
 class AlbumBoard extends StatefulWidget {
   final Iterable<AudioAlbumType> albums;
   final ScrollController? controller;
+
+  final Widget? headerTitle;
+  final Widget? headerTrailing;
+
   final int limit;
   final EdgeInsetsGeometry? padding;
 
@@ -72,10 +76,12 @@ class AlbumBoard extends StatefulWidget {
     Key? key,
     required this.albums,
     this.controller,
+    this.headerTitle,
+    this.headerTrailing,
     this.limit = 10,
     this.padding,
     this.primary,
-    this.shrinkWrap = false,
+    this.shrinkWrap = true,
   }) : super(key: key);
 
   @override
@@ -99,30 +105,38 @@ class _AlbumBoardState extends State<AlbumBoard> {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetGridBuilder(
-      key: widget.key,
+    return WidgetBlockSection(
       primary: widget.primary,
-      shrinkWrap: widget.shrinkWrap,
-      padding: widget.padding,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 300.0,
-        mainAxisExtent: 200,
-        // mainAxisExtent: 170,
-        mainAxisSpacing: 7.0,
-        crossAxisSpacing: 3.0,
-        // childAspectRatio: 1.0,
+      headerLeading: const WidgetLabel(
+        icon: LideaIcon.album,
+        iconSize: 22,
       ),
-      duration: const Duration(milliseconds: 320),
-      itemSnap: (BuildContext context, int index) {
-        return const AlbumListItemHolder();
-      },
-      itemBuilder: (BuildContext context, int index) {
-        return AlbumPickItem(
-          context: context,
-          album: album.elementAt(index),
-        );
-      },
-      itemCount: album.length,
+      headerTitle: widget.headerTitle,
+      headerTrailing: widget.headerTrailing,
+      child: WidgetGridBuilder(
+        primary: false,
+        padding: widget.padding,
+        scrollController: widget.controller,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 300.0,
+          mainAxisExtent: 200,
+          // mainAxisExtent: 170,
+          mainAxisSpacing: 7.0,
+          crossAxisSpacing: 3.0,
+          // childAspectRatio: 1.0,
+        ),
+        duration: const Duration(milliseconds: 320),
+        itemSnap: (BuildContext context, int index) {
+          return const AlbumListItemHolder();
+        },
+        itemBuilder: (BuildContext context, int index) {
+          return AlbumPickItem(
+            context: context,
+            album: album.elementAt(index),
+          );
+        },
+        itemCount: album.length,
+      ),
     );
   }
 }
@@ -159,6 +173,7 @@ class AlbumFlat extends StatelessWidget {
       show: total > 0,
       headerLeading: const WidgetLabel(
         icon: LideaIcon.album,
+        iconSize: 22,
       ),
       headerTitle: WidgetLabel(
         alignment: Alignment.centerLeft,
@@ -168,28 +183,36 @@ class AlbumFlat extends StatelessWidget {
         child: more,
         onPressed: () => core.navigate(to: '/album-list'),
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: SizedBox(
-          height: 200,
-          child: WidgetListBuilder(
-            primary: false,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.zero,
-            duration: const Duration(milliseconds: 320),
-            // itemSnap: const AlbumPickItemHolder(),
-            itemSnap: (context, index) {
-              return const AlbumPickItemHolder();
-            },
-            itemBuilder: (BuildContext context, int index) {
-              return AlbumPickItem(
-                context: context,
-                album: album.elementAt(index),
-              );
-            },
-            itemCount: total,
-          ),
+      child: Container(
+        margin: const EdgeInsets.only(
+          top: 10,
+          left: 7,
+          right: 7,
+        ),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+        ),
+        clipBehavior: Clip.hardEdge,
+        height: 200,
+        child: WidgetListBuilder(
+          primary: false,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.zero,
+          duration: const Duration(milliseconds: 320),
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          // physics: const NeverScrollableScrollPhysics(),
+          // itemSnap: const AlbumPickItemHolder(),
+          itemSnap: (context, index) {
+            return const AlbumPickItemHolder();
+          },
+          itemBuilder: (BuildContext context, int index) {
+            return AlbumPickItem(
+              context: context,
+              album: album.elementAt(index),
+            );
+          },
+          itemCount: total,
         ),
       ),
     );

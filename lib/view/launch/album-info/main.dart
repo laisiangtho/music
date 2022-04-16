@@ -98,7 +98,7 @@ class _View extends _State with _Bar {
           ),
         ),
       ),
-      ArtistWrap(
+      ArtistBlock(
         artists: albumArtists,
       ),
       TrackList(

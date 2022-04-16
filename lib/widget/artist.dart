@@ -25,14 +25,13 @@ class ArtistList extends StatefulWidget {
 }
 
 class _ArtistListState extends State<ArtistList> {
-  late Core core;
+  late final Core core = context.read<Core>();
 
   Iterable<AudioArtistType> get artist => widget.artists;
 
   @override
   void initState() {
     super.initState();
-    core = context.read<Core>();
   }
 
   @override
@@ -81,34 +80,46 @@ class _ArtistListState extends State<ArtistList> {
 }
 
 // NOTE: view -> home -> album-info -> aritst-info
-class ArtistWrap extends StatefulWidget {
+class ArtistBlock extends StatefulWidget {
   final Iterable<int> artists;
   final ScrollController? controller;
-  final String? label;
+  // final String? label;
+
+  final Widget? headerTitle;
+  final Widget? headerTrailing;
+
   final int limit;
   final bool routePush;
+  final bool wrap;
   final EdgeInsetsGeometry? padding;
   final bool? primary;
+  final bool showMoreIf;
 
-  const ArtistWrap({
+  const ArtistBlock({
     Key? key,
     required this.artists,
     this.controller,
-    this.label,
+    // this.label,
+
+    this.headerTitle,
+    this.headerTrailing,
     this.limit = 17,
     this.routePush = true,
+    this.wrap = true,
     this.padding,
     this.primary,
+    this.showMoreIf = true,
   }) : super(key: key);
 
   @override
-  _ArtistWrapState createState() => _ArtistWrapState();
+  _ArtistBlockState createState() => _ArtistBlockState();
 }
 
-class _ArtistWrapState extends State<ArtistWrap> {
+class _ArtistBlockState extends State<ArtistBlock> {
   AudioBucketType get cache => core.collection.cacheBucket;
 
-  late Core core;
+  late final Core core = context.read<Core>();
+  late final Preference preference = core.preference;
 
   int _page = 0;
   int _take = 0;
@@ -127,7 +138,6 @@ class _ArtistWrapState extends State<ArtistWrap> {
   @override
   void initState() {
     super.initState();
-    core = context.read<Core>();
 
     _take = min(_limit, total);
     artist.addAll(artistAll.getRange(_page, _take));
@@ -166,51 +176,107 @@ class _ArtistWrapState extends State<ArtistWrap> {
       primary: widget.primary,
       padding: widget.padding,
       show: count > 0,
-      headerTitle: (widget.label != null)
-          ? WidgetLabel(
-              alignment: Alignment.center,
-              label: widget.label!.replaceFirst('?', total.toString()),
+      headerLeading: widget.wrap
+          ? null
+          : const WidgetLabel(
+              icon: LideaIcon.artist,
+              iconSize: 22,
+            ),
+      headerTitle: widget.headerTitle,
+      headerTrailing: widget.headerTrailing,
+      child: widget.wrap ? childWrap() : childBlock(),
+      footerTrailing: (widget.showMoreIf && _hasMore)
+          ? WidgetButton(
+              borderRadius: const BorderRadius.all(Radius.circular(100)),
+              // elevation: 1,
+              color: Theme.of(context).shadowColor.withOpacity(0.5),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: WidgetLabel(
+                label: preference.text.moreOfTotal(count, total),
+              ),
+              show: _hasMore,
+              onPressed: loadMore,
             )
           : null,
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        // textDirection: TextDirection.ltr,
-        // alignment: WrapAlignment.start,
-        // crossAxisAlignment: WrapCrossAlignment.start,
-        // textDirection: TextDirection.ltr,
-        children: List.generate(
-          count + 1,
-          (index) {
-            final inRange = index == count;
-            if (inRange) {
-              if (_hasMore) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-                  child: ArtistWrapMore(
-                    more: 'more * of ?',
-                    total: total,
-                    count: count,
-                    onPressed: _hasMore ? loadMore : null,
-                  ),
-                );
-              }
-              return const SizedBox();
-            }
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-              child: ArtistWrapItem(
-                context: context,
-                routePush: widget.routePush,
-                // artist: artist.elementAt(index),
-                artist: cache.artistById(
-                  artist.elementAt(index),
-                ),
-              ),
-            );
-          },
-        ),
+    );
+  }
+
+  Card childBlock() {
+    return Card(
+      child: WidgetListBuilder(
+        primary: false,
+        itemCount: count,
+        itemBuilder: (_, index) {
+          return ArtistListItem(
+            context: context,
+            artist: cache.artistById(
+              artist.elementAt(index),
+            ),
+          );
+        },
+        // itemSeparator: (_, index) {
+        //   return const Padding(
+        //     padding: EdgeInsets.symmetric(horizontal: 15),
+        //     child: Divider(height: 1),
+        //   );
+        // },
       ),
+    );
+  }
+
+  Wrap childWrap() {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+
+      children: List.generate(
+        count,
+        (index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+            child: ArtistBlockItem(
+              context: context,
+              routePush: widget.routePush,
+              // artist: artist.elementAt(index),
+              artist: cache.artistById(
+                artist.elementAt(index),
+              ),
+            ),
+          );
+        },
+      ),
+      // children: List.generate(
+      //   count + 1,
+      //   (index) {
+      //     final inRange = index == count;
+      //     if (inRange) {
+      //       if (_hasMore) {
+      //         return Padding(
+      //           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+      //           child: ArtistBlockMore(
+      //             // more: 'more * of ?',
+      //             more: preference.text.moreOfTotal(count, total),
+      //             total: total,
+      //             count: count,
+      //             onPressed: _hasMore ? loadMore : null,
+      //           ),
+      //         );
+      //       }
+      //       return const SizedBox();
+      //     }
+      //     return Padding(
+      //       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+      //       child: ArtistBlockItem(
+      //         context: context,
+      //         routePush: widget.routePush,
+      //         // artist: artist.elementAt(index),
+      //         artist: cache.artistById(
+      //           artist.elementAt(index),
+      //         ),
+      //       ),
+      //     );
+      //   },
+      // ),
     );
   }
 }

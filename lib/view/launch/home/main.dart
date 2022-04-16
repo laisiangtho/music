@@ -54,7 +54,6 @@ class _View extends _State with _Bar {
         builder: bar,
       ),
       const PullToRefresh(),
-
       WidgetBlockSection(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -65,16 +64,16 @@ class _View extends _State with _Bar {
           ),
         ),
       ),
-
       AlbumFlat(
         context: context,
         album: albumPopular,
-        label: '--- Most play album (?)',
+        // label: '--- Most play album (?)',
+        label: preference.text
+            .mostVerbNoun(preference.text.playMusic(false), preference.text.album(true)),
         more: const WidgetLabel(
           icon: Icons.more_horiz_rounded,
         ),
       ),
-
       ValueListenableBuilder(
         valueListenable: box.listenable(),
         builder: (context, Box<RecentPlayType> o, child) {
@@ -82,17 +81,35 @@ class _View extends _State with _Bar {
             return child!;
           }
           final recentPlayIds = o.values.take(7).map((e) => e.id);
-          return TrackFlat(
-            label: '--- Recent play track (?)',
+          return TrackBlock(
+            // label: '--- Recent play track (?)',
+            // label: preference.text
+            //     .recentVerbNoun(preference.text.playMusic(false), preference.text.track(true)),
+            headerTitle: WidgetLabel(
+              alignment: Alignment.centerLeft,
+              label: preference.text.recentVerbNoun(
+                preference.text.playMusic(false),
+                preference.text.track(true),
+              ),
+            ),
+
             tracks: recentPlayIds,
           );
         },
-        child: TrackFlat(
-          label: '--- Most play track (?)',
+        child: TrackBlock(
+          // label: '--- Most play track (?)',
+          // label: preference.text
+          //     .mostVerbNoun(preference.text.playMusic(false), preference.text.track(true)),
+          headerTitle: WidgetLabel(
+            alignment: Alignment.centerLeft,
+            label: preference.text.mostVerbNoun(
+              preference.text.playMusic(false),
+              preference.text.track(true),
+            ),
+          ),
           tracks: trackMeta,
         ),
       ),
-
       SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext _, int index) {
@@ -103,25 +120,32 @@ class _View extends _State with _Bar {
             }).map((e) {
               return e.id;
             }).take(7);
-            return ArtistWrap(
+            return ArtistBlock(
               primary: false,
-              label: 'Artists in ' + lag.name.toUpperCase(),
+              // label: 'Artists in ' + lag.name.toUpperCase(),
+              // TODO: language zola as in zomi etc
+              headerTitle: WidgetLabel(
+                alignment: Alignment.center,
+                // label: 'Artists in ' + lag.name.toUpperCase(),
+                label: preference.text.artistInLanguage(
+                  preference.text.artist(true),
+                  // lag.name.toUpperCase(),
+                  preference.language(lag.name + '-people'),
+                ),
+              ),
               artists: tmp,
             );
           },
           childCount: langList.length,
         ),
       ),
-
       WidgetBlockSection(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
           child: seeMore(),
         ),
       ),
-
       recentSearchContainer(),
-
       WidgetBlockSection(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
@@ -132,7 +156,16 @@ class _View extends _State with _Bar {
           ),
         ),
       ),
-
+      // Selector<ViewScrollNotify, double>(
+      //   selector: (_, e) => e.bottomPadding,
+      //   builder: (context, bottomPadding, child) {
+      //     return SliverPadding(
+      //       padding: EdgeInsets.only(bottom: bottomPadding),
+      //       sliver: child,
+      //     );
+      //   },
+      //   child: const SliverToBoxAdapter(),
+      // ),
       // Selector<ViewScrollNotify, double>(
       //   selector: (_, e) => e.bottomPadding,
       //   builder: (context, bottomPadding, child) {
