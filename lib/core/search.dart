@@ -61,21 +61,23 @@ class Search {
     );
 
     if (matchTrack.isNotEmpty) {
-      int limit = 4;
+      int limitTrack = 7;
       if (matchArtist.isEmpty) {
-        limit = 12;
+        limitTrack = 12;
       }
       if (matchAlbum.isEmpty) {
-        limit = 15;
+        limitTrack = 15;
       }
       if (matchArtist.isEmpty && matchAlbum.isEmpty) {
-        limit = 20;
+        limitTrack = 20;
       }
       cacheSuggestion.raw.add(OfRawType(
         term: preference.text.track(matchTrack.length > 1),
         count: matchTrack.length,
         type: 0,
-        uid: matchTrack.map((e) => e.title).take(limit).toList(),
+        kid: matchTrack.map((e) => e.id).toList(),
+        // uid: matchTrack.map((e) => e.title).toList(),
+        limit: limitTrack,
       ));
     }
 
@@ -84,7 +86,9 @@ class Search {
         term: preference.text.artist(matchArtist.length > 1),
         count: matchArtist.length,
         type: 1,
-        uid: matchArtist.map((e) => e.name).take(7).toList(),
+        kid: matchArtist.map((e) => e.id).toList(),
+        // uid: matchArtist.map((e) => e.name).toList(),
+        limit: 6,
       ));
     }
 
@@ -93,7 +97,9 @@ class Search {
         term: preference.text.album(matchAlbum.length > 1),
         count: matchAlbum.length,
         type: 2,
-        uid: matchAlbum.map((e) => e.name).take(3).toList(),
+        // uid: matchAlbum.map((e) => e.uid).toList(),
+        uid: matchAlbum.map((e) => e.uid).take(50).toList(),
+        limit: 4,
       ));
     }
   }
@@ -128,22 +134,23 @@ class Search {
     );
 
     if (matchTrack.isNotEmpty) {
-      int limit = 4;
+      int limitTrack = 7;
       if (matchArtist.isEmpty) {
-        limit = 12;
+        limitTrack = 12;
       }
       if (matchAlbum.isEmpty) {
-        limit = 15;
+        limitTrack = 15;
       }
       if (matchArtist.isEmpty && matchAlbum.isEmpty) {
-        limit = 20;
+        limitTrack = 20;
       }
       cacheConclusion.raw.add(OfRawType(
         term: preference.text.track(matchTrack.length > 1),
         count: matchTrack.length,
         type: 0,
         // uid: matchTrack.map((e) => e.title).take(limit).toList(),
-        kid: matchTrack.map((e) => e.id).take(limit).toList(),
+        kid: matchTrack.map((e) => e.id).toList(),
+        limit: limitTrack,
       ));
     }
 
@@ -152,7 +159,8 @@ class Search {
         term: preference.text.artist(matchArtist.length > 1),
         count: matchArtist.length,
         type: 1,
-        kid: matchArtist.map((e) => e.id).take(7).toList(),
+        kid: matchArtist.map((e) => e.id).toList(),
+        limit: 6,
       ));
     }
 
@@ -161,7 +169,8 @@ class Search {
         term: preference.text.album(matchAlbum.length > 1),
         count: matchAlbum.length,
         type: 2,
-        uid: matchAlbum.map((e) => e.uid).take(3).toList(),
+        uid: matchAlbum.map((e) => e.uid).take(4).toList(),
+        limit: 4,
       ));
     }
   }
