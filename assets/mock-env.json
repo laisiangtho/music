@@ -1,0 +1,143 @@
+{
+  "name":"Zaideih",
+  "description":"Music",
+  "package":"",
+  "version":"1.0.0",
+  "buildNumber":"20",
+  "settingName": "",
+  "settingKey": "",
+  "settings":{
+    "version": 0,
+    "mode": 0,
+    "locale": "",
+    "fontSize": 24.0,
+    "searchQuery": "",
+    "suggestQuery": "",
+
+    "identify": "",
+    "bookId": 1,
+    "chapterId": 1,
+    "verseId": 1,
+    "parallel": ""
+  },
+  "products":[
+    {
+      "cart":"zaideih_offlineaccess", "name":"offline", "type":"unlimited",
+      "title":"Offline",
+      "description":""
+    },
+    {
+      "cart":"zaideih_upgrade", "name":"upgrade", "type":"unlimited",
+      "title":"Background",
+      "description":""
+    },
+    {
+      "cart":"zaideih_consumable", "name":"silver", "type":"consumable",
+      "title":"Charity",
+      "description":""
+    }
+  ],
+  "language":{
+    "en":{
+      "zaideih_consumable-title":"Charity",
+      "zaideih_consumable-description":"The future of Zaideih is depending on your contribution.",
+      "zaideih_upgrade-title":"Enable background",
+      "zaideih_upgrade-description":"Broadcast via bluetooth, background while the screen is off.",
+      "zaideih_offlineaccess-title":"Offline play",
+      "zaideih_offlineaccess-description":"Play anywhere, a lifetime and unlimited access.",
+
+      "Create your own":"Create your own collections, manage your Lyric and Comment, share your PlayList, works with Lyrics & Chord and many more...",
+      "Discover music":"Discover music in your language and find your favorite Artists.",
+      "Personalized experience":"Personalized experience and more...",
+      "Add Playlists":"Add Playlists",
+      "Rename Playlists":"Rename Playlists",
+      "Add to Playlists":"Add to Playlists",
+      "zola":"Zola",
+      "zola-people":"Zomi",
+      "myanmar":"Myanmar",
+      "myanmar-people":"Myanmar",
+      "mizo":"Mizo",
+      "mizo-people":"Mizo",
+      "falam":"Falam",
+      "falam-people":"Falam"
+    },
+    "no":{
+      "zaideih_consumable-title":"Veldedighet",
+      "zaideih_consumable-description":"Fremtiden til Zaideih er avhengig av ditt bidrag.",
+      "zaideih_upgrade-title":"For å aktivere bakgrunn",
+      "zaideih_upgrade-description":"Sendes via bluetooth, bakgrunn mens skjermen er av.",
+      "zaideih_offlineaccess-title":"Spill uten nett",
+      "zaideih_offlineaccess-description":"Spill hvor som helst, livet ut og ubegrenset tilgang.",
+
+      "zola":"Zola",
+      "zola-people":"Zomi",
+      "myanmar":"Myanmar",
+      "mizo":"Mizo",
+      "falam":"Falam"
+    },
+    "my":{
+      "zaideih_consumable-title":"ပရဟိတ",
+      "zaideih_consumable-description":"Zaideih ၏အနာဂတ်သည် သင်၏ပံ့ပိုးကူညီမှုအပေါ် မူတည်ပါသည်။",
+      "zaideih_upgrade-title":"ဘလူးတုသ်၊ နောက်ခံ",
+      "zaideih_upgrade-description":"ဘလူးတုသ်၊ နောက်ခံ အသံလွှင့်နိုင်ခြင်း။",
+      "zaideih_offlineaccess-title":"အော့ဖ်လိုင်းအတွက်",
+      "zaideih_offlineaccess-description":"အကန့်အသတ်မရှိ၊ မည်သည့်နေရာတွင်မဆို ဝင်ရောက် အသုံးပြုနိုင်ခြင်း။",
+
+      "Add Playlists":"Playlists ထည့်ရန်",
+      "zola":"ဇို",
+      "zola-people":"ဇိုမီး",
+      "myanmar":"မြန်မာ",
+      "myanmar-people":"မြန်မာ့",
+      "mizo":"မီဇိုး",
+      "mizo-people":"မီဇိုး",
+      "falam":"လိုင်မီး",
+      "falam-people":"လိုင်မီး"
+    }
+  },
+  "token": [
+    {
+      "id": "configure",
+      "type": "gist",
+      "tag": "0",
+      "owns": "<?>",
+      "name": "<?>"
+    },
+    {
+      "id": "repo",
+      "type": "repo",
+      "tag": "0",
+      "owns": "<?>",
+      "name": "<?>"
+    },
+    {
+      "id": "com",
+      "type": "url",
+      "tag": "0",
+      "owns": "<?>",
+      "name": "<?>"
+    }
+  ],
+  "api": [
+    {
+      "uid": "album",
+      "asset": "<nosj.?>",
+      "local": "<nosj.?>"
+    },
+    {
+      "uid": "artist",
+      "local": "<nosj.?>"
+    },
+    {
+      "uid": "category",
+      "local": "<nosj.?>"
+    },
+    {
+      "uid": "track",
+      "local": "<3pm.?.kcart>",
+      "src": [
+        "[com]<1l=v1d?!/oidua>"
+      ]
+    }
+  ],
+  "attach":{}
+}
