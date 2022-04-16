@@ -2,7 +2,7 @@
 *.v[0-9].*
 /TODO.*.*
 /assets/*
-/!assets/mock-*.*
+!/assets/mock-*.*
 
 # Android
 /android/key.properties
