@@ -73,9 +73,32 @@ class _View extends _State with _Bar {
             return _suggestNoQuery();
           } else if (o.raw.isNotEmpty) {
             return SliverList(
+              // key: UniqueKey(),
+              key: ValueKey(o.query),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return _suggestBlock(o.raw.elementAt(index));
+                  final raw = o.raw.elementAt(index);
+                  // return _suggestBlock(raw);
+                  switch (raw.type) {
+                    case 0:
+                      return _trackContainer(raw);
+                    case 1:
+                      return _artistContainer(raw);
+                    case 2:
+                      return _albumContainer(raw);
+                    default:
+                      return _resultContainer(raw);
+                  }
+                  // OfRawType();
+                  // if (raw.type == 0) {
+                  //   return _trackContainer(raw);
+                  // } else if (raw.type == 1) {
+                  //   return _artistContainer(raw);
+                  // } else if (raw.type == 2) {
+                  //   return _albumContainer(raw);
+                  // } else {
+                  //   return _resultContainer(raw);
+                  // }
                 },
                 childCount: o.raw.length,
               ),
@@ -120,7 +143,7 @@ class _View extends _State with _Bar {
     );
   }
 
-  // listView
+  /*
   Widget _suggestBlock(OfRawType snap) {
     return WidgetBlockSection(
       primary: false,
@@ -137,13 +160,9 @@ class _View extends _State with _Bar {
         label: snap.count.toString(),
       ),
       child: Card(
-        child: ListView.separated(
-          shrinkWrap: true,
+        child: WidgetListBuilder(
           primary: false,
-          physics: const NeverScrollableScrollPhysics(),
           itemCount: snap.uid.length,
-          // padding: const EdgeInsets.symmetric(horizontal: 0),
-          padding: EdgeInsets.zero,
           itemBuilder: (_, index) {
             String word = snap.uid.elementAt(index);
             int ql = suggestQuery.length;
@@ -151,7 +170,7 @@ class _View extends _State with _Bar {
             return _suggestItem(word, ql < wl ? ql : wl);
             // return Text(word);
           },
-          separatorBuilder: (_, index) {
+          itemSeparator: (_, index) {
             return const Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Divider(height: 1),
@@ -159,62 +178,9 @@ class _View extends _State with _Bar {
           },
         ),
       ),
+      // child: _suggestSwitch(snap),
     );
-    /*
-    return Column(
-      children: [
-        // header
-        Padding(
-          padding: const EdgeInsets.only(top: 15, left: 25, right: 25),
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(0),
-            // title: Text(snap.word),
-            title: Text(preference.text.objContainSub(suggestQuery, snap.term)),
-            // title: Text.rich(
-            //   TextSpan(
-            //     text: snap.word,
-            //     children: [
-            //       const TextSpan(
-            //         text: ' with ',
-            //       ),
-            //       TextSpan(
-            //         text: suggestQuery,
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            trailing: Text(snap.count.toString()),
-          ),
-        ),
-        Card(
-          child: ListView.separated(
-            shrinkWrap: true,
-            primary: false,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: snap.uid.length,
-            // padding: const EdgeInsets.symmetric(horizontal: 0),
-            padding: EdgeInsets.zero,
-            itemBuilder: (_, index) {
-              String word = snap.uid.elementAt(index);
-              int ql = suggestQuery.length;
-              int wl = word.length;
-              return _suggestItem(word, ql < wl ? ql : wl);
-              // return Text(word);
-            },
-            separatorBuilder: (_, index) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Divider(height: 1),
-              );
-            },
-          ),
-        ),
-        // list
-      ],
-    );
-    */
   }
-
   Widget _suggestItem(String word, int hightlight) {
     return ListTile(
       leading: const Icon(Icons.north_east_rounded),
@@ -227,6 +193,74 @@ class _View extends _State with _Bar {
       },
     );
   }
+  */
+
+  Widget _resultContainer(OfRawType raw) {
+    return ListTile(
+      title: Text(raw.term),
+      leading: const Icon(Icons.north_east_rounded, semanticLabel: 'Conclusion'),
+      onTap: () => true,
+    );
+  }
+
+  Widget _trackContainer(OfRawType raw) {
+    return TrackBlock(
+      primary: false,
+      tracks: raw.kid,
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: preference.text.objContainSub(suggestQuery, raw.term),
+      ),
+      // headerTrailing: WidgetLabel(label: raw.count.toString()),
+      limit: raw.limit,
+    );
+  }
+
+  Widget _artistContainer(OfRawType raw) {
+    return ArtistBlock(
+      primary: false,
+      wrap: false,
+      artists: raw.kid,
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: preference.text.objContainSub(suggestQuery, raw.term),
+      ),
+      // headerTrailing: WidgetLabel(label: raw.count.toString()),
+      limit: raw.limit,
+    );
+  }
+
+  Widget _albumContainer(OfRawType raw) {
+    return AlbumBoard(
+      primary: false,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+      albums: raw.uid.map((e) => cacheBucket.albumById(e)),
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: preference.text.objContainSub(suggestQuery, raw.term),
+      ),
+      headerTrailing: WidgetLabel(
+        label: raw.count.toString(),
+      ),
+      // controller: scrollController,
+      limit: raw.limit,
+    );
+    // return WidgetBlockSection(
+    //   primary: false,
+    //   headerLeading: WidgetLabel(
+    //     icon: typeIcons.elementAt(raw.type),
+    //     iconSize: 22,
+    //   ),
+
+    //   child: AlbumBoard(
+    //     primary: false,
+    //     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+    //     albums: raw.uid.map((e) => cacheBucket.albumById(e)),
+    //     controller: scrollController,
+    //     limit: raw.limit,
+    //   ),
+    // );
+  }
 
   // Recent searches
   Widget _recentBlock(Iterable<MapEntry<dynamic, RecentSearchType>> items) {
@@ -237,7 +271,7 @@ class _View extends _State with _Bar {
       ),
       headerTitle: WidgetLabel(
         alignment: Alignment.centerLeft,
-        label: preference.text.recentSearch(false),
+        label: preference.text.recentSearch(items.length > 1),
       ),
       child: Card(
         child: ListView.separated(

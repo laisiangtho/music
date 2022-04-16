@@ -136,8 +136,8 @@ class _View extends _State with _Bar {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         // (BuildContext context, int i) => _resultContainer(o.raw.elementAt(i)),
-        (BuildContext context, int i) {
-          final raw = o.raw.elementAt(i);
+        (BuildContext context, int index) {
+          final raw = o.raw.elementAt(index);
           switch (raw.type) {
             case 0:
               return _trackContainer(raw);
@@ -163,31 +163,91 @@ class _View extends _State with _Bar {
     return const SizedBox();
   }
 
+  // Widget _trackContainer(OfRawType raw) {
+  //   return TrackBlock(
+  //     primary: false,
+  //     tracks: raw.kid,
+  //     // label: 'Track',
+  //     headerTitle: WidgetLabel(
+  //       alignment: Alignment.centerLeft,
+  //       label: preference.text.objContainSub(suggestQuery, raw.term),
+  //     ),
+  //     headerTrailing: WidgetLabel(label: raw.count.toString()),
+  //     limit: 4,
+  //     showMore: 'More (*/?)',
+  //   );
+  // }
+
+  // Widget _artistContainer(OfRawType raw) {
+  //   return ArtistBlock(
+  //     primary: false,
+  //     artists: raw.kid,
+  //     // label: 'Artist--- (?)',
+  //     headerTitle: const WidgetLabel(
+  //       alignment: Alignment.center,
+  //       label: 'Artist',
+  //     ),
+  //     limit: 4,
+  //   );
+  // }
   Widget _trackContainer(OfRawType raw) {
-    return TrackFlat(
+    return TrackBlock(
       primary: false,
       tracks: raw.kid,
-      label: 'Track--- (?)',
-      limit: 4,
-      showMore: 'More',
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: preference.text.objContainSub(suggestQuery, raw.term),
+      ),
+      // headerTrailing: WidgetLabel(label: raw.count.toString()),
+      // headerTrailing: WidgetLabel(label: '45'),
+      // headerTrailing: WidgetLabel(label: UtilNumber.simple(context, raw.count)),
+      limit: raw.limit,
     );
   }
 
   Widget _artistContainer(OfRawType raw) {
-    return ArtistWrap(
+    return ArtistBlock(
       primary: false,
+      wrap: false,
       artists: raw.kid,
-      label: 'Artist--- (?)',
-      limit: 4,
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: preference.text.objContainSub(suggestQuery, raw.term),
+      ),
+      // headerTrailing: WidgetLabel(label: raw.count.toString()),
+      limit: raw.limit,
     );
   }
 
   Widget _albumContainer(OfRawType raw) {
     return AlbumBoard(
       primary: false,
-      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
       albums: raw.uid.map((e) => cacheBucket.albumById(e)),
+      headerTitle: WidgetLabel(
+        alignment: Alignment.centerLeft,
+        label: preference.text.objContainSub(suggestQuery, raw.term),
+      ),
+      headerTrailing: WidgetLabel(
+        label: raw.count.toString(),
+      ),
       controller: scrollController,
+      limit: raw.limit,
     );
+    // return WidgetBlockSection(
+    //   primary: false,
+    //   headerLeading: WidgetLabel(
+    //     icon: typeIcons.elementAt(raw.type),
+    //     iconSize: 22,
+    //   ),
+
+    //   child: AlbumBoard(
+    //     primary: false,
+    //     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+    //     albums: raw.uid.map((e) => cacheBucket.albumById(e)),
+    //     // controller: scrollController,
+    //     limit: raw.limit,
+    //   ),
+    // );
   }
 }
