@@ -4,6 +4,9 @@
 /assets/*
 !/assets/mock-*.*
 
+# Development platform
+pubspec.lock
+
 # Android
 /android/key.properties
 /android/app/google-services.json
