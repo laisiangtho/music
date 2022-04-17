@@ -8,14 +8,14 @@
 pubspec.lock
 
 # Android
-/android/key.properties
-/android/app/google-services.json
-/android/app/src/main/res/values/strings.xml
+*/key.properties
+**/google-services.json
+**/src/main/res/values/strings.xml
 
 # iOS
-/ios/Runner/Info.plist
-/ios/Runner/GoogleService-Info.plist
-/ios/Podfile.lock
+**/Info.plist
+**/Podfile.lock
+**/GoogleService-Info.plist
 
 
 # Miscellaneous
