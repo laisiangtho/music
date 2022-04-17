@@ -63,14 +63,6 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
     // switchControllerWatch();
   }
 
-  void switchControllerWatch() {
-    if (isSizeDefault) {
-      switchController.reverse();
-    } else if (switchController.isDismissed) {
-      switchController.forward();
-    }
-  }
-
   void Function()? buttonAction(ViewNavigationModel item, bool disable) {
     if (disable) {
       return null;
@@ -92,12 +84,18 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
         overlapsBorderColor: Theme.of(context).shadowColor,
         builder: navControl,
       ),
-      const SliverPadding(
-        padding: EdgeInsets.only(top: 0),
-        sliver: SliverToBoxAdapter(
-          child: PlayerSeekBar(),
-        ),
+      // const SliverPadding(
+      //   padding: EdgeInsets.only(top: 0),
+      //   sliver: SliverToBoxAdapter(
+      //     child: PlayerSeekBar(),
+      //   ),
+      // ),
+      // NOTE: require for iOS that doesn't have Home button
+      SliverFadeTransition(
+        opacity: switchAnimation,
+        sliver: const SliverToBoxAdapter(child: PlayerSeekBar()),
       ),
+
       const SliverToBoxAdapter(
         child: PlayerMode(),
       ),
