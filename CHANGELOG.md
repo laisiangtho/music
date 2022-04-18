@@ -1,6 +1,10 @@
 # Change log
 
-## 1.0.0+8
+## 1.0.0+9-10
+
+Add
+
+- Sign in with Apple
 
 Improve
 
