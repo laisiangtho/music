@@ -40,7 +40,7 @@ class _View extends _State with _Bar {
     );
   }
 
-  Widget middleware(BuildContext context, Authentication o, Widget? child) {
+  Widget middleware(BuildContext context, Authentication aut, Widget? child) {
     return CustomScrollView(
       controller: scrollController,
       slivers: sliverWidgets(),
@@ -58,44 +58,25 @@ class _View extends _State with _Bar {
         overlapsBorderColor: Theme.of(context).shadowColor,
         builder: bar,
       ),
-
-      if (authenticate.hasUser)
-        WidgetBlockSection(
-          headerTitle: WidgetLabel(
-            alignment: Alignment.center,
-            label: authenticate.user?.displayName,
-          ),
-          child: profileContainer(),
-        )
-      else
-        WidgetBlockSection(
-          headerTitle: WidgetLabel(
-            alignment: Alignment.center,
-            label: preference.text.wouldYouLiketoSignIn,
-          ),
-          child: signInContainer(),
-        ),
-
-      WidgetBlockSection(
-        headerTitle: WidgetLabel(
-          alignment: Alignment.centerLeft,
-          label: preference.text.themeMode,
-        ),
-        child: Card(
-          child: themeContainer(),
+      // SliverToBoxAdapter(child: Text(authenticate.message)),
+      SliverPadding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+        sliver: FutureBuilder(
+          future: Future.microtask(() => true),
+          builder: (_, snap) {
+            if (snap.hasData) {
+              if (authenticate.hasUser) {
+                return profileContainer();
+              }
+              return signInContainer();
+            }
+            return const SliverToBoxAdapter();
+          },
         ),
       ),
 
-      WidgetBlockSection(
-        headerTitle: WidgetLabel(
-          alignment: Alignment.centerLeft,
-          label: preference.text.locale,
-        ),
-        child: Card(
-          child: localeContainer(),
-        ),
-      ),
-
+      themeContainer(),
+      localeContainer(),
       // Selector<ViewScrollNotify, double>(
       //   selector: (_, e) => e.bottomPadding,
       //   builder: (context, bottomPadding, child) {
@@ -118,176 +99,194 @@ class _View extends _State with _Bar {
     );
   }
 
-  List<Widget> signInList() {
-    return [
-      signInDecoration(
-        icon: LideaIcon.google,
-        label: 'Google',
-        onPressed: authenticate.signInWithGoogle,
-      ),
-      // signInDecoration(
-      //   icon: LideaIcon.facebook,
-      //   label: 'Facebook',
-      //   onPressed: authenticate.signInWithFacebook,
-      // ),
-      signInDecoration(
-        icon: LideaIcon.apple,
-        label: 'Apple',
-        onPressed: authenticate.signInWithApple,
-      ),
-      // signInDecoration(
-      //   icon: LideaIcon.microsoft,
-      //   label: 'Microsoft',
-      //   onPressed: null,
-      // ),
-      // signInDecoration(
-      //   icon: LideaIcon.github,
-      //   label: 'GitHub',
-      //   onPressed: null,
-      // ),
-      // const OutlinedButton(
-      //   child: WidgetLabel(
-      //     icon: LideaIcon.github,
-      //     iconSize: 17,
-      //     label: 'GitHub',
-      //   ),
-      //   onPressed: null,
-      // ),
-    ];
-  }
-
-  Widget signInDecoration({IconData? icon, String? label, void Function()? onPressed}) {
-    return WidgetButton(
-      margin: const EdgeInsets.all(7),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(
-          color: Theme.of(context).shadowColor,
-          width: 1,
+  Widget signInContainer() {
+    return WidgetBlockSection(
+      headerTitle: WidgetBlockTile(
+        title: WidgetLabel(
+          // alignment: Alignment.centerLeft,
+          label: preference.text.wouldYouLiketoSignIn,
         ),
       ),
-      child: WidgetLabel(
-        icon: icon,
-        iconColor: Theme.of(context).highlightColor,
-        iconSize: 20,
-        label: label,
-        labelStyle: Theme.of(context).textTheme.labelLarge,
-      ),
-      onPressed: onPressed,
-    );
-  }
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+        child: ListBody(
+          children: [
+            SignInButton(
+              icon: LideaIcon.google,
+              label: 'Google',
+              onPressed: authenticate.signInWithGoogle,
+            ),
+            SignInButton(
+              icon: LideaIcon.facebook,
+              label: 'Facebook',
+              onPressed: authenticate.signInWithFacebook,
+            ),
+            if (authenticate.isAvailableApple)
+              SignInButton(
+                icon: LideaIcon.apple,
+                label: 'Apple',
+                onPressed: authenticate.signInWithApple,
+              )
 
-  Widget signInContainer() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: signInList(),
+            // SignInButton(
+            //   icon: LideaIcon.microsoft,
+            //   label: 'Microsoft',
+            //   onPressed: null,
+            // ),
+            // SignInButton(
+            //   icon: LideaIcon.github,
+            //   label: 'GitHub',
+            //   onPressed: null,
+            // ),
+          ],
+        ),
       ),
+      // footerTitle: WidgetBlockTile(
+      //   title: WidgetLabel(
+      //     // alignment: Alignment.centerLeft,
+      //     label: preference.text.bySigningIn,
+      //   ),
+      // ),
     );
   }
 
   Widget profileContainer() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-      child: Column(
-        children: [
-          WidgetLabel(
-            label: authenticate.user!.email!,
-            // label: 'khensolomon@gmail.com',
-            labelStyle: Theme.of(context).textTheme.labelSmall,
-          ),
-          // Text(
-          //   authenticate.id,
-          //   textAlign: TextAlign.center,
-          // ),
-        ],
+    return WidgetBlockSection(
+      headerTitle: WidgetBlockTile(
+        title: WidgetLabel(
+          // label: authenticate.user!.displayName,
+          label: authenticate.userDisplayname,
+          labelStyle: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+        child: ListBody(
+          children: [
+            WidgetLabel(
+              // label: authenticate.user!.email!,
+              label: authenticate.userEmail,
+              // label: 'khensolomon@gmail.com',
+              labelStyle: Theme.of(context).textTheme.labelSmall,
+            ),
+            // Text(
+            //   authenticate.id,
+            //   textAlign: TextAlign.center,
+            // ),
+          ],
+        ),
+      ),
+      // footerTitle: WidgetBlockTile(
+      //   title: WidgetLabel(
+      //     // alignment: Alignment.centerLeft,
+      //     label: preference.text.bySigningIn,
+      //   ),
+      // ),
     );
   }
 
   Widget themeContainer() {
-    return Selector<Preference, ThemeMode>(
-      selector: (_, e) => e.themeMode,
-      builder: (BuildContext context, ThemeMode theme, Widget? child) {
-        return ListView.separated(
-          shrinkWrap: true,
-          primary: false,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: ThemeMode.values.length,
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          itemBuilder: (_, index) {
-            ThemeMode mode = ThemeMode.values[index];
-            bool active = theme == mode;
-            return WidgetButton(
-              child: WidgetLabel(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                alignment: Alignment.centerLeft,
-                icon: Icons.check_rounded,
-                iconColor: active ? null : Theme.of(context).focusColor,
-                label: themeName[index],
-                labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                labelStyle: Theme.of(context).textTheme.bodyLarge,
-                softWrap: true,
-                maxLines: 3,
-              ),
-              onPressed: () {
-                if (!active) {
-                  preference.updateThemeMode(mode);
-                }
+    return WidgetBlockSection(
+      duration: const Duration(milliseconds: 150),
+      placeHolder: const SliverToBoxAdapter(),
+      headerLeading: const Icon(Icons.light_mode_rounded),
+      headerTitle: WidgetBlockTile(
+        title: WidgetLabel(
+          alignment: Alignment.centerLeft,
+          label: preference.text.themeMode,
+        ),
+      ),
+      child: Card(
+        child: Selector<Preference, ThemeMode>(
+          selector: (_, e) => e.themeMode,
+          builder: (BuildContext context, ThemeMode theme, Widget? child) {
+            return WidgetListBuilder(
+              primary: false,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemCount: ThemeMode.values.length,
+              itemBuilder: (_, index) {
+                ThemeMode mode = ThemeMode.values[index];
+                bool active = theme == mode;
+                return WidgetButton(
+                  child: WidgetLabel(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                    alignment: Alignment.centerLeft,
+                    icon: Icons.check_rounded,
+                    iconColor: active ? null : Theme.of(context).focusColor,
+                    label: themeName[index],
+                    labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    labelStyle: Theme.of(context).textTheme.bodyLarge,
+                    softWrap: true,
+                    maxLines: 3,
+                  ),
+                  onPressed: () {
+                    if (!active) {
+                      preference.updateThemeMode(mode);
+                    }
+                  },
+                );
+              },
+              itemSeparator: (_, index) {
+                return const WidgetListDivider();
               },
             );
           },
-          separatorBuilder: (_, index) {
-            return const Divider();
-          },
-        );
-      },
+        ),
+      ),
     );
   }
 
   Widget localeContainer() {
-    return Selector<Preference, ThemeMode>(
-      selector: (_, e) => e.themeMode,
-      builder: (BuildContext context, ThemeMode theme, Widget? child) {
-        return ListView.separated(
-          shrinkWrap: true,
-          primary: false,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: preference.supportedLocales.length,
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          itemBuilder: (_, index) {
-            final locale = preference.supportedLocales[index];
+    return WidgetBlockSection(
+      duration: const Duration(milliseconds: 250),
+      placeHolder: const SliverToBoxAdapter(),
+      headerLeading: const Icon(Icons.translate_rounded),
+      headerTitle: WidgetBlockTile(
+        title: WidgetLabel(
+          alignment: Alignment.centerLeft,
+          label: preference.text.locale,
+        ),
+      ),
+      child: Card(
+        child: Selector<Preference, ThemeMode>(
+          selector: (_, e) => e.themeMode,
+          builder: (BuildContext context, ThemeMode theme, Widget? child) {
+            return WidgetListBuilder(
+              primary: false,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemCount: preference.supportedLocales.length,
+              itemBuilder: (_, index) {
+                final locale = preference.supportedLocales[index];
 
-            Locale localeCurrent = Localizations.localeOf(context);
-            // final String localeName = Intl.canonicalizedLocale(lang.languageCode);
-            final String localeName = Locale(locale.languageCode).nativeName;
-            final bool active = localeCurrent.languageCode == locale.languageCode;
+                Locale localeCurrent = Localizations.localeOf(context);
+                // final String localeName = Intl.canonicalizedLocale(lang.languageCode);
+                final String localeName = Locale(locale.languageCode).nativeName;
+                final bool active = localeCurrent.languageCode == locale.languageCode;
 
-            return WidgetButton(
-              child: WidgetLabel(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                alignment: Alignment.centerLeft,
-                icon: Icons.check_rounded,
-                iconColor: active ? null : Theme.of(context).focusColor,
-                label: localeName,
-                labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                labelStyle: Theme.of(context).textTheme.bodyLarge,
-                softWrap: true,
-                maxLines: 3,
-              ),
-              onPressed: () {
-                preference.updateLocale(locale);
+                return WidgetButton(
+                  child: WidgetLabel(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                    alignment: Alignment.centerLeft,
+                    icon: Icons.check_rounded,
+                    iconColor: active ? null : Theme.of(context).focusColor,
+                    label: localeName,
+                    labelPadding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    labelStyle: Theme.of(context).textTheme.bodyLarge,
+                    softWrap: true,
+                    maxLines: 3,
+                  ),
+                  onPressed: () {
+                    preference.updateLocale(locale);
+                  },
+                );
+              },
+              itemSeparator: (_, index) {
+                return const WidgetListDivider();
               },
             );
           },
-          separatorBuilder: (_, index) {
-            return const Divider();
-          },
-        );
-      },
+        ),
+      ),
     );
   }
 }
