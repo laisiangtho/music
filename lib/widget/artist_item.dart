@@ -193,10 +193,10 @@ class ArtistBlockItem extends StatelessWidget {
       // padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 13),
       // color: Theme.of(context).shadowColor,
       // borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
       decoration: BoxDecoration(
         color: Theme.of(context).shadowColor,
-        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         shape: BoxShape.rectangle,
       ),
       onPressed: () {
