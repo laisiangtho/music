@@ -103,7 +103,7 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
         child: PlayerInfo(),
       ),
       const PlayerQueue(),
-      const PlayerOther(),
+      // const PlayerOther(),
     ];
   }
 

@@ -321,24 +321,16 @@ class _View extends _State with _Bar {
             core.navigate(to: '/recent-play');
           },
         ),
-        WidgetButton(
-          child: const WidgetLabel(
-            icon: LideaIcon.layers,
-            label: 'Reorderable',
-          ),
-          onPressed: () {
-            core.navigate(to: '/reorderable');
-          },
-        ),
-        WidgetButton(
-          child: WidgetLabel(
-            icon: LideaIcon.cog,
-            label: preference.text.setting(true),
-          ),
-          onPressed: () {
-            core.navigate(to: '/settings');
-          },
-        ),
+
+        // WidgetButton(
+        //   child: WidgetLabel(
+        //     icon: LideaIcon.cog,
+        //     label: preference.text.setting(true),
+        //   ),
+        //   onPressed: () {
+        //     core.navigate(to: '/settings');
+        //   },
+        // ),
       ],
     );
   }
