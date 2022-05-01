@@ -122,7 +122,7 @@ class _View extends _State with _Bar {
             return ArtistBlock(
               primary: false,
               // label: 'Artists in ' + lag.name.toUpperCase(),
-              // TODO: language zola as in zomi etc
+              // NOTE: language zola as in zomi etc
               headerTitle: WidgetLabel(
                 alignment: Alignment.center,
                 // label: 'Artists in ' + lag.name.toUpperCase(),

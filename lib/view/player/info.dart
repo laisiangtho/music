@@ -22,7 +22,6 @@ class _PlayerInfoState extends State<PlayerInfo> {
   }
 
   Future whenNavigate() {
-    // TODO: shared draggableController
     // return draggableController.animateTo(
     //   0.0,
     //   duration: const Duration(milliseconds: 200),
