@@ -25,6 +25,17 @@ Zaideih has currently:
   - [x] Mizo
   - [x] Falam
 
+Feature
+
+- search
+  - suggestion
+- library
+- background
+- broadcast via bluetooth
+- recent searches
+- playlists
+  - sorting
+
 Zaideih was actually initiated in 2006, but after many advices from friends (_namely: Thang Biak Lal, Paupi, Cinpu_), it's got the name "Zaideih", and launched in 2007 on its own domain name. Ever since Zaideih have been shifted according to technologies such as asp, flash, php, and Node.js for web app. Codova and Phonegap for mobile app. There has been a huge improvement, and one of the biggest was developed using Flutter, which mean running on Multi-platform.
 
 Any concerning data [Privacy & Security][privacy].
