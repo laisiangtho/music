@@ -9,10 +9,10 @@ class PlayListsEditor extends StatefulWidget {
   final int? index;
 
   @override
-  _PlayListsEditorState createState() => _PlayListsEditorState();
+  PlayListsEditorState createState() => PlayListsEditorState();
 }
 
-class _PlayListsEditorState extends State<PlayListsEditor> {
+class PlayListsEditorState extends State<PlayListsEditor> {
   late final Core core = context.read<Core>();
   late final Preference preference = core.preference;
   late final Box<LibraryType> box = core.collection.boxOfLibrary.box;
@@ -96,6 +96,9 @@ class _PlayListsEditorState extends State<PlayListsEditor> {
         ),
         WidgetButton(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 7),
+          // Navigator.of(context, rootNavigator: true).pop(false)
+          // onPressed: () => Navigator.of(context).pop(true),
+          onPressed: submit,
           child: Text(
             preference.text.confirm,
             // style: DefaultTextStyle.of(context).style.copyWith(
@@ -105,9 +108,6 @@ class _PlayListsEditorState extends State<PlayListsEditor> {
               color: Theme.of(context).errorColor,
             ),
           ),
-          // Navigator.of(context, rootNavigator: true).pop(false)
-          // onPressed: () => Navigator.of(context).pop(true),
-          onPressed: submit,
         ),
       ],
     );

@@ -1,3 +1,5 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'package:flutter/material.dart';
 
 // import 'package:lidea/hive.dart';
@@ -134,7 +136,7 @@ class _View extends _State with _Bar {
   Widget _suggestNoQuery() {
     return Selector<Core, Iterable<MapEntry<dynamic, RecentSearchType>>>(
       selector: (_, e) => e.collection.boxOfRecentSearch.entries,
-      builder: (BuildContext _a, Iterable<MapEntry<dynamic, RecentSearchType>> items, Widget? _b) {
+      builder: (BuildContext _, Iterable<MapEntry<dynamic, RecentSearchType>> items, Widget? __) {
         if (items.isNotEmpty) {
           return _recentBlock(items);
         }

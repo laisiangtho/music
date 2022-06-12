@@ -1,6 +1,6 @@
 part of 'main.dart';
 
-mixin _BottomNavigator on _State {
+mixin _BottomNavigator on MainState {
   Widget bottomNavigator() {
     return Player(pageButton: _pageButton, pageAction: _navPageViewAction);
   }

@@ -1,3 +1,5 @@
+// ignore_for_file: sort_child_properties_last
+
 part of 'main.dart';
 
 mixin _Bar on _State {

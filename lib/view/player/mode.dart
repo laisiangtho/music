@@ -1,13 +1,15 @@
+// ignore_for_file: sort_child_properties_last
+
 part of 'main.dart';
 
 class PlayerMode extends StatefulWidget {
   const PlayerMode({Key? key}) : super(key: key);
 
   @override
-  _PlayerModeState createState() => _PlayerModeState();
+  PlayerModeState createState() => PlayerModeState();
 }
 
-class _PlayerModeState extends State<PlayerMode> {
+class PlayerModeState extends State<PlayerMode> {
   late final Core core = context.read<Core>();
   late final Audio audio = core.audio;
 

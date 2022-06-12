@@ -178,9 +178,6 @@ class _WidgetDraggableTrackState extends ViewDraggableSheetState<WidgetDraggable
       ),
       headerTrailing: WidgetButton(
         // child: const Icon(Icons.add_rounded),
-        child: const WidgetLabel(
-          icon: Icons.add_rounded,
-        ),
         message: preference.text.addMore(preference.text.playlist(true)),
         onPressed: () {
           doConfirmWithWidget(
@@ -188,6 +185,10 @@ class _WidgetDraggableTrackState extends ViewDraggableSheetState<WidgetDraggable
             child: const PlayListsEditor(),
           );
         },
+        // child: const Icon(Icons.add_rounded),
+        child: const WidgetLabel(
+          icon: Icons.add_rounded,
+        ),
       ),
       child: FutureBuilder(
         future: Future.delayed(const Duration(milliseconds: 240), () => items.isNotEmpty),

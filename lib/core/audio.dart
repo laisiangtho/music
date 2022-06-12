@@ -32,7 +32,7 @@ class Audio extends UnitAudio {
     });
   }
 
-  Future<Audio> init() {
+  Future<void> init() {
     return AudioService.init(
       builder: () => this,
       config: const AudioServiceConfig(
@@ -53,21 +53,21 @@ class Audio extends UnitAudio {
     return src;
   }
 
-  Stream<AudioMediaStateType> trackState(int trackId) {
+  Stream<AudioMediaStateType> streamTrackState(int trackId) {
     return Rx.combineLatest4<List<MediaItem>, PlaybackState, List<AudioCacheType>, double,
         AudioMediaStateType>(
       queue,
       playbackState,
       _cacheProgress,
       Stream.fromFuture(_cachedExist(trackId)),
-      (queue, state, _progress, cached) {
+      (queue, state, progress, cached) {
         final sid = trackId.toString();
         final index = state.queueIndex;
         final queued = queue.indexWhere((e) => e.id == sid) >= 0;
         final id = (index != null && index < queue.length) ? queue[index].id : null;
         final playing = (id != null && id == sid) ? state.playing : false;
 
-        final cache = _progress.firstWhere((e) {
+        final cache = progress.firstWhere((e) {
           return e.id == trackId;
         }, orElse: () {
           return AudioCacheType(id: trackId, caching: cached);
@@ -316,8 +316,8 @@ class Audio extends UnitAudio {
       queue,
       _cacheProgress,
       Stream.fromFuture(trackCacheDownloadTesting(ids, process: false)),
-      (queue, _progress, e) {
-        final lst = _progress.where((e) => ids.contains(e.id));
+      (queue, prog, e) {
+        final lst = prog.where((e) => ids.contains(e.id));
 
         final done = lst.map<double>((e) => e.caching).reduce((a, b) => a + b);
         final caching = done / ids.length;

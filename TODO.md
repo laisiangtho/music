@@ -11,3 +11,12 @@ version: 1.0.0+6
   - [ ] User data sync & restore
   - [ ] pyaw-shwin-chin-naing-ngan track-14
   - [ ] disable null, zero duration
+
+Contact
+
+- [ ] Kam Sen
+- [ ] ...
+
+to most producer but zomi to artists.
+
+the writer of the lyrics

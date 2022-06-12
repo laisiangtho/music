@@ -20,6 +20,7 @@ class ButtonWithLabelAttribute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetButton(
+      onPressed: onPressed,
       child: WidgetLabel(
         icon: icon,
         iconSize: 22,
@@ -27,7 +28,6 @@ class ButtonWithLabelAttribute extends StatelessWidget {
         overflow: TextOverflow.fade,
         maxLines: 1,
       ),
-      onPressed: onPressed,
     );
   }
 }
@@ -94,12 +94,12 @@ class ButtonAttribute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetButton(
+      onPressed: onPressed,
       child: WidgetLabel(
         icon: icon,
         iconSize: 22,
         alignment: alignment,
       ),
-      onPressed: onPressed,
     );
   }
 }
@@ -328,13 +328,13 @@ class PlayAllAttribute extends StatelessWidget {
       textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
             color: Theme.of(context).primaryColor,
           ),
+      onPressed: onPressed,
       child: Text(
         label,
         // style: TextStyle(
         //   color: Theme.of(context).primaryColor,
         // ),
       ),
-      onPressed: onPressed,
     );
   }
 }

@@ -22,11 +22,12 @@ import 'package:lidea/unit/analytics.dart';
 import 'package:lidea/unit/store.dart';
 // NOTE: SQLite
 // import 'package:lidea/unit/sqlite.dart';
+
 // NOTE: Audio
 import 'package:lidea/audio.dart';
 import 'package:lidea/unit/audio.dart';
 // import 'package:audio_session/audio_session.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:lidea/rxdart.dart';
 
 // NOTE: Core notify and Initializing properties
 import 'package:lidea/unit/engine.dart';
@@ -62,16 +63,16 @@ class Core extends _Abstract with _Mock {
 
     await store.init();
     await _sql.init();
-    final _audioHandler = Audio(cluster: collection);
-    audio = await _audioHandler.init();
+    // final audioHandlerTmp = Audio(cluster: collection);
+    // audio = await audioHandlerTmp.init();
+    await audio.init();
 
     // await mockTest();
 
     // final abc = collection.env.api.last.uri(name: 'name', index: 2);
     // final abc = collection.env.url('track').uri(name: '4354', index: 1, scheme: 'http');
-    final abc = collection.env.url('track').cache('4354');
-
-    debugPrint('api in $abc');
+    // final abc = collection.env.url('track').cache('4354');
+    // debugPrint('api in $abc');
     debugPrint('Initiated in ${initWatch.elapsedMilliseconds} ms');
   }
 }

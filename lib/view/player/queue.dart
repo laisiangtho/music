@@ -15,7 +15,7 @@ class _PlayerQueueState extends State<PlayerQueue> {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: StreamBuilder<AudioQueueStateType>(
-        stream: audio.queueState,
+        stream: audio.streamQueueState,
         builder: (context, snapshot) {
           final queueState = snapshot.data ?? AudioQueueStateType.empty;
           final queue = queueState.queue;

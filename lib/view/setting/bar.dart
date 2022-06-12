@@ -1,6 +1,8 @@
+// ignore_for_file: sort_child_properties_last
+
 part of 'main.dart';
 
-mixin _Bar on _State {
+mixin _Bar on MainState {
   Widget bar() {
     return SliverLayoutBuilder(
       builder: (BuildContext context, constraints) {

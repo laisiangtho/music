@@ -63,7 +63,7 @@ class AlbumListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: const Alignment(0, 0),
-      margin: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+      margin: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
       child: Column(
         children: [
           Expanded(
@@ -96,6 +96,7 @@ class AlbumListItem extends StatelessWidget {
 
   Widget buttonArt() {
     return TextButton(
+      onPressed: play,
       child: Stack(
         alignment: const Alignment(0, 0),
         children: [
@@ -145,7 +146,6 @@ class AlbumListItem extends StatelessWidget {
           ),
         ],
       ),
-      onPressed: play,
     );
   }
 
@@ -156,6 +156,7 @@ class AlbumListItem extends StatelessWidget {
         style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         ),
+        onPressed: navigate,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -174,7 +175,6 @@ class AlbumListItem extends StatelessWidget {
             )
           ],
         ),
-        onPressed: navigate,
       ),
     );
   }
@@ -187,7 +187,7 @@ class AlbumListItemHolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: const Alignment(0, 0),
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
       child: Column(
         children: [
           Expanded(
@@ -359,6 +359,7 @@ class AlbumPickItem extends StatelessWidget {
 
   Widget buttonArt() {
     return TextButton(
+      onPressed: play,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -392,19 +393,18 @@ class AlbumPickItem extends StatelessWidget {
           ),
         ],
       ),
-      onPressed: play,
     );
   }
 
   Widget buttonTitle() {
     return WidgetButton(
+      message: name,
+      onPressed: navigate,
       child: WidgetLabel(
         label: name,
         labelStyle: Theme.of(context).textTheme.labelLarge,
         labelPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
       ),
-      message: name,
-      onPressed: navigate,
     );
   }
 }

@@ -15,6 +15,7 @@ mixin _Bar on _State {
       ),
       rightAction: [
         WidgetButton(
+          // ignore: sort_child_properties_last
           child: WidgetMark(
             child: Selector<Authentication, bool>(
               selector: (_, e) => e.hasUser,

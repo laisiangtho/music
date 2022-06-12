@@ -5,12 +5,12 @@ mixin _Bar on _State {
     return ViewHeaderLayoutStack(
       leftAction: [
         WidgetButton(
+          show: hasArguments,
+          onPressed: args?.currentState!.maybePop,
           child: WidgetMark(
             icon: Icons.arrow_back_ios_new_rounded,
             label: preference.text.back,
           ),
-          show: hasArguments,
-          onPressed: args?.currentState!.maybePop,
         ),
       ],
       primary: WidgetAppbarTitle(
@@ -24,11 +24,11 @@ mixin _Bar on _State {
       ),
       rightAction: [
         WidgetButton(
+          message: preference.text.addMore(preference.text.playlist(true)),
+          onPressed: showEditor,
           child: const WidgetMark(
             icon: Icons.add_rounded,
           ),
-          message: preference.text.addMore(preference.text.playlist(true)),
-          onPressed: showEditor,
         ),
       ],
     );

@@ -59,14 +59,17 @@ class TrackListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<AudioMediaStateType>(
-      stream: audio.trackState(track.trackInfo.id),
-      builder: (context, snap) {
-        if (snap.hasData) {
-          return _container(snap.data!);
-        }
-        return _container(const AudioMediaStateType());
-      },
+    return Material(
+      type: MaterialType.card,
+      child: StreamBuilder<AudioMediaStateType>(
+        stream: audio.streamTrackState(track.trackInfo.id),
+        builder: (context, snap) {
+          if (snap.hasData) {
+            return _container(snap.data!);
+          }
+          return _container(const AudioMediaStateType());
+        },
+      ),
     );
   }
 

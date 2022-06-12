@@ -31,7 +31,7 @@ abstract class _State extends WidgetState with TickerProviderStateMixin {
   void initState() {
     super.initState();
     // Future.microtask((){});
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // _scrollController.addListener(() {
       //   print('scrolling');
       // });

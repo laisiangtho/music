@@ -24,10 +24,10 @@ class Main extends StatefulWidget {
   static const route = '/root';
 
   @override
-  _State createState() => AppView();
+  MainState createState() => AppView();
 }
 
-abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
+abstract class MainState extends State<Main> with SingleTickerProviderStateMixin {
   final _scaffoldKey = AppRoutes.scaffold;
   // final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _pageController = PageController(keepPage: true);
@@ -96,16 +96,16 @@ abstract class _State extends State<Main> with SingleTickerProviderStateMixin {
     if (core.navigation.index != at) {
       _navPageViewAction(at);
     }
-    final _vi = AppRoutes.homeNavigator;
-    final _state = _vi.currentState;
-    if (to != null && _state != null) {
-      final _arg = ViewNavigationArguments(key: _vi, args: args);
+    final vi = AppRoutes.homeNavigator;
+    final st = vi.currentState;
+    if (to != null && st != null) {
+      final ar = ViewNavigationArguments(key: vi, args: args);
       if (routePush) {
-        _state.pushNamed(to, arguments: _arg);
-        // Navigator.of(context).pushNamed(to, arguments: _arg);
+        st.pushNamed(to, arguments: ar);
+        // Navigator.of(context).pushNamed(to, arguments: ar);
       } else {
-        // _state.pushReplacementNamed(to, arguments: _arg);
-        _state.pushNamedAndRemoveUntil(to, ModalRoute.withName('/'), arguments: _arg);
+        // _state.pushReplacementNamed(to, arguments: ar);
+        st.pushNamedAndRemoveUntil(to, ModalRoute.withName('/'), arguments: ar);
       }
 
       final screenName = UtilString.screenName(to);

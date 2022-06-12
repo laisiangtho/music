@@ -180,10 +180,6 @@ class ArtistBlockItem extends StatelessWidget {
     return WidgetButton(
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(right: 2, bottom: 1, top: 1),
-      child: WidgetLabel(
-        // alignment: Alignment.centerLeft,
-        label: artist.name,
-      ),
       message: '(*) (??)'
           .replaceFirst('(*)', artist.name)
           .replaceFirst('??', artist.aka)
@@ -223,6 +219,10 @@ class ArtistBlockItem extends StatelessWidget {
           );
         });
       },
+      child: WidgetLabel(
+        // alignment: Alignment.centerLeft,
+        label: artist.name,
+      ),
     );
   }
 }
@@ -245,9 +245,6 @@ class ArtistBlockMore extends StatelessWidget {
   Widget build(BuildContext context) {
     return WidgetButton(
       key: key,
-      child: WidgetLabel(
-        label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
-      ),
 
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
@@ -256,6 +253,9 @@ class ArtistBlockMore extends StatelessWidget {
       ),
       // minSize: 35,
       onPressed: onPressed,
+      child: WidgetLabel(
+        label: more.replaceFirst('*', count.toString()).replaceFirst('?', total.toString()),
+      ),
     );
   }
 }

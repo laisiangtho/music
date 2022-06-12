@@ -4,10 +4,10 @@ class PlayerOther extends StatefulWidget {
   const PlayerOther({Key? key}) : super(key: key);
 
   @override
-  _PlayerOtherState createState() => _PlayerOtherState();
+  PlayerOtherState createState() => PlayerOtherState();
 }
 
-class _PlayerOtherState extends State<PlayerOther> {
+class PlayerOtherState extends State<PlayerOther> {
   late final Core core = context.read<Core>();
   late final Audio audio = core.audio;
 

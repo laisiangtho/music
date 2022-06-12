@@ -48,7 +48,8 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
   void onToggle() {
     draggableController
         .animateTo(
-      isSizeShrink ? midSize : minSize,
+      // isSizeShrink ? midSize : minSize,
+      isSizeDefault ? midSize : minSize,
       duration: const Duration(milliseconds: 100),
       curve: Curves.ease,
     )
@@ -140,16 +141,16 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
                   return child!;
                 },
                 child: StreamBuilder<AudioQueueStateType>(
-                  stream: audio.queueState,
+                  stream: audio.streamQueueState,
                   builder: (context, snapshot) {
                     final state = snapshot.data ?? AudioQueueStateType.empty;
                     return WidgetButton(
+                      message: preference.text.previousTo(preference.text.track(false)),
+                      onPressed: state.hasPrevious ? audio.skipToPrevious : null,
                       child: const WidgetLabel(
                         icon: Icons.skip_previous,
                         iconSize: 40,
                       ),
-                      message: preference.text.previousTo(preference.text.track(false)),
-                      onPressed: state.hasPrevious ? audio.skipToPrevious : null,
                     );
                   },
                 ),
@@ -172,16 +173,16 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
                   return child!;
                 },
                 child: StreamBuilder<AudioQueueStateType>(
-                  stream: audio.queueState,
+                  stream: audio.streamQueueState,
                   builder: (context, snapshot) {
                     final state = snapshot.data ?? AudioQueueStateType.empty;
                     return WidgetButton(
+                      message: preference.text.nextTo(preference.text.track(false)),
+                      onPressed: state.hasNext ? audio.skipToNext : null,
                       child: const WidgetLabel(
                         icon: Icons.skip_next,
                         iconSize: 40,
                       ),
-                      message: preference.text.nextTo(preference.text.track(false)),
-                      onPressed: state.hasNext ? audio.skipToNext : null,
                     );
                   },
                 ),
@@ -193,23 +194,13 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
               child: AnimatedBuilder(
                 animation: switchController,
                 builder: (_, child) {
-                  // if (switchAnimation.value == 0.0) {
-                  //   return navControlPage(4);
-                  // }
-                  // return child!;
                   return WidgetButton(
-                    child: Icon(
-                      isSizeShrink ? Icons.expand_less : Icons.expand_more,
-                    ),
                     onPressed: onToggle,
+                    child: Icon(
+                      isSizeDefault ? Icons.expand_less : Icons.expand_more,
+                    ),
                   );
                 },
-                // child: WidgetButton(
-                //   child: Icon(
-                //     isSizeShrink ? Icons.expand_less : Icons.expand_more,
-                //   ),
-                //   onPressed: onToggle,
-                // ),
               ),
             ),
           ],
@@ -224,11 +215,11 @@ class _PlayerState extends ViewDraggableSheetState<Player> {
       builder: (context, index, child) {
         final wi = widget.pageButton[id];
         return WidgetButton(
+          message: wi.description!,
+          onPressed: buttonAction(wi, wi.action == null && wi.key == index),
           child: WidgetLabel(
             icon: wi.icon,
           ),
-          message: wi.description!,
-          onPressed: buttonAction(wi, wi.action == null && wi.key == index),
         );
       },
     );

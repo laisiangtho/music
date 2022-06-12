@@ -35,7 +35,7 @@ class Main extends StatefulWidget {
   State<StatefulWidget> createState() => _View();
 }
 
-class _View extends _State with _Bar {
+class _View extends MainState with _Bar {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

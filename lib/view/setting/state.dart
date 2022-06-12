@@ -1,6 +1,6 @@
 part of 'main.dart';
 
-abstract class _State extends WidgetState {
+abstract class MainState extends WidgetState {
   late final args = argumentsAs<ViewNavigationArguments>();
 
   List<String> get themeName => [

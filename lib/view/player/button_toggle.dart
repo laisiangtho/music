@@ -82,7 +82,7 @@ class _PlayerButtonToggleState extends State<PlayerButtonToggle> {
                 if (loading || buffering)
                   SizedBox(
                     child: CircularProgressIndicator(
-                      strokeWidth: 4,
+                      strokeWidth: 3,
                       color: Theme.of(context).hintColor.withOpacity(.7),
                       valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),
                     ),
@@ -90,10 +90,9 @@ class _PlayerButtonToggleState extends State<PlayerButtonToggle> {
                 else
                   SizedBox(
                     child: StreamBuilder<AudioPositionType>(
-                      stream: audio.positionDataStream,
+                      stream: audio.streamPositionData,
                       builder: (_, snap) {
-                        final data = snap.data ??
-                            AudioPositionType(Duration.zero, Duration.zero, Duration.zero);
+                        final data = snap.data ?? AudioPositionType.none;
                         data.position.inMilliseconds;
                         // final positionData = snapshot.data;
                         final duration = data.duration;
@@ -105,10 +104,8 @@ class _PlayerButtonToggleState extends State<PlayerButtonToggle> {
                               .clamp(0.0, 1.0)
                               .toDouble(),
                           // value: 0.5,
-                          strokeWidth: 4,
+                          strokeWidth: duration.inMilliseconds > 0 ? 4 : 3,
                           color: Theme.of(context).hintColor.withOpacity(.4),
-                          // backgroundColor: Theme.of(context).hintColor.withOpacity(0.3),
-                          // valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),
                         );
                       },
                     ),

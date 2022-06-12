@@ -56,11 +56,6 @@ class _WidgetDraggableLibraryState extends ViewDraggableSheetState<WidgetDraggab
         actions: [
           WidgetButton(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-            child: const WidgetLabel(
-              // icon: Icons.edit_rounded,
-              icon: LideaIcon.tools,
-              iconSize: 21,
-            ),
             message: preference.text.renameTo(preference.text.playlist(false)),
             onPressed: () {
               doConfirmWithWidget(
@@ -70,6 +65,11 @@ class _WidgetDraggableLibraryState extends ViewDraggableSheetState<WidgetDraggab
                 ),
               );
             },
+            child: const WidgetLabel(
+              // icon: Icons.edit_rounded,
+              icon: LideaIcon.tools,
+              iconSize: 21,
+            ),
           ),
         ],
       ),

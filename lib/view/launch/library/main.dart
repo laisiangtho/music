@@ -215,19 +215,19 @@ class _View extends _State with _Bar {
           alignment: Alignment.centerLeft,
           label: preference.text.playlist(true),
         ),
-        child: Card(
-          child: playlistsContainer(),
-        ),
         footerTitle: (playlists.isNotEmpty)
             ? WidgetButton(
+                onPressed: showEditor,
                 child: WidgetLabel(
                   icon: Icons.add,
                   // label: preference.language('Add more Playlists'),
                   label: preference.text.addMore(preference.text.playlist(true)),
                 ),
-                onPressed: showEditor,
               )
             : null,
+        child: Card(
+          child: playlistsContainer(),
+        ),
       )
       // Selector<ViewScrollNotify, double>(
       //   selector: (_, e) => e.bottomPadding,
@@ -246,12 +246,12 @@ class _View extends _State with _Bar {
     if (playlists.isEmpty) {
       return WidgetButton(
         padding: const EdgeInsets.all(10.0),
+        onPressed: showEditor,
         child: WidgetLabel(
           alignment: Alignment.center,
           icon: Icons.add,
           label: preference.text.addTo(preference.text.playlist(false)),
         ),
-        onPressed: showEditor,
       );
     }
 

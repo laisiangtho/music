@@ -21,10 +21,10 @@ class AlbumList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AlbumListState createState() => _AlbumListState();
+  AlbumListState createState() => AlbumListState();
 }
 
-class _AlbumListState extends State<AlbumList> {
+class AlbumListState extends State<AlbumList> {
   late final Core core = context.read<Core>();
 
   Iterable<AudioAlbumType> get album => widget.albums;
@@ -52,6 +52,7 @@ class _AlbumListState extends State<AlbumList> {
           context: context,
           album: album.elementAt(index),
         );
+        // return const AlbumListItemHolder();
       },
       itemCount: album.length,
     );
@@ -85,10 +86,10 @@ class AlbumBoard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AlbumBoardState createState() => _AlbumBoardState();
+  AlbumBoardState createState() => AlbumBoardState();
 }
 
-class _AlbumBoardState extends State<AlbumBoard> {
+class AlbumBoardState extends State<AlbumBoard> {
   late final Core core = context.read<Core>();
 
   Iterable<AudioAlbumType> get album => widget.albums;

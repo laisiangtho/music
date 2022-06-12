@@ -1,3 +1,5 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'package:flutter/material.dart';
 
 import 'package:lidea/provider.dart';
@@ -53,6 +55,7 @@ class _View extends _State with _Bar {
         builder: bar,
       ),
       const PullToRefresh(),
+
       WidgetBlockSection(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -81,9 +84,6 @@ class _View extends _State with _Bar {
           }
           final recentPlayIds = o.values.take(7).map((e) => e.id);
           return TrackBlock(
-            // label: '--- Recent play track (?)',
-            // label: preference.text
-            //     .recentVerbNoun(preference.text.playMusic(false), preference.text.track(true)),
             headerTitle: WidgetLabel(
               alignment: Alignment.centerLeft,
               label: preference.text.recentVerbNoun(
@@ -91,7 +91,6 @@ class _View extends _State with _Bar {
                 preference.text.track(true),
               ),
             ),
-
             tracks: recentPlayIds,
           );
         },
@@ -129,7 +128,7 @@ class _View extends _State with _Bar {
                 label: preference.text.artistInLanguage(
                   preference.text.artist(true),
                   // lag.name.toUpperCase(),
-                  preference.language(lag.name + '-people'),
+                  preference.language('${lag.name}-people'),
                 ),
               ),
               artists: tmp,

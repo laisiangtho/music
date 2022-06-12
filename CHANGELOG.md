@@ -41,3 +41,6 @@ This release improved theme and functionality. Integrated with "Sign in with App
 App privacy is also updated, due to Firebase analytics & authentication.
 
 Flutter and it dependencies are also updated to the latest compatible version.
+
+- iOS: v1.0.0+12
+- Android: v1.0.0+7

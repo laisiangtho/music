@@ -23,10 +23,10 @@ class TrackList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TrackListState createState() => _TrackListState();
+  TrackListState createState() => TrackListState();
 }
 
-class _TrackListState extends State<TrackList> {
+class TrackListState extends State<TrackList> {
   late final Core core = context.read<Core>();
   late final Preference preference = core.preference;
 
@@ -103,10 +103,10 @@ class TrackBlock extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TrackBlockState createState() => _TrackBlockState();
+  TrackBlockState createState() => TrackBlockState();
 }
 
-class _TrackBlockState extends State<TrackBlock> {
+class TrackBlockState extends State<TrackBlock> {
   late final Core core = context.read<Core>();
   late final Preference preference = core.preference;
   AudioBucketType get cache => core.collection.cacheBucket;
@@ -162,6 +162,23 @@ class _TrackBlockState extends State<TrackBlock> {
 
       headerTitle: widget.headerTitle,
       headerTrailing: widget.headerTrailing,
+      // widget.showMore != null && _hasMore
+      footerTrailing: (widget.showMoreIf && _hasMore)
+          ? WidgetButton(
+              borderRadius: const BorderRadius.all(Radius.circular(100)),
+              // elevation: 1,
+              color: Theme.of(context).shadowColor.withOpacity(0.5),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              onPressed: _hasMore ? loadMore : null,
+              child: WidgetLabel(
+                label: preference.text.moreOfTotal(count, total),
+                // label: preference.text.moreOfTotal(
+                //   UtilNumber.simple(context, count),
+                //   UtilNumber.simple(context, total),
+                // ),
+              ),
+            )
+          : null,
       child: Card(
         child: WidgetListBuilder(
           primary: false,
@@ -182,23 +199,6 @@ class _TrackBlockState extends State<TrackBlock> {
           itemCount: count,
         ),
       ),
-      // widget.showMore != null && _hasMore
-      footerTrailing: (widget.showMoreIf && _hasMore)
-          ? WidgetButton(
-              borderRadius: const BorderRadius.all(Radius.circular(100)),
-              // elevation: 1,
-              color: Theme.of(context).shadowColor.withOpacity(0.5),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: WidgetLabel(
-                label: preference.text.moreOfTotal(count, total),
-                // label: preference.text.moreOfTotal(
-                //   UtilNumber.simple(context, count),
-                //   UtilNumber.simple(context, total),
-                // ),
-              ),
-              onPressed: _hasMore ? loadMore : null,
-            )
-          : null,
     );
   }
 }

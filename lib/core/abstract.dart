@@ -11,7 +11,9 @@ abstract class _Abstract extends UnitEngine with _Utility {
   late final store = Store(notify: notify, collection: collection);
   late final _sql = SQLite(collection: collection);
   late final search = Search(preference: preference, collection: collection);
-  late Audio audio;
+  // late Audio audio;
+
+  late final audio = Audio(cluster: collection);
 
   /// Initiate collection, preference, authentication
   Future<void> ensureInitialized() async {

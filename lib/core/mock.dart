@@ -10,7 +10,7 @@ mixin _Mock on _Abstract {
       debugPrint('$e');
     }).catchError((e) async {
       if (e == 'Failed to load') {
-        await collection.tokenUpdate().then((e) {
+        await collection.updateToken().then((e) {
           debugPrint('done');
         }).catchError((e) {
           debugPrint('$e');

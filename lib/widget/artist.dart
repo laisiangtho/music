@@ -21,10 +21,10 @@ class ArtistList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ArtistListState createState() => _ArtistListState();
+  ArtistListState createState() => ArtistListState();
 }
 
-class _ArtistListState extends State<ArtistList> {
+class ArtistListState extends State<ArtistList> {
   late final Core core = context.read<Core>();
 
   Iterable<AudioArtistType> get artist => widget.artists;
@@ -112,10 +112,10 @@ class ArtistBlock extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ArtistBlockState createState() => _ArtistBlockState();
+  ArtistBlockState createState() => ArtistBlockState();
 }
 
-class _ArtistBlockState extends State<ArtistBlock> {
+class ArtistBlockState extends State<ArtistBlock> {
   AudioBucketType get cache => core.collection.cacheBucket;
 
   late final Core core = context.read<Core>();
@@ -184,20 +184,20 @@ class _ArtistBlockState extends State<ArtistBlock> {
             ),
       headerTitle: widget.headerTitle,
       headerTrailing: widget.headerTrailing,
-      child: widget.wrap ? childWrap() : childBlock(),
       footerTrailing: (widget.showMoreIf && _hasMore)
           ? WidgetButton(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
               // elevation: 1,
               color: Theme.of(context).shadowColor.withOpacity(0.5),
               padding: const EdgeInsets.symmetric(horizontal: 12),
+              show: _hasMore,
+              onPressed: loadMore,
               child: WidgetLabel(
                 label: preference.text.moreOfTotal(count, total),
               ),
-              show: _hasMore,
-              onPressed: loadMore,
             )
           : null,
+      child: widget.wrap ? childWrap() : childBlock(),
     );
   }
 

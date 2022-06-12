@@ -419,8 +419,8 @@ class _SheetFilterState extends State<_SheetFilter> {
                 ),
               ),
               WidgetButton(
-                child: const Text('Reset'),
                 onPressed: hasFilter ? resetFilter : null,
+                child: const Text('Reset'),
               ),
             ],
           ),

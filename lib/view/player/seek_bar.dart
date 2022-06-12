@@ -4,10 +4,10 @@ part of 'main.dart';
 //   const PlayerSeekBar({Key? key}) : super(key: key);
 
 //   @override
-//   _PlayerSeekBarState createState() => _PlayerSeekBarState();
+//   PlayerSeekBarState createState() => PlayerSeekBarState();
 // }
 
-// class _PlayerSeekBarState extends State<PlayerSeekBar> {
+// class PlayerSeekBarState extends State<PlayerSeekBar> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container();
@@ -33,10 +33,10 @@ class PlayerSeekBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PlayerSeekBarState createState() => _PlayerSeekBarState();
+  PlayerSeekBarState createState() => PlayerSeekBarState();
 }
 
-class _PlayerSeekBarState extends State<PlayerSeekBar> {
+class PlayerSeekBarState extends State<PlayerSeekBar> {
   late final Core core = context.read<Core>();
   late final Audio audio = core.audio;
 
@@ -44,23 +44,23 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
 
   // TODO: duration need to be tested on iOS devices
   Duration get _duration {
-    Duration _stmDur = positionData?.duration ?? Duration.zero;
-    Duration _stmPos = _position;
+    Duration stmDur = positionData?.duration ?? Duration.zero;
+    Duration stmPos = _position;
     // final item = audio.player.sequenceState?.currentSource;
     // final item = audio.queueState;
     final item = audio.currentMeta;
-    if (_stmDur == Duration.zero && item != null) {
+    if (stmDur == Duration.zero && item != null) {
       AudioTrackType track = item.trackInfo;
-      final _trkDur = Duration(seconds: track.duration);
+      final trkDur = Duration(seconds: track.duration);
 
-      if (_trkDur > _stmPos) {
-        _stmPos = _trkDur;
+      if (trkDur > stmPos) {
+        stmPos = trkDur;
       }
     }
-    if (_stmDur < _stmPos) {
-      return _stmPos;
+    if (stmDur < stmPos) {
+      return stmPos;
     }
-    return _stmDur;
+    return stmDur;
     // if (isSeek) {
     //   if (d > p) {
     //     return d;
@@ -78,7 +78,7 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
 
   // Duration get _duration => positionData?.duration ?? Duration.zero;
   Duration get _position => positionData?.position ?? Duration.zero;
-  Duration get _buffered => positionData?.bufferedPosition ?? Duration.zero;
+  Duration get _buffered => positionData?.buffered ?? Duration.zero;
   Duration get _remaining => _duration - _position;
 
   String _time(Duration e) {
@@ -112,10 +112,10 @@ class _PlayerSeekBarState extends State<PlayerSeekBar> {
     return StreamBuilder<AudioPositionType>(
       key: widget.key,
       // stream: audio.streamPositionData,
-      stream: audio.positionDataStream,
+      stream: audio.streamPositionData,
       builder: (_, snap) {
         // positionData = snap.data;
-        positionData = snap.data ?? AudioPositionType(Duration.zero, Duration.zero, Duration.zero);
+        positionData = snap.data ?? AudioPositionType.none;
         // final ddd = positionData?.duration.inMilliseconds.toDouble();
         // final ppp = positionData?.position.inMilliseconds.toDouble();
         // final bbb = positionData?.bufferedPosition.inMilliseconds.toDouble();
