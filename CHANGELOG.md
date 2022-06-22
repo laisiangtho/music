@@ -1,6 +1,6 @@
 # Change log
 
-## 1.0.0+9-11
+## 1.0.0+9-13
 
 Add
 
@@ -16,6 +16,10 @@ Add
   - more visible
 - Trim searchQuery
 - Accessibility [376] (fontSize and fontColor)
+
+This update improved color in dark theme and performance.
+Account deletion is now provided for user and can be found under Profile->Account->Delete account.
+I also have updated the marketing screenshots as suggested.
 
 Feature
 

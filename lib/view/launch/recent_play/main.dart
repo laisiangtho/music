@@ -49,7 +49,7 @@ class _View extends _State with _Bar {
   }
 
   List<Widget> sliverWidgets(List<RecentPlayType> items) {
-    // TODO option to sort
+    // TODO: option to sort
     // items.sort((a, b) => b.date!.compareTo(a.date!));
     return [
       ViewHeaderSliverSnap(

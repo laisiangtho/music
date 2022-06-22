@@ -51,7 +51,10 @@ part 'mock.dart';
 part 'search.dart';
 
 class Core extends _Abstract with _Mock {
-  // Core() : super();
+  static Future<void> ensureFirebase() async {
+    await Firebase.initializeApp();
+    // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  }
 
   Future<void> init(BuildContext context) async {
     Stopwatch initWatch = Stopwatch()..start();
