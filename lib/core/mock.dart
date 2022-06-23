@@ -6,7 +6,9 @@ mixin _Mock on _Abstract {
     Stopwatch mockWatch = Stopwatch()..start();
 
     final a3 = UtilDocument.encodeJSON({'hello': 'hello!!'});
-    collection.gist.updateFile(file: userFile, content: a3).then((e) {
+    // collection.env.client;
+    // collection.env.configure;
+    collection.env.client.updateFile(file: userFile, content: a3).then((e) {
       debugPrint('$e');
     }).catchError((e) async {
       if (e == 'Failed to load') {
